@@ -14,6 +14,8 @@
 		0782806E207C5FDD000D0B4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0782806C207C5FDD000D0B4A /* LaunchScreen.storyboard */; };
 		07828071207C5FDD000D0B4A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828070207C5FDD000D0B4A /* main.m */; };
 		07828079207C765E000D0B4A /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828078207C765E000D0B4A /* Common.m */; };
+		07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */; };
+		07E38E0C207CF63100E3A4BB /* ELCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E0B207CF63100E3A4BB /* ELCollectionViewCell.m */; };
 		22E5C98030DE225BA63F3508 /* Pods_SortReveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +32,11 @@
 		07828070207C5FDD000D0B4A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		07828077207C7641000D0B4A /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		07828078207C765E000D0B4A /* Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
+		07E38E04207CF1FF00E3A4BB /* UIView+frameProperty.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+frameProperty.h"; sourceTree = "<group>"; };
+		07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+frameProperty.m"; sourceTree = "<group>"; };
+		07E38E0A207CF63100E3A4BB /* ELCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELCollectionViewCell.h; sourceTree = "<group>"; };
+		07E38E0B207CF63100E3A4BB /* ELCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELCollectionViewCell.m; sourceTree = "<group>"; };
+		07E38E0E207CF9EC00E3A4BB /* ViewWithContents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewWithContents.h; sourceTree = "<group>"; };
 		389835949699565BBE7AC97C /* Pods-SortReveal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SortReveal.release.xcconfig"; path = "Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal.release.xcconfig"; sourceTree = "<group>"; };
 		99BFB568E97EE65F8C1DD419 /* Pods-SortReveal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SortReveal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal.debug.xcconfig"; sourceTree = "<group>"; };
 		EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SortReveal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,9 +79,14 @@
 				07828062207C5FDC000D0B4A /* AppDelegate.m */,
 				07828064207C5FDC000D0B4A /* ViewController.h */,
 				07828065207C5FDC000D0B4A /* ViewController.m */,
+				07E38E0A207CF63100E3A4BB /* ELCollectionViewCell.h */,
+				07E38E0B207CF63100E3A4BB /* ELCollectionViewCell.m */,
+				07E38E0E207CF9EC00E3A4BB /* ViewWithContents.h */,
 				07828077207C7641000D0B4A /* Common.h */,
 				07828078207C765E000D0B4A /* Common.m */,
 				0782807A207C77F2000D0B4A /* support */,
+				07E38E04207CF1FF00E3A4BB /* UIView+frameProperty.h */,
+				07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */,
 			);
 			path = SortReveal;
 			sourceTree = "<group>";
@@ -142,6 +154,7 @@
 				TargetAttributes = {
 					0782805D207C5FDC000D0B4A = {
 						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -236,6 +249,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */,
+				07E38E0C207CF63100E3A4BB /* ELCollectionViewCell.m in Sources */,
 				07828079207C765E000D0B4A /* Common.m in Sources */,
 				07828066207C5FDC000D0B4A /* ViewController.m in Sources */,
 				07828071207C5FDD000D0B4A /* main.m in Sources */,
@@ -380,6 +395,7 @@
 			baseConfigurationReference = 99BFB568E97EE65F8C1DD419 /* Pods-SortReveal.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 98RSU49GZT;
 				INFOPLIST_FILE = SortReveal/Info.plist;
@@ -387,6 +403,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.INGStudio.SortReveal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SortReveal/SortReveal-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -396,6 +415,7 @@
 			baseConfigurationReference = 389835949699565BBE7AC97C /* Pods-SortReveal.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 98RSU49GZT;
 				INFOPLIST_FILE = SortReveal/Info.plist;
@@ -403,6 +423,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.INGStudio.SortReveal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SortReveal/SortReveal-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

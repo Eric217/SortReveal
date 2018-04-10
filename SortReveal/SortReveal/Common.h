@@ -8,8 +8,12 @@
 
 #ifndef Common_h
 #define Common_h
+ 
+
 #define ScreenW UIScreen.mainScreen.bounds.size.width
 #define ScreenH UIScreen.mainScreen.bounds.size.height
- 
+#define SortNameFile @"SortNames.plist"
+
+
 
 #endif /* Common_h */
