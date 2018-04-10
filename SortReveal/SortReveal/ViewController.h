@@ -10,6 +10,8 @@
 
 @interface ViewController : UIViewController
 
+@property (strong) UICollectionView *collection;
+
 
 @end
 

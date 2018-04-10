@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		0782806B207C5FDD000D0B4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0782806A207C5FDD000D0B4A /* Assets.xcassets */; };
 		0782806E207C5FDD000D0B4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0782806C207C5FDD000D0B4A /* LaunchScreen.storyboard */; };
 		07828071207C5FDD000D0B4A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828070207C5FDD000D0B4A /* main.m */; };
+		07828079207C765E000D0B4A /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828078207C765E000D0B4A /* Common.m */; };
+		22E5C98030DE225BA63F3508 /* Pods_SortReveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,11 @@
 		0782806D207C5FDD000D0B4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0782806F207C5FDD000D0B4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07828070207C5FDD000D0B4A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		07828077207C7641000D0B4A /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		07828078207C765E000D0B4A /* Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
+		389835949699565BBE7AC97C /* Pods-SortReveal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SortReveal.release.xcconfig"; path = "Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal.release.xcconfig"; sourceTree = "<group>"; };
+		99BFB568E97EE65F8C1DD419 /* Pods-SortReveal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SortReveal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal.debug.xcconfig"; sourceTree = "<group>"; };
+		EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SortReveal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22E5C98030DE225BA63F3508 /* Pods_SortReveal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +52,8 @@
 			children = (
 				07828060207C5FDC000D0B4A /* SortReveal */,
 				0782805F207C5FDC000D0B4A /* Products */,
+				816A0AEF975ECA07FCE7C15B /* Pods */,
+				650120B2EA3BDD2D39541CBF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,13 +72,40 @@
 				07828062207C5FDC000D0B4A /* AppDelegate.m */,
 				07828064207C5FDC000D0B4A /* ViewController.h */,
 				07828065207C5FDC000D0B4A /* ViewController.m */,
-				07828067207C5FDC000D0B4A /* Main.storyboard */,
-				0782806A207C5FDD000D0B4A /* Assets.xcassets */,
-				0782806C207C5FDD000D0B4A /* LaunchScreen.storyboard */,
-				0782806F207C5FDD000D0B4A /* Info.plist */,
-				07828070207C5FDD000D0B4A /* main.m */,
+				07828077207C7641000D0B4A /* Common.h */,
+				07828078207C765E000D0B4A /* Common.m */,
+				0782807A207C77F2000D0B4A /* support */,
 			);
 			path = SortReveal;
+			sourceTree = "<group>";
+		};
+		0782807A207C77F2000D0B4A /* support */ = {
+			isa = PBXGroup;
+			children = (
+				07828070207C5FDD000D0B4A /* main.m */,
+				0782806F207C5FDD000D0B4A /* Info.plist */,
+				0782806A207C5FDD000D0B4A /* Assets.xcassets */,
+				0782806C207C5FDD000D0B4A /* LaunchScreen.storyboard */,
+				07828067207C5FDC000D0B4A /* Main.storyboard */,
+			);
+			name = support;
+			sourceTree = "<group>";
+		};
+		650120B2EA3BDD2D39541CBF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		816A0AEF975ECA07FCE7C15B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				99BFB568E97EE65F8C1DD419 /* Pods-SortReveal.debug.xcconfig */,
+				389835949699565BBE7AC97C /* Pods-SortReveal.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -78,9 +115,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 07828074207C5FDD000D0B4A /* Build configuration list for PBXNativeTarget "SortReveal" */;
 			buildPhases = (
+				21528C1C1B055D24380187CC /* [CP] Check Pods Manifest.lock */,
 				0782805A207C5FDC000D0B4A /* Sources */,
 				0782805B207C5FDC000D0B4A /* Frameworks */,
 				0782805C207C5FDC000D0B4A /* Resources */,
+				573761C38D9CE32E8488BD9E /* [CP] Embed Pods Frameworks */,
+				9B4FEC17E366B1B6224A3A21 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -102,11 +142,12 @@
 				TargetAttributes = {
 					0782805D207C5FDC000D0B4A = {
 						CreatedOnToolsVersion = 9.4;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 07828059207C5FDC000D0B4A /* Build configuration list for PBXProject "SortReveal" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -136,11 +177,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		21528C1C1B055D24380187CC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SortReveal-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		573761C38D9CE32E8488BD9E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9B4FEC17E366B1B6224A3A21 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0782805A207C5FDC000D0B4A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07828079207C765E000D0B4A /* Common.m in Sources */,
 				07828066207C5FDC000D0B4A /* ViewController.m in Sources */,
 				07828071207C5FDD000D0B4A /* main.m in Sources */,
 				07828063207C5FDC000D0B4A /* AppDelegate.m in Sources */,
@@ -220,7 +316,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -272,7 +368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -281,16 +377,14 @@
 		};
 		07828075207C5FDD000D0B4A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99BFB568E97EE65F8C1DD419 /* Pods-SortReveal.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 98RSU49GZT;
 				INFOPLIST_FILE = SortReveal/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.INGStudio.SortReveal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -299,16 +393,14 @@
 		};
 		07828076207C5FDD000D0B4A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 389835949699565BBE7AC97C /* Pods-SortReveal.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 98RSU49GZT;
 				INFOPLIST_FILE = SortReveal/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.INGStudio.SortReveal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
