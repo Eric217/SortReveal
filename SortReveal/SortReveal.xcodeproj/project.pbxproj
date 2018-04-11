@@ -14,6 +14,9 @@
 		0782806E207C5FDD000D0B4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0782806C207C5FDD000D0B4A /* LaunchScreen.storyboard */; };
 		07828071207C5FDD000D0B4A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828070207C5FDD000D0B4A /* main.m */; };
 		07828079207C765E000D0B4A /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828078207C765E000D0B4A /* Common.m */; };
+		07BDAE45207D9307009BFD30 /* SortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BDAE44207D9307009BFD30 /* SortingViewController.m */; };
+		07BDAE49207D9823009BFD30 /* ConfigSortController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BDAE48207D9823009BFD30 /* ConfigSortController.m */; };
+		07BDAE4D207D9ED0009BFD30 /* SortParentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BDAE4C207D9ED0009BFD30 /* SortParentController.m */; };
 		07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */; };
 		07E38E0C207CF63100E3A4BB /* ELCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E0B207CF63100E3A4BB /* ELCollectionViewCell.m */; };
 		22E5C98030DE225BA63F3508 /* Pods_SortReveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */; };
@@ -32,6 +35,12 @@
 		07828070207C5FDD000D0B4A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		07828077207C7641000D0B4A /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		07828078207C765E000D0B4A /* Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
+		07BDAE43207D9307009BFD30 /* SortingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SortingViewController.h; sourceTree = "<group>"; };
+		07BDAE44207D9307009BFD30 /* SortingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SortingViewController.m; sourceTree = "<group>"; };
+		07BDAE47207D9823009BFD30 /* ConfigSortController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigSortController.h; sourceTree = "<group>"; };
+		07BDAE48207D9823009BFD30 /* ConfigSortController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigSortController.m; sourceTree = "<group>"; };
+		07BDAE4B207D9ED0009BFD30 /* SortParentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SortParentController.h; sourceTree = "<group>"; };
+		07BDAE4C207D9ED0009BFD30 /* SortParentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SortParentController.m; sourceTree = "<group>"; };
 		07E38E04207CF1FF00E3A4BB /* UIView+frameProperty.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+frameProperty.h"; sourceTree = "<group>"; };
 		07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+frameProperty.m"; sourceTree = "<group>"; };
 		07E38E0A207CF63100E3A4BB /* ELCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELCollectionViewCell.h; sourceTree = "<group>"; };
@@ -75,18 +84,12 @@
 		07828060207C5FDC000D0B4A /* SortReveal */ = {
 			isa = PBXGroup;
 			children = (
-				07828061207C5FDC000D0B4A /* AppDelegate.h */,
-				07828062207C5FDC000D0B4A /* AppDelegate.m */,
-				07828064207C5FDC000D0B4A /* ViewController.h */,
-				07828065207C5FDC000D0B4A /* ViewController.m */,
-				07E38E0A207CF63100E3A4BB /* ELCollectionViewCell.h */,
-				07E38E0B207CF63100E3A4BB /* ELCollectionViewCell.m */,
-				07E38E0E207CF9EC00E3A4BB /* ViewWithContents.h */,
-				07828077207C7641000D0B4A /* Common.h */,
-				07828078207C765E000D0B4A /* Common.m */,
+				07BDAE40207D8E8B009BFD30 /* MainViewController */,
+				07BDAE4A207D9E9B009BFD30 /* SortParentController */,
+				07BDAE46207D97F4009BFD30 /* ConfigSortController */,
+				07BDAE42207D92E3009BFD30 /* SortingViewController */,
+				07BDAE41207D8EC1009BFD30 /* Common */,
 				0782807A207C77F2000D0B4A /* support */,
-				07E38E04207CF1FF00E3A4BB /* UIView+frameProperty.h */,
-				07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */,
 			);
 			path = SortReveal;
 			sourceTree = "<group>";
@@ -94,6 +97,8 @@
 		0782807A207C77F2000D0B4A /* support */ = {
 			isa = PBXGroup;
 			children = (
+				07828061207C5FDC000D0B4A /* AppDelegate.h */,
+				07828062207C5FDC000D0B4A /* AppDelegate.m */,
 				07828070207C5FDD000D0B4A /* main.m */,
 				0782806F207C5FDD000D0B4A /* Info.plist */,
 				0782806A207C5FDD000D0B4A /* Assets.xcassets */,
@@ -101,6 +106,56 @@
 				07828067207C5FDC000D0B4A /* Main.storyboard */,
 			);
 			name = support;
+			sourceTree = "<group>";
+		};
+		07BDAE40207D8E8B009BFD30 /* MainViewController */ = {
+			isa = PBXGroup;
+			children = (
+				07828064207C5FDC000D0B4A /* ViewController.h */,
+				07828065207C5FDC000D0B4A /* ViewController.m */,
+				07E38E0A207CF63100E3A4BB /* ELCollectionViewCell.h */,
+				07E38E0B207CF63100E3A4BB /* ELCollectionViewCell.m */,
+			);
+			name = MainViewController;
+			sourceTree = "<group>";
+		};
+		07BDAE41207D8EC1009BFD30 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				07828077207C7641000D0B4A /* Common.h */,
+				07828078207C765E000D0B4A /* Common.m */,
+				07E38E0E207CF9EC00E3A4BB /* ViewWithContents.h */,
+				07E38E04207CF1FF00E3A4BB /* UIView+frameProperty.h */,
+				07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		07BDAE42207D92E3009BFD30 /* SortingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				07BDAE43207D9307009BFD30 /* SortingViewController.h */,
+				07BDAE44207D9307009BFD30 /* SortingViewController.m */,
+			);
+			name = SortingViewController;
+			sourceTree = "<group>";
+		};
+		07BDAE46207D97F4009BFD30 /* ConfigSortController */ = {
+			isa = PBXGroup;
+			children = (
+				07BDAE47207D9823009BFD30 /* ConfigSortController.h */,
+				07BDAE48207D9823009BFD30 /* ConfigSortController.m */,
+			);
+			name = ConfigSortController;
+			sourceTree = "<group>";
+		};
+		07BDAE4A207D9E9B009BFD30 /* SortParentController */ = {
+			isa = PBXGroup;
+			children = (
+				07BDAE4B207D9ED0009BFD30 /* SortParentController.h */,
+				07BDAE4C207D9ED0009BFD30 /* SortParentController.m */,
+			);
+			name = SortParentController;
 			sourceTree = "<group>";
 		};
 		650120B2EA3BDD2D39541CBF /* Frameworks */ = {
@@ -251,7 +306,10 @@
 			files = (
 				07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */,
 				07E38E0C207CF63100E3A4BB /* ELCollectionViewCell.m in Sources */,
+				07BDAE4D207D9ED0009BFD30 /* SortParentController.m in Sources */,
 				07828079207C765E000D0B4A /* Common.m in Sources */,
+				07BDAE49207D9823009BFD30 /* ConfigSortController.m in Sources */,
+				07BDAE45207D9307009BFD30 /* SortingViewController.m in Sources */,
 				07828066207C5FDC000D0B4A /* ViewController.m in Sources */,
 				07828071207C5FDD000D0B4A /* main.m in Sources */,
 				07828063207C5FDC000D0B4A /* AppDelegate.m in Sources */,
