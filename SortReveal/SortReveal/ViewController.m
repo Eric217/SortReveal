@@ -10,6 +10,7 @@
 #import "Common.h"
 #import "ELCollectionViewCell.h"
 #import "UIView+frameProperty.h"
+#import "SortParentController.h"
 
 @interface ViewController ()
 
@@ -48,7 +49,8 @@
     [_collection registerClass:ELCollectionViewCell.class forCellWithReuseIdentifier:@"cellid"];
     
     _collection.contentInset = UIEdgeInsetsMake(200, 30, 0, 30);
-
+    _collection.alwaysBounceVertical = 1;
+    
     [self.view addSubview:_collection];
 
     _appTitle = [[UILabel alloc] init];
@@ -99,6 +101,8 @@
         default:
             break;
     }
+    [self presentViewController:[[SortParentController alloc] init] animated:1 completion:nil];
+    
 }
 
 

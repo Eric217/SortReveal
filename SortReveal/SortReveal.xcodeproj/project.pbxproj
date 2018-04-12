@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		072D656A207F753100C25E75 /* Sort.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 072D6569207F753100C25E75 /* Sort.storyboard */; };
+		072D6570207FA24B00C25E75 /* ConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 072D656F207FA24B00C25E75 /* ConfigViewController.m */; };
 		07828063207C5FDC000D0B4A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828062207C5FDC000D0B4A /* AppDelegate.m */; };
 		07828066207C5FDC000D0B4A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828065207C5FDC000D0B4A /* ViewController.m */; };
 		07828069207C5FDC000D0B4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07828067207C5FDC000D0B4A /* Main.storyboard */; };
@@ -23,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		072D6569207F753100C25E75 /* Sort.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Sort.storyboard; sourceTree = "<group>"; };
+		072D656E207FA24B00C25E75 /* ConfigViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigViewController.h; sourceTree = "<group>"; };
+		072D656F207FA24B00C25E75 /* ConfigViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigViewController.m; sourceTree = "<group>"; };
 		0782805E207C5FDC000D0B4A /* SortReveal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SortReveal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07828061207C5FDC000D0B4A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		07828062207C5FDC000D0B4A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -63,6 +68,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0724768A207DD5E6004786B8 /* SortViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				07BDAE4A207D9E9B009BFD30 /* SortParentController */,
+				07BDAE46207D97F4009BFD30 /* ConfigSortController */,
+				07BDAE42207D92E3009BFD30 /* SortingViewController */,
+			);
+			name = SortViewControllers;
+			sourceTree = "<group>";
+		};
 		07828055207C5FDC000D0B4A = {
 			isa = PBXGroup;
 			children = (
@@ -84,10 +99,8 @@
 		07828060207C5FDC000D0B4A /* SortReveal */ = {
 			isa = PBXGroup;
 			children = (
+				0724768A207DD5E6004786B8 /* SortViewControllers */,
 				07BDAE40207D8E8B009BFD30 /* MainViewController */,
-				07BDAE4A207D9E9B009BFD30 /* SortParentController */,
-				07BDAE46207D97F4009BFD30 /* ConfigSortController */,
-				07BDAE42207D92E3009BFD30 /* SortingViewController */,
 				07BDAE41207D8EC1009BFD30 /* Common */,
 				0782807A207C77F2000D0B4A /* support */,
 			);
@@ -101,6 +114,7 @@
 				07828062207C5FDC000D0B4A /* AppDelegate.m */,
 				07828070207C5FDD000D0B4A /* main.m */,
 				0782806F207C5FDD000D0B4A /* Info.plist */,
+				072D6569207F753100C25E75 /* Sort.storyboard */,
 				0782806A207C5FDD000D0B4A /* Assets.xcassets */,
 				0782806C207C5FDD000D0B4A /* LaunchScreen.storyboard */,
 				07828067207C5FDC000D0B4A /* Main.storyboard */,
@@ -145,6 +159,8 @@
 			children = (
 				07BDAE47207D9823009BFD30 /* ConfigSortController.h */,
 				07BDAE48207D9823009BFD30 /* ConfigSortController.m */,
+				072D656E207FA24B00C25E75 /* ConfigViewController.h */,
+				072D656F207FA24B00C25E75 /* ConfigViewController.m */,
 			);
 			name = ConfigSortController;
 			sourceTree = "<group>";
@@ -239,6 +255,7 @@
 			files = (
 				0782806E207C5FDD000D0B4A /* LaunchScreen.storyboard in Resources */,
 				0782806B207C5FDD000D0B4A /* Assets.xcassets in Resources */,
+				072D656A207F753100C25E75 /* Sort.storyboard in Resources */,
 				07828069207C5FDC000D0B4A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,6 +323,7 @@
 			files = (
 				07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */,
 				07E38E0C207CF63100E3A4BB /* ELCollectionViewCell.m in Sources */,
+				072D6570207FA24B00C25E75 /* ConfigViewController.m in Sources */,
 				07BDAE4D207D9ED0009BFD30 /* SortParentController.m in Sources */,
 				07828079207C765E000D0B4A /* Common.m in Sources */,
 				07BDAE49207D9823009BFD30 /* ConfigSortController.m in Sources */,

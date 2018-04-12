@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ConfigSortController.h"
+#import "SortingViewController.h"
 
 @interface SortParentController : UIViewController
+
+@property (nonatomic, strong) ConfigSortController *configurator;
+@property (nonatomic, strong) SortingViewController *sortDisplayer;
+
 
 @end

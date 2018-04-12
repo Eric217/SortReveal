@@ -8,14 +8,16 @@
 
 #import "ConfigSortController.h"
 #import "SortingViewController.h"
+#import "UIView+frameProperty.h"
 
 @interface ConfigSortController ()
-@property (nonatomic, strong) SortingViewController *sortingVC;
+
 @property (nonatomic, strong) UIButton *backButton;
 @property (nonatomic, strong) UIButton *startButton;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UITextView *dataInputView;
-@property (nonatomic, strong) 
+
+@property (nonatomic, strong) NSArray *dataArr;
 
 @end
 
@@ -23,14 +25,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.view setBackgroundColor:UIColor.whiteColor];
+    [self setTitle:@"设置排序内容"];
+    self.title = @"dasdqa";
     
+    _backButton = [[UIButton alloc] initWithFrame:CGRectMake(15, 0, 70, 40)];
+    [_backButton setTitle:@"返回" forState:UIControlStateNormal];
+    [_backButton setImage:[UIImage imageNamed:@"backImage"] forState:UIControlStateNormal];
+    [self.view addSubview:_backButton];
     
-    
-    
-    [self addChildViewController:_sortingVC];
-    
-    
-    
+}
+
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+   
+    [_backButton setY:self.parentViewController.navigationController.navigationBar.maxY - 55];
     
 }
 

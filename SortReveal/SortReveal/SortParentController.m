@@ -7,6 +7,9 @@
 //
 
 #import "SortParentController.h"
+#import "Common.h"
+
+#define SplitWidth 400
 
 @interface SortParentController ()
 
@@ -16,22 +19,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self.view setBackgroundColor:UIColor.whiteColor];
+    [self.view setFrame:CGRectMake(0, 0, ScreenW, ScreenH)];
+    
+    _configurator = [[ConfigSortController alloc] init];
+    [_configurator.view setFrame:CGRectMake(0, 0, SplitWidth, ScreenH)];
+
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:_configurator];
+    [self addChildViewController:navVC];
+    [self.view addSubview:navVC.view];
+    [navVC didMoveToParentViewController:self];
+    
+    _sortDisplayer = [[SortingViewController alloc] init];
+    [self addChildViewController:_sortDisplayer];
+    [_sortDisplayer.view setFrame:CGRectMake(SplitWidth, 0, ScreenW - 400, ScreenH)];
+    [self.view addSubview:_sortDisplayer.view];
+    [_sortDisplayer didMoveToParentViewController:self];
+    
+    
+
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
