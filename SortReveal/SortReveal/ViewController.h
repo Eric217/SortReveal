@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface ViewController : UIViewController 
 
-@property (nonatomic, strong) UICollectionView *collection;
+@property (nonatomic, strong) IBOutlet UICollectionView *collection;
 
 
 @end

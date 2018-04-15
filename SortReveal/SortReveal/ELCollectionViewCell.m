@@ -18,7 +18,9 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+    
     if (self) {
+ 
         _titleLabel = [[UILabel alloc] init];
         [self.contentView addSubview:_titleLabel];
         [_titleLabel setFont:[UIFont fontWithName:@"PingFang SC" size:24]];
@@ -29,13 +31,14 @@
         _titleLabel.layer.borderWidth = 1.5;
   
     }
+    
     return self;
 }
 
 
 
 - (void)fillContents:(id)content {
-    [_titleLabel setFrame:self.contentView.bounds];
+    [_titleLabel setFrame:self.bounds];
     
     [self.titleLabel setText:content];
 }

@@ -8,17 +8,23 @@
 
 #import "ViewController.h"
 #import "Common.h"
+#import "ELSplitViewController.h"
 #import "ELCollectionViewCell.h"
 #import "UIView+frameProperty.h"
-#import "SortParentController.h"
+ 
+@interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
-@interface ViewController ()
+@property (strong, nonatomic) IBOutlet UILabel *appTitle;
 
-@property (nonatomic, strong) UILabel *appTitle;
+@property (nonatomic, strong) ELSplitViewController *splitVC;
+
+
 @property (assign) CGFloat itemSize;
 @property (nonatomic, copy) NSMutableArray *titleArr;
-
-
+@property (assign) CGFloat edgeDistance; //20
+@property (assign) CGFloat horizontalSpacing; //44
+@property (assign) CGFloat verticalSpacing; //36
+@property (assign) int colPerRow;
 
 @end
 
@@ -27,43 +33,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, 1).firstObject;
-    docPath = [docPath stringByAppendingPathComponent:SortNameFile];
+    _edgeDistance = [Config v_pad:46 plus:15 p:10];
+    _horizontalSpacing = [Config v_pad:66 plus:24 p:18];
+    _verticalSpacing = [Config v_pad:52 plus:20 p:14];
     
-    if (!(_titleArr = [NSMutableArray arrayWithContentsOfFile:docPath])) {
+    NSArray *arr = [Config getSortNameArray];
+    if (!arr) {
         
-        _titleArr = @[@"冒泡排序", @"插入排序", @"堆排序", @"选择排序"].mutableCopy;
+        _titleArr = @[@"冒泡排序", @"选择排序", @"插入排序", @"堆排序"].mutableCopy;
         if (![_titleArr writeToFile:docPath atomically:0]) {
             [[NSFileManager defaultManager] removeItemAtPath:docPath error:nil];
         }
     }
     
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumInteritemSpacing = 22;
-    layout.minimumLineSpacing = 50;
-    layout.itemSize = CGSizeMake(ScreenW/4-30, ScreenW/4-30);
-    _collection = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenW, ScreenH) collectionViewLayout:layout];
+   
     _collection.delegate = self;
     _collection.dataSource = self;
-    [_collection setBackgroundColor:UIColor.whiteColor];
+    //列间距 item spacing不论怎么设置，最后系统都会自己调整，按照cell对称、不能显示一半等等得到最后spacing。
     [_collection registerClass:ELCollectionViewCell.class forCellWithReuseIdentifier:@"cellid"];
     
-    _collection.contentInset = UIEdgeInsetsMake(200, 30, 0, 30);
-    _collection.alwaysBounceVertical = 1;
     
-    [self.view addSubview:_collection];
-
-    _appTitle = [[UILabel alloc] init];
+    _collection.alwaysBounceVertical = 1;
+    _collection.contentInset = UIEdgeInsetsMake(15, _edgeDistance, 15, _edgeDistance);
+ 
     [_appTitle setText:@"排序"];
     [_appTitle setFont:[UIFont boldSystemFontOfSize:40]];
-    [_appTitle setBackgroundColor:UIColor.clearColor];
-    [_appTitle setTextColor:UIColor.blackColor];
-    [_appTitle setTextAlignment:NSTextAlignmentCenter];
-    [_collection addSubview:_appTitle];
-    [_appTitle setFrame:CGRectMake(0, -200, ScreenW, 200)];
-    
+  
+
+   
 }
 
+- (void)dismiss {
+    
+   
+    [self.view.window setRootViewController:self];
+}
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return _titleArr.count+1;
@@ -78,35 +82,52 @@
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.item) {
-        case 0:
-            
-            break;
-        case 1:
-            
-            break;
-        case 2:
-            
-            break;
-        case 3:
-            
-            break;
-        case 4:
-            
-            break;
-        case 5:
-            
-            break;
-        default:
-            break;
+
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+    if (size.width != self.view.width) {
+        _colPerRow = size.width > size.height ? 4 : 3;
+        [_collection reloadData];
     }
-    [self presentViewController:[[SortParentController alloc] init] animated:1 completion:nil];
-    
+  
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat s = ScreenW-2*_edgeDistance-(_colPerRow-1)*_horizontalSpacing;
+    s /= _colPerRow;
+    return CGSizeMake(s, s);
 }
 
 
+///行间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return _verticalSpacing;
+}
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (!_splitVC) {
+        _splitVC = [[ELSplitViewController alloc] init];
+        _splitVC.backVC = self;
+    }
+    NSInteger idx = indexPath.item;
+    
+    if (idx < 4) {
+        [_splitVC initOrResetSplitVC:indexPath.item];
+        [self.view.window setRootViewController:_splitVC];
+    }
+ 
+}
+
+//比collection view的代理方法先执行
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+   
+    const CGSize s = self.view.frame.size;
+    _colPerRow = s.width > s.height ? 4 : 3;
+  
+}
 
 
 
