@@ -17,6 +17,8 @@
 		0782806E207C5FDD000D0B4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0782806C207C5FDD000D0B4A /* LaunchScreen.storyboard */; };
 		07828071207C5FDD000D0B4A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828070207C5FDD000D0B4A /* main.m */; };
 		07828079207C765E000D0B4A /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828078207C765E000D0B4A /* Common.m */; };
+		079089CE2083A9D7008890F8 /* UIViewController+funcs.m in Sources */ = {isa = PBXBuildFile; fileRef = 079089CD2083A9D7008890F8 /* UIViewController+funcs.m */; };
+		079089D12083AFD3008890F8 /* SelectOrderControllerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 079089D02083AFD3008890F8 /* SelectOrderControllerTableViewController.m */; };
 		07BDAE45207D9307009BFD30 /* SortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BDAE44207D9307009BFD30 /* SortingViewController.m */; };
 		07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */; };
 		07E38E0C207CF63100E3A4BB /* ELCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E0B207CF63100E3A4BB /* ELCollectionViewCell.m */; };
@@ -42,6 +44,10 @@
 		07828070207C5FDD000D0B4A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		07828077207C7641000D0B4A /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		07828078207C765E000D0B4A /* Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
+		079089CC2083A9D7008890F8 /* UIViewController+funcs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+funcs.h"; sourceTree = "<group>"; };
+		079089CD2083A9D7008890F8 /* UIViewController+funcs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+funcs.m"; sourceTree = "<group>"; };
+		079089CF2083AFD3008890F8 /* SelectOrderControllerTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectOrderControllerTableViewController.h; sourceTree = "<group>"; };
+		079089D02083AFD3008890F8 /* SelectOrderControllerTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectOrderControllerTableViewController.m; sourceTree = "<group>"; };
 		07BDAE43207D9307009BFD30 /* SortingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SortingViewController.h; sourceTree = "<group>"; };
 		07BDAE44207D9307009BFD30 /* SortingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SortingViewController.m; sourceTree = "<group>"; };
 		07E38E04207CF1FF00E3A4BB /* UIView+frameProperty.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+frameProperty.h"; sourceTree = "<group>"; };
@@ -138,6 +144,8 @@
 				07828078207C765E000D0B4A /* Common.m */,
 				07E38E0E207CF9EC00E3A4BB /* ViewWithContents.h */,
 				07E38E04207CF1FF00E3A4BB /* UIView+frameProperty.h */,
+				079089CC2083A9D7008890F8 /* UIViewController+funcs.h */,
+				079089CD2083A9D7008890F8 /* UIViewController+funcs.m */,
 				07545DDA2083575400430681 /* UIImage+operations.h */,
 				07545DDB2083575400430681 /* UIImage+operations.m */,
 				07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */,
@@ -159,6 +167,8 @@
 			children = (
 				072D656E207FA24B00C25E75 /* ConfigSortController.h */,
 				072D656F207FA24B00C25E75 /* ConfigSortController.m */,
+				079089CF2083AFD3008890F8 /* SelectOrderControllerTableViewController.h */,
+				079089D02083AFD3008890F8 /* SelectOrderControllerTableViewController.m */,
 			);
 			name = ConfigSortController;
 			sourceTree = "<group>";
@@ -312,10 +322,12 @@
 				07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */,
 				07545DDC2083575400430681 /* UIImage+operations.m in Sources */,
 				07E38E0C207CF63100E3A4BB /* ELCollectionViewCell.m in Sources */,
+				079089CE2083A9D7008890F8 /* UIViewController+funcs.m in Sources */,
 				072D6570207FA24B00C25E75 /* ConfigSortController.m in Sources */,
 				07828079207C765E000D0B4A /* Common.m in Sources */,
 				07BDAE45207D9307009BFD30 /* SortingViewController.m in Sources */,
 				07828066207C5FDC000D0B4A /* ViewController.m in Sources */,
+				079089D12083AFD3008890F8 /* SelectOrderControllerTableViewController.m in Sources */,
 				07828071207C5FDD000D0B4A /* main.m in Sources */,
 				07828063207C5FDC000D0B4A /* AppDelegate.m in Sources */,
 				07545DD92083028700430681 /* ELSplitViewController.m in Sources */,

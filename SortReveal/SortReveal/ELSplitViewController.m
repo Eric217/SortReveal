@@ -7,6 +7,7 @@
 //
 
 #import "ELSplitViewController.h"
+#import "UIViewController+funcs.h"
 
 @interface ELSplitViewController() <UISplitViewControllerDelegate>
 
@@ -44,8 +45,8 @@
     [self.view.window setRootViewController:_backVC];
 }
 
-- (void)initOrResetSplitVC:(SortType)type {
-    
+- (void)initOrResetContent:(SortType)type {
+    [_master initializeContent:type];
 }
 
 

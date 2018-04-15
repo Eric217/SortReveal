@@ -18,9 +18,9 @@
 
 @property (nonatomic, strong) ELSplitViewController *splitVC;
 
+@property (nonatomic, copy) NSMutableArray *titleArr;
 
 @property (assign) CGFloat itemSize;
-@property (nonatomic, copy) NSMutableArray *titleArr;
 @property (assign) CGFloat edgeDistance; //20
 @property (assign) CGFloat horizontalSpacing; //44
 @property (assign) CGFloat verticalSpacing; //36
@@ -39,13 +39,10 @@
     
     NSArray *arr = [Config getSortNameArray];
     if (!arr) {
-        
-        _titleArr = @[@"冒泡排序", @"选择排序", @"插入排序", @"堆排序"].mutableCopy;
-        if (![_titleArr writeToFile:docPath atomically:0]) {
-            [[NSFileManager defaultManager] removeItemAtPath:docPath error:nil];
-        }
+        arr = @[@"冒泡排序", @"选择排序", @"插入排序", @"堆排序"];
+        [Config writeSortNameArray:arr];
     }
-    
+    _titleArr = arr.mutableCopy;
    
     _collection.delegate = self;
     _collection.dataSource = self;
@@ -58,9 +55,8 @@
  
     [_appTitle setText:@"排序"];
     [_appTitle setFont:[UIFont boldSystemFontOfSize:40]];
-  
-
    
+    
 }
 
 - (void)dismiss {
@@ -114,7 +110,7 @@
     NSInteger idx = indexPath.item;
     
     if (idx < 4) {
-        [_splitVC initOrResetSplitVC:indexPath.item];
+        [_splitVC initOrResetContent:indexPath.item];
         [self.view.window setRootViewController:_splitVC];
     }
  

@@ -7,17 +7,17 @@
 //
 
 #import "ConfigSortController.h"
-#import "Common.h"
 #import "UIImage+operations.h"
+#import "UIViewController+funcs.h"
 
-@interface ConfigSortController ()
+
+@interface ConfigSortController () <UITextViewDelegate>
 
 
 @property (strong, nonatomic) IBOutlet UILabel *sortName;
 @property (strong, nonatomic) IBOutlet UITextView *inputField;
 @property (strong, nonatomic) IBOutlet UIButton *selectOrder;
 @property (strong, nonatomic) IBOutlet UIButton *startShow;
-
 @property (strong, nonatomic) IBOutlet UIButton *backButton;
 
 
@@ -29,7 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[_inputField layer] setCornerRadius:3];
-    [_inputField setContentInset:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [_inputField setContentInset:UIEdgeInsetsMake(0, 8, 0, 6)];
  
     [_backButton setImage:[[UIImage imageNamed:@"backImage"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     [_backButton setTintColor:UIColor.blackColor];
@@ -37,10 +37,24 @@
     UIImage *img = [[UIImage imageNamed:@"pushImage"] imageWithColor:UIColor.blackColor];
     [_startShow setImage:img forState:UIControlStateNormal];
     [_selectOrder setImage:img forState:UIControlStateNormal];
-    
+    _inputField.delegate = self;
     
 }
 
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if ([text characterAtIndex:0] == '\n') {
+        [textView endEditing:1];
+        return 0;
+    }
+    return 1;
+}
+
+- (void)initializeContent:(SortType)type {
+    NSArray *names = [Config getSortNameArray];
+    [_sortName setText:names[type]];
+    [_inputField setText:@""];
+    
+}
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     

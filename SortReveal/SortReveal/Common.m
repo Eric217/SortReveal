@@ -10,22 +10,32 @@
 
 NSNotificationName const ELSplitVCShouldDismissNotification = @"adcasefawes";
 
+static NSString * docPath = 0;
+
 @interface Config()
 
 @end
 
 @implementation Config
 
+
++ (NSString *)documentPath {
+    if (!docPath) {
+        docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, 1).firstObject;
+        docPath = [docPath stringByAppendingPathComponent:SortNameFile];
+    }
+    return docPath;
+}
+
 + (NSArray *)getSortNameArray {
-    NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, 1).firstObject;
-    docPath = [docPath stringByAppendingPathComponent:SortNameFile];
-    return [NSArray arrayWithContentsOfFile:docPath];
+    return [NSArray arrayWithContentsOfFile:[self documentPath]];
 }
 
 + (void)writeSortNameArray:(NSArray *)arr {
-    if (![arr writeToFile:docPath atomically:0]) {
-        [[NSFileManager defaultManager] removeItemAtPath:docPath error:nil];
+    if (![arr writeToFile:[self documentPath] atomically:0]) {
+        [[NSFileManager defaultManager] removeItemAtPath:[self documentPath] error:nil];
     }
+  
 }
 
 + (CGFloat)v_pad:(CGFloat)ipad plus:(CGFloat)b p:(CGFloat)s {

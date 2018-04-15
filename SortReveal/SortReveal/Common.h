@@ -42,6 +42,8 @@ typedef NS_ENUM(NSUInteger, SortType) {
 @interface Config: NSObject
 
 + (CGFloat)v_pad:(CGFloat)ipad plus:(CGFloat)b p:(CGFloat)s;
+
++ (NSString *)documentPath;
 + (NSArray *)getSortNameArray;
 + (void)writeSortNameArray:(NSArray *)arr;
 

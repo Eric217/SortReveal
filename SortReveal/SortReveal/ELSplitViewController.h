@@ -18,6 +18,6 @@
 ///这里采用strong加改变内容形式切换root vc. 如果weak则被自动回收了，即使我有一个指针指向它。
 @property (nonatomic, strong) UIViewController *backVC;
 
-- (void)initOrResetSplitVC:(SortType)type;
+- (void)initOrResetContent:(SortType)type;
 
 @end

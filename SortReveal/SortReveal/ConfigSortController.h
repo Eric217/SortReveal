@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Common.h"
 
 @interface ConfigSortController : UIViewController
+
+
+- (void)initializeContent:(SortType)type;
 
 @end
