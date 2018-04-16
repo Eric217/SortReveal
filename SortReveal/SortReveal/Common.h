@@ -12,9 +12,12 @@
 
 //MARK: - Project Specified
 #define SortNameFile @"SortNames.plist"
+#define SortOrderFile @"SortOrder.plist"
+
 #define configSortVCId @"configsortID"
 #define sortingVCId @"sortingvcid"
-
+#define selectOrderVCId @"selectOrderID"
+#define systemBlue [UIColor colorWithRed:0 green:111.0/255 blue:1 alpha:1]
 
 UIKIT_EXTERN NSNotificationName const ELSplitVCShouldDismissNotification;
 
@@ -38,15 +41,15 @@ typedef NS_ENUM(NSUInteger, SortType) {
 #define IPHONE6 ScreenH == 667
 #define IPHONE6P ScreenH == 736
 #define IPhoneX !IPAD && ScreenH > 736
+ 
 
 @interface Config: NSObject
 
 + (CGFloat)v_pad:(CGFloat)ipad plus:(CGFloat)b p:(CGFloat)s;
++ (NSArray *)getArrayDataFromFile:(NSString *)name;
 
 + (NSString *)documentPath;
-+ (NSArray *)getSortNameArray;
-+ (void)writeSortNameArray:(NSArray *)arr;
-
++ (void)writeArrayToFile:(NSString *)file data:(NSArray *)arr;
 @end
 
 

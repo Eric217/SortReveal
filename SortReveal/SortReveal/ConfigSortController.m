@@ -9,18 +9,16 @@
 #import "ConfigSortController.h"
 #import "UIImage+operations.h"
 #import "UIViewController+funcs.h"
+#import "SelectOrderController.h"
+#import "Protocols.h"
 
-
-@interface ConfigSortController () <UITextViewDelegate>
-
+@interface ConfigSortController () <UITextViewDelegate, SimpleTransfer>
 
 @property (strong, nonatomic) IBOutlet UILabel *sortName;
 @property (strong, nonatomic) IBOutlet UITextView *inputField;
 @property (strong, nonatomic) IBOutlet UIButton *selectOrder;
 @property (strong, nonatomic) IBOutlet UIButton *startShow;
 @property (strong, nonatomic) IBOutlet UIButton *backButton;
-
-
 
 @end
 
@@ -38,6 +36,15 @@
     [_startShow setImage:img forState:UIControlStateNormal];
     [_selectOrder setImage:img forState:UIControlStateNormal];
     _inputField.delegate = self;
+    [_selectOrder addTarget:self action:@selector(selectOrder:) forControlEvents:UIControlEventTouchUpInside];
+    
+}
+
+- (void)selectOrder:(id)sender {
+    
+    SelectOrderController *selectVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:selectOrderVCId];
+    selectVC.delegate = self;
+    [self.navigationController pushViewController:selectVC animated:1];
     
 }
 
@@ -50,7 +57,7 @@
 }
 
 - (void)initializeContent:(SortType)type {
-    NSArray *names = [Config getSortNameArray];
+    NSArray *names = [Config getArrayDataFromFile:SortNameFile];
     [_sortName setText:names[type]];
     [_inputField setText:@""];
     
@@ -65,5 +72,16 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:ELSplitVCShouldDismissNotification object:nil];
 }
+
+///NSArray, 0: NSStringFromCGPoint(sec, row) 1: name
+- (void)transferData:(id)data {
+    NSArray *a = data;
+    CGPoint indexPath = CGPointFromString(a[0]);
+    int section = indexPath.x;
+    int row = indexPath.y;
+    NSLog(@"%d, %d", section, row);
+    [_selectOrder setTitle:a[1] forState:UIControlStateNormal];
+}
+
 
 @end

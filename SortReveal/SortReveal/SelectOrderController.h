@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Protocols.h"
 
-@interface SelectOrderControllerTableViewController : UITableViewController
+@interface SelectOrderController : UIViewController
+@property (assign) id <SimpleTransfer> delegate;
 
 @end

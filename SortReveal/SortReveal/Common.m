@@ -22,18 +22,21 @@ static NSString * docPath = 0;
 + (NSString *)documentPath {
     if (!docPath) {
         docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, 1).firstObject;
-        docPath = [docPath stringByAppendingPathComponent:SortNameFile];
     }
     return docPath;
+    
 }
 
-+ (NSArray *)getSortNameArray {
-    return [NSArray arrayWithContentsOfFile:[self documentPath]];
++ (NSArray *)getArrayDataFromFile:(NSString *)name {
+    
+    return [NSArray arrayWithContentsOfFile:[[self documentPath] stringByAppendingPathComponent:name]];
+
 }
 
-+ (void)writeSortNameArray:(NSArray *)arr {
-    if (![arr writeToFile:[self documentPath] atomically:0]) {
-        [[NSFileManager defaultManager] removeItemAtPath:[self documentPath] error:nil];
++ (void)writeArrayToFile:(NSString *)file data:(NSArray *)arr {
+    NSString *path = [[self documentPath] stringByAppendingPathComponent:file];
+    if (![arr writeToFile:path atomically:0]) {
+        [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
     }
   
 }

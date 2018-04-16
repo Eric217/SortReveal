@@ -37,13 +37,13 @@
     _horizontalSpacing = [Config v_pad:66 plus:24 p:18];
     _verticalSpacing = [Config v_pad:52 plus:20 p:14];
     
-    NSArray *arr = [Config getSortNameArray];
+    NSArray *arr = [Config getArrayDataFromFile:SortNameFile];
     if (!arr) {
         arr = @[@"冒泡排序", @"选择排序", @"插入排序", @"堆排序"];
-        [Config writeSortNameArray:arr];
+        [Config writeArrayToFile:SortNameFile data:arr];
     }
     _titleArr = arr.mutableCopy;
-   
+  
     _collection.delegate = self;
     _collection.dataSource = self;
     //列间距 item spacing不论怎么设置，最后系统都会自己调整，按照cell对称、不能显示一半等等得到最后spacing。
@@ -72,7 +72,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ELCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellid" forIndexPath:indexPath];
     NSString *content = indexPath.item == _titleArr.count ? @"添加" : _titleArr[indexPath.item];
-  
+    
     [cell fillContents:content];
     
     return cell;

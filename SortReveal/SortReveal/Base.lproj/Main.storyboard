@@ -62,10 +62,37 @@
             </objects>
             <point key="canvasLocation" x="-967" y="-240"/>
         </scene>
+        <!--Select Order Controller-->
+        <scene sceneID="hUa-n9-TVi">
+            <objects>
+                <viewController storyboardIdentifier="selectOrderID" id="kBh-F1-GgK" customClass="SelectOrderController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="z5L-TV-OPU"/>
+                        <viewControllerLayoutGuide type="bottom" id="kFd-Kb-hBZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="npd-Sq-6hb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="rw0-4m-lAg">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <connections>
+                        <outlet property="table" destination="rw0-4m-lAg" id="qRb-r6-PWr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EOV-xc-z3b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="347.82608695652175" y="-563.31521739130437"/>
+        </scene>
         <!--配置排序-->
         <scene sceneID="CUc-pd-ff0">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Jb2-8b-o7P" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="Hhv-pI-Zbc" customClass="ConfigSortController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Mwh-yW-lKT"/>
@@ -206,6 +233,7 @@
                         <outlet property="startShow" destination="1dy-Ml-wFt" id="vAZ-Yn-oh1"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jb2-8b-o7P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-265" y="-563"/>
         </scene>
