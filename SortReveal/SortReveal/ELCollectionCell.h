@@ -13,18 +13,12 @@
 #import "Protocols.h"
 
 @interface ELCollectionViewCell: UICollectionViewCell
-
 @property (nonatomic, copy) NSArray<NSString *> *dataArr;
-
 @end
 
 @interface ELTreeUnitCell : ELCollectionViewCell
-
 @end
 
-
-
 @interface ELLinearUnitCell : ELCollectionViewCell
-
 @end
 #endif /* ELCollectionVCell_h */

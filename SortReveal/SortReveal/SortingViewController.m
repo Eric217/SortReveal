@@ -118,7 +118,7 @@
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELLinearUnitCell.class) forIndexPath:indexPath];
     }
     cell.dataArr = _viewDataArr[indexPath.item];
-    ///!!!!不知道为什么 重新开始一次演示的时候总是画不出来。后来发现drawRect没被调用，就让他needs display。 DONE！
+    //!!!!不知道为什么 重新开始一次演示的时候总是画不出来。后来发现drawRect没被调用，就让他needs display。 OK！
     [cell setNeedsDisplay];
     return cell;
 }
