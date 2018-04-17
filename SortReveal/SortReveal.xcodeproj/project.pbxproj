@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0706F5FA2085DA6000A2753D /* ELLinearUnitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0706F5F92085DA6000A2753D /* ELLinearUnitCell.m */; };
-		0706F5FD2085DAD200A2753D /* ELTreeUnitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0706F5FC2085DAD200A2753D /* ELTreeUnitCell.m */; };
 		0706F6002085E48B00A2753D /* UIView+funcs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0706F5FF2085E48B00A2753D /* UIView+funcs.m */; };
+		070EA11E2086568F002B84E2 /* ELTreeUnitCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 070EA1162086568F002B84E2 /* ELTreeUnitCell.mm */; };
+		070EA11F2086568F002B84E2 /* BinaryTree.mm in Sources */ = {isa = PBXBuildFile; fileRef = 070EA1192086568F002B84E2 /* BinaryTree.mm */; };
 		072D6570207FA24B00C25E75 /* ConfigSortController.m in Sources */ = {isa = PBXBuildFile; fileRef = 072D656F207FA24B00C25E75 /* ConfigSortController.m */; };
 		07545DD92083028700430681 /* ELSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07545DD82083028700430681 /* ELSplitViewController.m */; };
 		07545DDC2083575400430681 /* UIImage+operations.m in Sources */ = {isa = PBXBuildFile; fileRef = 07545DDB2083575400430681 /* UIImage+operations.m */; };
@@ -31,10 +32,17 @@
 
 /* Begin PBXFileReference section */
 		0706F5F92085DA6000A2753D /* ELLinearUnitCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELLinearUnitCell.m; sourceTree = "<group>"; };
-		0706F5FC2085DAD200A2753D /* ELTreeUnitCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELTreeUnitCell.m; sourceTree = "<group>"; };
 		0706F5FE2085E48B00A2753D /* UIView+funcs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+funcs.h"; sourceTree = "<group>"; };
 		0706F5FF2085E48B00A2753D /* UIView+funcs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+funcs.m"; sourceTree = "<group>"; };
 		0706F6012086189800A2753D /* ELCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELCollectionCell.h; sourceTree = "<group>"; };
+		070EA1162086568F002B84E2 /* ELTreeUnitCell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ELTreeUnitCell.mm; sourceTree = "<group>"; };
+		070EA1172086568F002B84E2 /* HuffmanTree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HuffmanTree.hpp; sourceTree = "<group>"; };
+		070EA1182086568F002B84E2 /* LinkedQueue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LinkedQueue.hpp; sourceTree = "<group>"; };
+		070EA1192086568F002B84E2 /* BinaryTree.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BinaryTree.mm; sourceTree = "<group>"; };
+		070EA11A2086568F002B84E2 /* xcept.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xcept.hpp; sourceTree = "<group>"; };
+		070EA11B2086568F002B84E2 /* MinHeap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MinHeap.hpp; sourceTree = "<group>"; };
+		070EA11C2086568F002B84E2 /* LinkedStack.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LinkedStack.hpp; sourceTree = "<group>"; };
+		070EA11D2086568F002B84E2 /* Node.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Node.hpp; sourceTree = "<group>"; };
 		072D656E207FA24B00C25E75 /* ConfigSortController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigSortController.h; sourceTree = "<group>"; };
 		072D656F207FA24B00C25E75 /* ConfigSortController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigSortController.m; sourceTree = "<group>"; };
 		07545DD72083028700430681 /* ELSplitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELSplitViewController.h; sourceTree = "<group>"; };
@@ -190,8 +198,15 @@
 				07BDAE43207D9307009BFD30 /* SortingViewController.h */,
 				07BDAE44207D9307009BFD30 /* SortingViewController.m */,
 				0706F6012086189800A2753D /* ELCollectionCell.h */,
-				0706F5FC2085DAD200A2753D /* ELTreeUnitCell.m */,
 				0706F5F92085DA6000A2753D /* ELLinearUnitCell.m */,
+				070EA1162086568F002B84E2 /* ELTreeUnitCell.mm */,
+				070EA1192086568F002B84E2 /* BinaryTree.mm */,
+				070EA1172086568F002B84E2 /* HuffmanTree.hpp */,
+				070EA1182086568F002B84E2 /* LinkedQueue.hpp */,
+				070EA11C2086568F002B84E2 /* LinkedStack.hpp */,
+				070EA11B2086568F002B84E2 /* MinHeap.hpp */,
+				070EA11D2086568F002B84E2 /* Node.hpp */,
+				070EA11A2086568F002B84E2 /* xcept.hpp */,
 			);
 			name = SortingViewController;
 			sourceTree = "<group>";
@@ -363,8 +378,9 @@
 				07BDAE45207D9307009BFD30 /* SortingViewController.m in Sources */,
 				0706F5FA2085DA6000A2753D /* ELLinearUnitCell.m in Sources */,
 				07828066207C5FDC000D0B4A /* ViewController.m in Sources */,
+				070EA11E2086568F002B84E2 /* ELTreeUnitCell.mm in Sources */,
 				079089D12083AFD3008890F8 /* SelectOrderController.m in Sources */,
-				0706F5FD2085DAD200A2753D /* ELTreeUnitCell.m in Sources */,
+				070EA11F2086568F002B84E2 /* BinaryTree.mm in Sources */,
 				0706F6002085E48B00A2753D /* UIView+funcs.m in Sources */,
 				07828071207C5FDD000D0B4A /* main.m in Sources */,
 				07828063207C5FDC000D0B4A /* AppDelegate.m in Sources */,

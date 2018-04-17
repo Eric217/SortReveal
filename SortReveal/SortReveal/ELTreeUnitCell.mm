@@ -7,13 +7,16 @@
 //
 
 #import "ELCollectionCell.h"
+#import "HuffmanTree.hpp"
 
 @implementation ELCollectionViewCell
 @end
 
 @implementation ELTreeUnitCell
 
-
+- (void)test {
+    
+}
 
 
 

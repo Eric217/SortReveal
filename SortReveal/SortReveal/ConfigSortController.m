@@ -45,13 +45,14 @@
 
 - (void)startDisplay:(id)sender {
  
-    NSMutableArray *inputData = [[_inputField.text componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] mutableCopy];
-    for (NSString *i in inputData) {
-        if ([i isEqualToString:@""]) {
-            [inputData removeObject:i];
-        }
+    NSMutableArray *inputData = [[_inputField.text componentsSeparatedByString:@" "] mutableCopy];
+    if ([inputData containsObject:@""]) {
+        [inputData removeObject:@""];
     }
-    NSLog(@"%@", inputData);
+    if (SortTypeHeap == _sortType) {
+        //TODO: - 一系列判断 是否输入内容与选择排序方式可行，不可行提示。
+    }
+
     NSDictionary *userinfo = [NSDictionary dictionaryWithObjects:@[inputData, [NSNumber numberWithUnsignedInteger:_sortType], [NSNumber numberWithUnsignedInteger:_sortOrder]] forKeys:@[kDataArr, kSortType, kSortOrder]];
     [Config postNotification:SortingVCShouldStartDisplayNotification message:userinfo];
 }
