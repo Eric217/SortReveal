@@ -17,7 +17,9 @@
 @property (strong, nonatomic) IBOutlet UIButton *backButton;
 
 @property (nonatomic, copy) NSMutableArray *dataArr;
-@property (nonatomic, copy) NSDictionary *sortConfig;
+@property (assign) SortType sortType;
+@property (assign) SortOrder sortOrder;
+
 @property (assign) CGFloat edgeDistance;
 
 @end
@@ -46,16 +48,25 @@
 }
 
 - (void)prepareDisplay:(NSNotification *)noti {
+    
+    NSUInteger t = ((NSNumber *)(noti.userInfo[kSortType])).unsignedIntegerValue;
+    NSUInteger o = ((NSNumber *)(noti.userInfo[kSortOrder])).unsignedIntegerValue;
+    
     if (_dataArr) {
         [self presentAlertWithConfirmAction:^(UIAlertAction *alert) {
-            [self firstStepWith:noti.userInfo];
+            [self initialize:noti.userInfo[kDataArr] type:t order:o];
         }];
     } else {
-        [self firstStepWith:noti.userInfo];
+        [self initialize:noti.userInfo[kDataArr] type:t order:o];
     }
 }
 
-- (void)firstStepWith:(NSDictionary *)dict {
+- (void)initialize:(NSMutableArray *)arr type:(SortType)t order:(SortOrder)o {
+    _sortType = t;
+    _sortOrder = o;
+    _dataArr = arr;
+    
+    
     
 }
 
@@ -75,12 +86,10 @@
 
 - (void)clearContent {
     _dataArr = 0;
-    _sortConfig = 0;
     [_collection reloadData];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [Config removeObserver:self];
 }
 @end

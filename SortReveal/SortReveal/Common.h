@@ -17,6 +17,12 @@
 #define configSortVCId @"configsortID"
 #define sortingVCId @"sortingvcid"
 #define selectOrderVCId @"selectOrderID"
+
+#define kDataArr @"dataArr"
+#define kSortOrder @"sortType"
+#define kSortType @"sortOrder"
+
+
 #define systemBlue [UIColor colorWithRed:0 green:111.0/255 blue:1 alpha:1]
 
 UIKIT_EXTERN NSNotificationName const ELSplitVCShouldDismissNotification;

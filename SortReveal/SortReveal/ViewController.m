@@ -10,7 +10,7 @@
 #import "Common.h"
 #import "Protocols.h"
 #import "ELSplitViewController.h"
-#import "ELCollectionViewCell.h"
+#import "ELSortNameCollectionCell.h"
 #import "UIView+frameProperty.h"
  
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -49,7 +49,7 @@
     _collection.delegate = self;
     _collection.dataSource = self;
     //列间距 item spacing不论怎么设置，最后系统都会自己调整，按照cell对称、不能显示一半等等得到最后spacing。
-    [_collection registerClass:ELCollectionViewCell.class forCellWithReuseIdentifier:@"cellid"];
+    [_collection registerClass:ELSortNameCollectionCell.class forCellWithReuseIdentifier:@"cellid"];
     
     
     _collection.alwaysBounceVertical = 1;
@@ -72,7 +72,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    ELCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellid" forIndexPath:indexPath];
+    ELSortNameCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellid" forIndexPath:indexPath];
     NSString *content = indexPath.item == _titleArr.count ? @"添加" : _titleArr[indexPath.item];
     
     [cell fillContents:content];

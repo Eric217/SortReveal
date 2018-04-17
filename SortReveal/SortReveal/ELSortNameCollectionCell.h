@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.h"
 
-@interface ELCollectionViewCell : UICollectionViewCell <ViewWithContents>
+@interface ELSortNameCollectionCell : UICollectionViewCell <ViewWithContents>
 
 @end

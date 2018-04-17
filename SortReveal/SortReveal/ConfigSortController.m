@@ -43,7 +43,6 @@
 }
 
 - (void)startDisplay:(id)sender {
-    
  
     NSMutableArray *inputData = [[_inputField.text componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] mutableCopy];
     for (NSString *i in inputData) {
@@ -52,7 +51,7 @@
         }
     }
     NSLog(@"%@", inputData);
-    NSDictionary *userinfo = [NSDictionary dictionaryWithObjects:@[inputData, [NSNumber numberWithInteger:_sortType], [NSNumber numberWithInteger:_sortOrder]] forKeys:@[@"dataArr", @"sortType", @"sortOrder"]];
+    NSDictionary *userinfo = [NSDictionary dictionaryWithObjects:@[inputData, [NSNumber numberWithUnsignedInteger:_sortType], [NSNumber numberWithUnsignedInteger:_sortOrder]] forKeys:@[kDataArr, kSortType, kSortOrder]];
     [Config postNotification:SortingVCShouldStartDisplayNotification message:userinfo];
 }
 

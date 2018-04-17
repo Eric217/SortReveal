@@ -6,15 +6,15 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "ELCollectionViewCell.h"
+#import "ELSortNameCollectionCell.h"
 #import "UIView+frameProperty.h"
  
-@interface ELCollectionViewCell ()
+@interface ELSortNameCollectionCell ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @end
 
-@implementation ELCollectionViewCell
+@implementation ELSortNameCollectionCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
