@@ -10,4 +10,6 @@
 
 @interface SortingViewController : UIViewController
 
+- (void)clearContent;
+
 @end

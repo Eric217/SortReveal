@@ -20,7 +20,7 @@
 #define systemBlue [UIColor colorWithRed:0 green:111.0/255 blue:1 alpha:1]
 
 UIKIT_EXTERN NSNotificationName const ELSplitVCShouldDismissNotification;
-
+UIKIT_EXTERN NSNotificationName const SortingVCShouldStartDisplayNotification;
 
 typedef NS_ENUM(NSUInteger, SortType) {
     SortTypeBubble = 0,
@@ -28,8 +28,19 @@ typedef NS_ENUM(NSUInteger, SortType) {
     SortTypeHeap = 3,
     SortTypeSelection = 1,
     
-   
 };
+
+///section * 10 + row = raw value
+typedef NS_ENUM(NSUInteger, SortOrder) {
+    SortOrderNumberA = 0,
+    SortOrderNumberD = 1,
+    SortOrderCharacA = 10,
+    SortOrderCharacD = 11,
+    SortOrderDictioA = 20,
+    SortOrderDictioD = 21,
+    SortOrderAutomatic = 30,
+};
+
  
 //MARK: - REAL COMMON
 #define ScreenW UIScreen.mainScreen.bounds.size.width
@@ -45,11 +56,19 @@ typedef NS_ENUM(NSUInteger, SortType) {
 
 @interface Config: NSObject
 
-+ (CGFloat)v_pad:(CGFloat)ipad plus:(CGFloat)b p:(CGFloat)s;
-+ (NSArray *)getArrayDataFromFile:(NSString *)name;
++ (void)addObserver:(id)target selector:(SEL)func notiName:(NSNotificationName)name;
++ (void)postNotification:(NSNotificationName)name message:(nullable NSDictionary *)info;
++ (void)removeObserver:(id)obj;
+
++ (UIImage *)pushImage;
++ (UIImage *)backImage;
 
 + (NSString *)documentPath;
++ (NSArray *)getArrayDataFromFile:(NSString *)name;
 + (void)writeArrayToFile:(NSString *)file data:(NSArray *)arr;
+
++ (CGFloat)v_pad:(CGFloat)ipad plus:(CGFloat)b p:(CGFloat)s;
+
 @end
 
 

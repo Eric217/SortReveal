@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ViewWithContents.h"
+#import "Protocols.h"
 
 @interface ELCollectionViewCell : UICollectionViewCell <ViewWithContents>
 

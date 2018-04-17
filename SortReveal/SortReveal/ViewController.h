@@ -10,8 +10,5 @@
 
 @interface ViewController : UIViewController 
 
-@property (nonatomic, strong) IBOutlet UICollectionView *collection;
-
-
 @end
 

@@ -7,8 +7,6 @@
 //
 
 #import "ConfigSortController.h"
-#import "UIImage+operations.h"
-#import "UIViewController+funcs.h"
 #import "SelectOrderController.h"
 #import "Protocols.h"
 
@@ -20,6 +18,9 @@
 @property (strong, nonatomic) IBOutlet UIButton *startShow;
 @property (strong, nonatomic) IBOutlet UIButton *backButton;
 
+@property (assign) SortOrder sortOrder;
+@property (assign) SortType sortType;
+
 @end
 
 @implementation ConfigSortController
@@ -29,15 +30,30 @@
     [[_inputField layer] setCornerRadius:3];
     [_inputField setContentInset:UIEdgeInsetsMake(0, 8, 0, 6)];
  
-    [_backButton setImage:[[UIImage imageNamed:@"backImage"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-    [_backButton setTintColor:UIColor.blackColor];
+    [_backButton setImage:[Config backImage] forState:UIControlStateNormal];
     
-    UIImage *img = [[UIImage imageNamed:@"pushImage"] imageWithColor:UIColor.blackColor];
+    UIImage *img = [Config pushImage];
     [_startShow setImage:img forState:UIControlStateNormal];
     [_selectOrder setImage:img forState:UIControlStateNormal];
     _inputField.delegate = self;
     [_selectOrder addTarget:self action:@selector(selectOrder:) forControlEvents:UIControlEventTouchUpInside];
+    [_startShow addTarget:self action:@selector(startDisplay:) forControlEvents:UIControlEventTouchUpInside];
+    _sortOrder = SortOrderAutomatic;
+    [_selectOrder setTitle:@"自动推断" forState:UIControlStateNormal];
+}
+
+- (void)startDisplay:(id)sender {
     
+ 
+    NSMutableArray *inputData = [[_inputField.text componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] mutableCopy];
+    for (NSString *i in inputData) {
+        if ([i isEqualToString:@""]) {
+            [inputData removeObject:i];
+        }
+    }
+    NSLog(@"%@", inputData);
+    NSDictionary *userinfo = [NSDictionary dictionaryWithObjects:@[inputData, [NSNumber numberWithInteger:_sortType], [NSNumber numberWithInteger:_sortOrder]] forKeys:@[@"dataArr", @"sortType", @"sortOrder"]];
+    [Config postNotification:SortingVCShouldStartDisplayNotification message:userinfo];
 }
 
 - (void)selectOrder:(id)sender {
@@ -60,7 +76,8 @@
     NSArray *names = [Config getArrayDataFromFile:SortNameFile];
     [_sortName setText:names[type]];
     [_inputField setText:@""];
-    
+    _sortOrder = SortOrderAutomatic;
+    _sortType = type;
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -68,18 +85,15 @@
     [[self view] endEditing:1];
 }
 
+
 - (IBAction)dismiss:(id)sender {
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:ELSplitVCShouldDismissNotification object:nil];
+    [Config postNotification:ELSplitVCShouldDismissNotification message:nil];
 }
 
-///NSArray, 0: NSStringFromCGPoint(sec, row) 1: name
+///NSArray, 0: order number 1: name
 - (void)transferData:(id)data {
     NSArray *a = data;
-    CGPoint indexPath = CGPointFromString(a[0]);
-    int section = indexPath.x;
-    int row = indexPath.y;
-    NSLog(@"%d, %d", section, row);
+    _sortOrder = ((NSNumber *)a[0]).longValue;
     [_selectOrder setTitle:a[1] forState:UIControlStateNormal];
 }
 

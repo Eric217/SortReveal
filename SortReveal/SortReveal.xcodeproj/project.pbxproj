@@ -58,7 +58,6 @@
 		07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+frameProperty.m"; sourceTree = "<group>"; };
 		07E38E0A207CF63100E3A4BB /* ELCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELCollectionViewCell.h; sourceTree = "<group>"; };
 		07E38E0B207CF63100E3A4BB /* ELCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELCollectionViewCell.m; sourceTree = "<group>"; };
-		07E38E0E207CF9EC00E3A4BB /* ViewWithContents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewWithContents.h; sourceTree = "<group>"; };
 		389835949699565BBE7AC97C /* Pods-SortReveal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SortReveal.release.xcconfig"; path = "Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal.release.xcconfig"; sourceTree = "<group>"; };
 		99BFB568E97EE65F8C1DD419 /* Pods-SortReveal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SortReveal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal.debug.xcconfig"; sourceTree = "<group>"; };
 		EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SortReveal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,7 +145,6 @@
 			children = (
 				07828077207C7641000D0B4A /* Common.h */,
 				07828078207C765E000D0B4A /* Common.m */,
-				07E38E0E207CF9EC00E3A4BB /* ViewWithContents.h */,
 				078175602084ADCA00FD043B /* Protocols.h */,
 				07E38E04207CF1FF00E3A4BB /* UIView+frameProperty.h */,
 				079089CC2083A9D7008890F8 /* UIViewController+funcs.h */,

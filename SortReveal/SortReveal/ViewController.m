@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "Common.h"
+#import "Protocols.h"
 #import "ELSplitViewController.h"
 #import "ELCollectionViewCell.h"
 #import "UIView+frameProperty.h"
@@ -15,6 +16,7 @@
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) IBOutlet UILabel *appTitle;
+@property (nonatomic, strong) IBOutlet UICollectionView *collection;
 
 @property (nonatomic, strong) ELSplitViewController *splitVC;
 
@@ -79,16 +81,16 @@
 }
 
 
-
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-
+    
     if (size.width != self.view.width) {
         _colPerRow = size.width > size.height ? 4 : 3;
         [_collection reloadData];
     }
-  
+    
 }
+
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat s = ScreenW-2*_edgeDistance-(_colPerRow-1)*_horizontalSpacing;

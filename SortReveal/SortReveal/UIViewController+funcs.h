@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UIViewController (funcs)
- 
+
+- (void)presentAlertWithConfirmAction:(void (^) (UIAlertAction *))handler;
+
 @end

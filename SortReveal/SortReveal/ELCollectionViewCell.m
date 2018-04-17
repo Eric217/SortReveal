@@ -8,8 +8,9 @@
 
 #import "ELCollectionViewCell.h"
 #import "UIView+frameProperty.h"
-
+ 
 @interface ELCollectionViewCell ()
+
 @property (nonatomic, strong) UILabel *titleLabel;
 @end
 

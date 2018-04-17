@@ -8,8 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
+
+@protocol Sortable <NSObject>
+
+- (void)next;
+
+- (void)last;
+
+ 
+@end
+
+
 @protocol SimpleTransfer <NSObject>
 
 - (void)transferData:(id)data;
+
+@end
+
+@protocol ViewWithContents <NSObject>
+
+- (void)fillContents:(id)content;
 
 @end

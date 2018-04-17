@@ -21,23 +21,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
+    [self.navigationController.navigationBar setTintColor:UIColor.blackColor];
     [self setTitle:@"排序方式"];
     _table.delegate = self;
     _table.dataSource = self;
     [_table registerClass:UITableViewCell.class forCellReuseIdentifier:@"cellid"];
     [_table registerClass:UITableViewHeaderFooterView.class forHeaderFooterViewReuseIdentifier:@"headerid"];
-    [_table setSectionHeaderHeight:48];
-    [_table setTableHeaderView:[[UIView alloc] init]];
-    [_table setContentOffset:CGPointMake(0, 30)];
-    
+ 
     NSArray<NSArray *> *arr = [Config getArrayDataFromFile:SortOrderFile];
     if (!arr) {
         arr = @[@[@"数值升序", @"数值降序", @"数值大小"], @[@"字符升序", @"字符降序", @"字符顺序"], @[@"字典升序", @"字典降序", @"字典顺序"], @[@"自动推断", @" "]];
         [Config writeArrayToFile:SortOrderFile data:arr];
     }
     _array = [arr mutableCopy];
+ 
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 72;
+    }
+    return 45;
+}
+
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headerid"];
@@ -67,10 +74,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger sec = indexPath.section;
-    NSInteger ro = indexPath.row;
-    NSString *idx = NSStringFromCGPoint(CGPointMake(sec, ro));
-    NSArray *data = [NSArray arrayWithObjects:idx, _array[sec][ro], nil];
+    NSNumber *order = [NSNumber numberWithLong:(indexPath.section * 10 + indexPath.row)];
+    NSArray *data = [NSArray arrayWithObjects:order, _array[indexPath.section][indexPath.row], nil];
     [_delegate transferData:data];
     
     [tableView deselectRowAtIndexPath:indexPath animated:1];

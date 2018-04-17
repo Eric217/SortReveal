@@ -33,7 +33,8 @@
     
     [self.view addSubview:_splitView.view];
 
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(dismiss) name:ELSplitVCShouldDismissNotification object:nil];
+    [Config addObserver:self selector:@selector(dismiss) notiName:ELSplitVCShouldDismissNotification];
+    
     
 }
 
@@ -47,8 +48,12 @@
 
 - (void)initOrResetContent:(SortType)type {
     [_master initializeContent:type];
+    [_detail clearContent];
 }
 
+- (void)dealloc {
+    [Config removeObserver:self];
+}
 
 
 @end
