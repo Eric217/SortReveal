@@ -40,6 +40,7 @@
     [_startShow addTarget:self action:@selector(startDisplay:) forControlEvents:UIControlEventTouchUpInside];
     _sortOrder = SortOrderAutomatic;
     [_selectOrder setTitle:@"自动推断" forState:UIControlStateNormal];
+ 
 }
 
 - (void)startDisplay:(id)sender {
@@ -71,11 +72,10 @@
     return 1;
 }
 
-- (void)initializeContent:(SortType)type {
+- (void)initializeWithSortType:(SortType)type {
     NSArray *names = [Config getArrayDataFromFile:SortNameFile];
     [_sortName setText:names[type]];
     [_inputField setText:@""];
-    _sortOrder = SortOrderAutomatic;
     _sortType = type;
 }
 

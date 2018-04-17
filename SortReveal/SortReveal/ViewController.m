@@ -6,13 +6,14 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "ViewController.h"
+
 #import "Common.h"
-#import "Protocols.h"
+#import "UIView+funcs.h"
+#import "ViewController.h"
+#import "UIView+frameProperty.h"
 #import "ELSplitViewController.h"
 #import "ELSortNameCollectionCell.h"
-#import "UIView+frameProperty.h"
- 
+
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) IBOutlet UILabel *appTitle;
@@ -24,9 +25,7 @@
 
 @property (assign) CGFloat itemSize;
 @property (assign) CGFloat edgeDistance; //20
-@property (assign) CGFloat horizontalSpacing; //44
 @property (assign) CGFloat verticalSpacing; //36
-@property (assign) int colPerRow;
 
 @end
 
@@ -35,9 +34,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _edgeDistance = [Config v_pad:46 plus:15 p:10];
-    _horizontalSpacing = [Config v_pad:66 plus:24 p:18];
-    _verticalSpacing = [Config v_pad:52 plus:20 p:14];
+    _edgeDistance = [Config v_pad:46 plus:36 p:28 min:20];
+    _verticalSpacing = [Config v_pad:52 plus:33 p:24 min:20];
     
     NSArray *arr = [Config getArrayDataFromFile:SortNameFile];
     if (!arr) {
@@ -49,7 +47,7 @@
     _collection.delegate = self;
     _collection.dataSource = self;
     //列间距 item spacing不论怎么设置，最后系统都会自己调整，按照cell对称、不能显示一半等等得到最后spacing。
-    [_collection registerClass:ELSortNameCollectionCell.class forCellWithReuseIdentifier:@"cellid"];
+    [_collection registerClass:ELSortNameCollectionCell.class forCellWithReuseIdentifier:NSStringFromClass(ELSortNameCollectionCell.class)];
     
     
     _collection.alwaysBounceVertical = 1;
@@ -72,7 +70,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    ELSortNameCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellid" forIndexPath:indexPath];
+    ELSortNameCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELSortNameCollectionCell.class) forIndexPath:indexPath];
     NSString *content = indexPath.item == _titleArr.count ? @"添加" : _titleArr[indexPath.item];
     
     [cell fillContents:content];
@@ -80,24 +78,24 @@
     return cell;
 }
 
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    
-    if (size.width != self.view.width) {
-        _colPerRow = size.width > size.height ? 4 : 3;
-        [_collection reloadData];
-    }
-    
-}
-
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat s = ScreenW-2*_edgeDistance-(_colPerRow-1)*_horizontalSpacing;
-    s /= _colPerRow;
-    return CGSizeMake(s, s);
+   
+    return CGSizeMake(_itemSize, _itemSize);
 }
 
+//- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+//    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+//    if (IPAD) {
+//        return;
+//    }
+//
+//    if (size.width > size.height) {
+//        _appTitle.height /= 2;
+//
+//    } else {
+//        _appTitle.height *= 2;
+//    }
+//}
 
 ///行间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
@@ -123,8 +121,20 @@
     [super viewDidLayoutSubviews];
    
     const CGSize s = self.view.frame.size;
-    _colPerRow = s.width > s.height ? 4 : 3;
-  
+    CGFloat w;
+    if (s.width > s.height) {
+        w = s.height;
+    } else {
+        w = s.width;
+    }
+    
+    if (IPAD) {
+        _itemSize = (w-2*_edgeDistance-2*68)/3;
+    } else {
+        _itemSize = (w-3*_edgeDistance)/2;
+    }
+    
+    
 }
 
 

@@ -12,6 +12,6 @@
 @interface ConfigSortController : UIViewController 
 
 
-- (void)initializeContent:(SortType)type;
+- (void)initializeWithSortType:(SortType)type;
 
 @end

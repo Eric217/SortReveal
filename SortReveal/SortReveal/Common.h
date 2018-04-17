@@ -73,7 +73,7 @@ typedef NS_ENUM(NSUInteger, SortOrder) {
 + (NSArray *)getArrayDataFromFile:(NSString *)name;
 + (void)writeArrayToFile:(NSString *)file data:(NSArray *)arr;
 
-+ (CGFloat)v_pad:(CGFloat)ipad plus:(CGFloat)b p:(CGFloat)s;
++ (CGFloat)v_pad:(CGFloat)ipad plus:(CGFloat)b p:(CGFloat)s min:(CGFloat)ss;
 
 @end
 

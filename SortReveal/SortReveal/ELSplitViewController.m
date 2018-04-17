@@ -12,6 +12,7 @@
 @interface ELSplitViewController() <UISplitViewControllerDelegate>
 
 @property (nonatomic, strong) UISplitViewController *splitView;
+@property (assign) SortType type;
 
 @end
 
@@ -34,7 +35,7 @@
     [self.view addSubview:_splitView.view];
 
     [Config addObserver:self selector:@selector(dismiss) notiName:ELSplitVCShouldDismissNotification];
-    
+    [self initOrResetContent:_type];
     
 }
 
@@ -47,7 +48,8 @@
 }
 
 - (void)initOrResetContent:(SortType)type {
-    [_master initializeContent:type];
+    _type = type;
+    [_master initializeWithSortType:type];
     [_detail clearContent];
 }
 

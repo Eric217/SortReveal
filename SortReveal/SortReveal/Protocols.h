@@ -25,8 +25,5 @@
 
 @end
 
-@protocol ViewWithContents <NSObject>
 
-- (void)fillContents:(id)content;
 
-@end

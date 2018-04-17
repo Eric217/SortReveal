@@ -73,10 +73,12 @@ static UIImage * _pushImage = 0;
   
 }
 
-+ (CGFloat)v_pad:(CGFloat)ipad plus:(CGFloat)b p:(CGFloat)s {
++ (CGFloat)v_pad:(CGFloat)ipad plus:(CGFloat)b p:(CGFloat)s min:(CGFloat)ss {
     if (IPAD) {
         return ipad;
-    } else if (IPHONE4 || IPHONE5 || IPHONE6) {
+    } else if (IPHONE4 || IPHONE5) {
+        return ss;
+    } else if (IPHONE6) {
         return s;
     } else {
         return b;

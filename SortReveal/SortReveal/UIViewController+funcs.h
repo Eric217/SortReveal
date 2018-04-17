@@ -10,6 +10,6 @@
 
 @interface UIViewController (funcs)
 
-- (void)presentAlertWithConfirmAction:(void (^) (UIAlertAction *))handler;
+- (void)presentAlertWithConfirmTitle:(NSString *)title message:(NSString *)msg Action:(void (^) (UIAlertAction *))handler;
 
 @end
