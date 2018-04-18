@@ -22,6 +22,7 @@
 #define kSortOrder @"sortType"
 #define kSortType @"sortOrder"
 
+#define kSkipNullStep @"skip null"
 
 #define systemBlue [UIColor colorWithRed:0 green:111.0/255 blue:1 alpha:1]
 

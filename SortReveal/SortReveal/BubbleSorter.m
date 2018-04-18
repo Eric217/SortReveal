@@ -8,8 +8,6 @@
 
 #import "Sorters.h"
 
-
-
 @implementation BubbleSorter
 
 - (NSArray<NSString *> *)nextTurn:(BOOL *)finished {
@@ -44,13 +42,53 @@
     
     if ([self compare_a:j b:j+1]) {
         [self swap_a:j b:j+1];
+    } else if ([NSUserDefaults.standardUserDefaults boolForKey:kSkipNullStep])  {
+        return [self nextTurn:finished];
     }
- 
+     
     return [[NSArray alloc] initWithArray:dataArr copyItems:1];
 }
 
 - (NSArray<NSString *> *)nextRow:(BOOL *)finished {
-    return 0;
+    
+    int i = self.currentI, j0 = self.currentJ;
+    if (i == 1) {
+        return 0;
+    }
+    if (j0 == i - 2) {
+        self.currentJ = 0;
+        --self.currentI;
+        if (self.currentI == 1) {
+            return 0;
+        }
+    } else {
+        //++self.currentJ;
+    }
+    j0 = self.currentJ;
+    
+    
+    
+    for (int j = j0; j < i - 1; j++) {
+        if ([self compare_a:j b:j+1]) {
+            [self swap_a:j b:j+1];
+        }
+    }
+    self.currentJ = 0;
+    self.currentI--;
+    if (self.currentI == 2) {
+        *finished = 1;
+    }
+
+    int len = 10;
+    for (int i = len; i > 1; i--) {
+        for (int j = 0; j < i - 1; j++) {
+            // if, swap
+            
+        }
+    }
+    
+    
+    return [[NSArray alloc] initWithArray:dataArr copyItems:1];
 }
 
 - (NSArray<NSString *> *)lastTurn:(BOOL *)finished {
