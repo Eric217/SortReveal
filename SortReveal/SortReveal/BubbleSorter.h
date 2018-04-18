@@ -8,7 +8,4 @@
 
 #import "SortBaseClass.h"
 
-@interface BubbleSorter : LinearSort
-
-@end
 

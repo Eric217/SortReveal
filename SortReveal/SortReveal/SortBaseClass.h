@@ -9,23 +9,25 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.h"
 
-
-@interface SortBaseClass : NSObject <Sorter>
+///直接实现Sorter协议，含有sort order 这一通用值
+@interface SortBaseClass : NSObject <Sorter, Comparable>
 
 @property (assign) SortOrder sortOrder;
-
-- (void)swap_i:(int)i j:(int)j;
-
 
 @end
 
 
+///线性（底层为数组）排序的基类，继承自Base，内部有一个数组
+@interface LinearSorter : SortBaseClass {
+    
+@public
+    NSMutableArray<NSString *> *dataArr;
+}
 
-@interface LinearSort : SortBaseClass
-
-@property (nonatomic, copy) NSArray<NSString *> *originArr;
 @property (assign) int currentI;
 @property (assign) int currentJ;
+
+
 @end
 
 

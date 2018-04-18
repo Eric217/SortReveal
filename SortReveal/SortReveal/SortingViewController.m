@@ -17,8 +17,11 @@
 
 @property (strong, nonatomic) IBOutlet UICollectionView *collection;
 @property (strong, nonatomic) IBOutlet UIButton *backButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *nextStepButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *lastStepButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *settings;
 
-@property (nonatomic, copy) NSArray *originDataArr;
+@property (nonatomic, copy) NSMutableArray *originDataArr;
 @property (nonatomic, copy) NSMutableArray<NSArray *> *viewDataArr;
 
 @property (nonatomic, strong) id <Sorter> sorter;
@@ -27,6 +30,7 @@
 
 @property (assign) CGFloat edgeDistance;
 @property (assign) CGSize itemSize;
+ 
 
 @end
 
@@ -34,27 +38,60 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _edgeDistance = [Config v_pad:30 plus:15 p:10 min:10];
+    [Config addObserver:self selector:@selector(prepareDisplay:) notiName:SortingVCShouldStartDisplayNotification];
+
     [_collection setAllowsSelection:0];
     _collection.delegate = self;
     _collection.dataSource = self;
     _collection.alwaysBounceVertical = 1;
-   
-    _edgeDistance = [Config v_pad:30 plus:15 p:10 min:10];
-    _collection.contentInset = UIEdgeInsetsMake(30, _edgeDistance, 15, _edgeDistance);
+    _collection.contentInset = UIEdgeInsetsMake(20, _edgeDistance, 18, _edgeDistance);
     [_collection registerClass:ELTreeUnitCell.class forCellWithReuseIdentifier:NSStringFromClass(ELTreeUnitCell.class)];
     [_collection registerClass:ELLinearUnitCell.class forCellWithReuseIdentifier:NSStringFromClass(ELLinearUnitCell.class)];
     
     [_backButton setImage:[Config backImage] forState:UIControlStateNormal];
     [self setTitle:@"动态演示"];
+    
     [_backButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
-    [Config addObserver:self selector:@selector(prepareDisplay:) notiName:SortingVCShouldStartDisplayNotification];
+    
+}
 
+- (IBAction)lastStep:(id)sender {
+    
+}
+
+
+- (IBAction)nextStep:(id)sender {
+    BOOL finished = false;
+    
+    NSArray *nextRow = [_sorter nextTurn:&finished];
+    
+    if (nextRow) {
+        [_viewDataArr addObject:nextRow];
+        NSIndexPath *idx = [Config idxPath:_viewDataArr.count-1];
+        [_collection insertItemsAtIndexPaths:@[idx]];
+        [_collection scrollToItemAtIndexPath:idx atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:1];
+        [_lastStepButton setEnabled:1];
+    }
+    
+    if (finished) {
+        [_nextStepButton setEnabled:0];
+    }
+    
+}
+
+
+
+- (void)stop:(id)sender {
+    
+}
+- (IBAction)play:(id)sender {
+    
 }
 
 ///点击展示界面上的返回按钮
 - (void)clickBack:(id)sender {
-    
+ 
     
 }
 
@@ -64,9 +101,8 @@
     NSUInteger t = ((NSNumber *)(noti.userInfo[kSortType])).unsignedIntegerValue;
     NSUInteger o = ((NSNumber *)(noti.userInfo[kSortOrder])).unsignedIntegerValue;
     
-    if (_originDataArr) {
+    if (_originDataArr && _originDataArr.count) {
         [self presentAlertWithConfirmTitle:@"提醒" message:@"有演示中的排序。要开始新的排序吗" Action:^(UIAlertAction *alert) {
-            self.viewDataArr = [[NSMutableArray alloc] init];
             [self initializeWithArr:noti.userInfo[kDataArr] type:t order:o];
         }];
     } else {
@@ -74,20 +110,21 @@
     }
 }
 
-///由prepare调用，展示开始的唯一入口，参数来更新原始数据、排序种类、顺序方式
-- (void)initializeWithArr:(NSArray *)arr type:(SortType)t order:(SortOrder)o {
+///由prepare调用，展示开始的唯一入口，参数: 原始数组、排序种类、顺序方式
+- (void)initializeWithArr:(NSMutableArray *)arr type:(SortType)t order:(SortOrder)o {
     _sortType = t;
     _sortOrder = o;
     _originDataArr = arr;
+    _viewDataArr = [[NSMutableArray alloc] init];
+    
     [self initializeSorter];
     [self updateItemSize];
-    [_viewDataArr addObject:self.originDataArr]; //copy点语法
-    [_collection reloadData];
-    
-    //TODO: - 这个为什么崩？
-    //NSIndexPath *idx = [NSIndexPath indexPathForItem:0 inSection:0];
-    //[_collection insertItemsAtIndexPaths:@[idx]];
    
+    [_lastStepButton setEnabled:0];
+    [_nextStepButton setEnabled:arr.count != 1];
+    
+    [_viewDataArr addObject:_originDataArr];
+    [_collection reloadData];
 }
 
 ///由initializeWithArr调用，对sorter配置
@@ -95,13 +132,14 @@
     if (_sortType == SortTypeBubble) {
         _sorter = [[BubbleSorter alloc] init];
     } else if (_sortType == SortTypeInsertion) {
-        //_sorter = [[InsertionSorter alloc] init];
+        _sorter = [[InsertionSorter alloc] init];
     } else if (_sortType == SortTypeSelection) {
         //_sorter = [[SelectionSorter alloc] init];
     } else if (_sortType == SortTypeHeap) {
         //_sorter = [[HeapSorter alloc] init];
     }
-    
+   
+    [_sorter initializeWithArray:_originDataArr order:_sortOrder]; //deep copy inside the func
     
 }
 
@@ -151,19 +189,7 @@
     return 30;
 }
 
-- (IBAction)lastStep:(id)sender {
-    
-}
-- (IBAction)nextStep:(id)sender {
-    
-}
 
-- (void)stop:(id)sender {
-    
-}
-- (IBAction)play:(id)sender {
-    
-}
 
 - (void)clearContent {
     _originDataArr = 0;

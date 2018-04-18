@@ -286,14 +286,22 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="g7t-uh-Ete"/>
-                        <barButtonItem enabled="NO" title="上一步" id="u7P-nK-BxU"/>
+                        <barButtonItem enabled="NO" title="上一步" id="u7P-nK-BxU">
+                            <connections>
+                                <action selector="lastStep:" destination="eLp-hK-nOQ" id="B7B-qH-dDO"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="8JP-yw-Gbp"/>
                         <barButtonItem title="顺序执行" id="de7-d6-ZNs"/>
                         <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="zVT-rZ-ynQ"/>
-                        <barButtonItem title="下一步" id="DzT-EO-usg"/>
+                        <barButtonItem title="下一步" id="DzT-EO-usg">
+                            <connections>
+                                <action selector="nextStep:" destination="eLp-hK-nOQ" id="Qb4-Ol-92b"/>
+                            </connections>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="b6h-2Y-rd2">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="53c-6c-jDX">
+                        <barButtonItem key="leftBarButtonItem" id="53c-6c-jDX">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eYT-nX-EH1">
                                 <rect key="frame" x="20" y="6" width="92" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -304,11 +312,17 @@
                             </button>
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="设置" id="SWA-wp-mDY">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="backButton" destination="eYT-nX-EH1" id="xr8-ip-HK6"/>
                         <outlet property="collection" destination="utT-8q-9Wg" id="Oxg-fA-aBH"/>
+                        <outlet property="lastStepButton" destination="u7P-nK-BxU" id="TzP-Nz-27Y"/>
+                        <outlet property="nextStepButton" destination="DzT-EO-usg" id="ndk-wS-X2D"/>
+                        <outlet property="settings" destination="SWA-wp-mDY" id="VAW-xz-we3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rcZ-bg-6XD" userLabel="First Responder" sceneMemberID="firstResponder"/>

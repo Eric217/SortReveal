@@ -69,6 +69,9 @@ typedef NS_ENUM(NSUInteger, SortOrder) {
 + (UIImage *)pushImage;
 + (UIImage *)backImage;
 
++ (NSIndexPath *)idxPath:(NSInteger)item;
++ (NSIndexPath *)idxPathS:(NSInteger)section item:(NSInteger)item;
+
 + (NSString *)documentPath;
 + (NSArray *)getArrayDataFromFile:(NSString *)name;
 + (void)writeArrayToFile:(NSString *)file data:(NSArray *)arr;

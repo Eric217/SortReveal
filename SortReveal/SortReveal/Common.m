@@ -35,6 +35,14 @@ static UIImage * _pushImage = 0;
     [[NSNotificationCenter defaultCenter] removeObserver:obj];
 }
 
++ (NSIndexPath *)idxPath:(NSInteger)item {
+    return [NSIndexPath indexPathForItem:item inSection:0];
+}
+
++ (NSIndexPath *)idxPathS:(NSInteger)section item:(NSInteger)item {
+    return [NSIndexPath indexPathForItem:item inSection:section];
+}
+
 
 + (UIImage *)pushImage {
     if (!_pushImage) {

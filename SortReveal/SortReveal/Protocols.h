@@ -11,12 +11,22 @@
 
 ///想排序 必须遵循的接口
 @protocol Sorter <NSObject>
+
 @optional
-- (void)initializeWithArray:(NSArray *)array order:(SortOrder)order;
+- (void)initializeWithArray:(NSMutableArray *)array order:(SortOrder)order;
 
-- (NSArray<NSString *> *)nextTurn:(int)i step:(int)j;
+- (NSArray<NSString *> *)nextTurn:(BOOL *)finished;
+- (NSArray<NSString *> *)nextRow:(BOOL *)finished;
+- (NSArray<NSString *> *)lastRow:(BOOL *)finished;
+- (NSArray<NSString *> *)lastTurn:(BOOL *)finished;
 
-- (NSArray<NSString *> *)lastTurn:(int)i step:(int)j;
+@end
+
+@protocol Comparable <NSObject>
+
+@optional
+- (void)swap_a:(int)i b:(int)j;
+- (bool)compare_a:(int)a b:(int)b;
 
 @end
 
