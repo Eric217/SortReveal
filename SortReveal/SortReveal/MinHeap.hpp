@@ -12,12 +12,7 @@
 
 template <typename T, typename Q> class Huffman;
 
-template <typename T>
-inline void mySwap(T & v1, T & v2) {
-    T temp = v2;
-    v2 = v1;
-    v1 = temp;
-}
+
 
 ///返回的index
 template <typename T>

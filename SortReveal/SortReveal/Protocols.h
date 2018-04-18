@@ -7,15 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Common.h"
 
-
+///想排序 必须遵循的接口
 @protocol Sorter <NSObject>
+@optional
+- (void)initializeWithArray:(NSArray *)array order:(SortOrder)order;
 
-- (void)next;
+- (NSArray<NSString *> *)nextTurn:(int)i step:(int)j;
 
-- (void)last;
+- (NSArray<NSString *> *)lastTurn:(int)i step:(int)j;
 
- 
 @end
 
 

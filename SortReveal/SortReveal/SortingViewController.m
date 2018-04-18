@@ -8,10 +8,10 @@
 
 #import "SortingViewController.h"
 #import "UIView+funcs.h"
-#import "Common.h"
 #import "ELCollectionCell.h"
 #import "UIView+frameProperty.h"
 #import "UIViewController+funcs.h"
+#import "Sorters.h"
 
 @interface SortingViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -21,6 +21,7 @@
 @property (nonatomic, copy) NSArray *originDataArr;
 @property (nonatomic, copy) NSMutableArray<NSArray *> *viewDataArr;
 
+@property (nonatomic, strong) id <Sorter> sorter;
 @property (assign) SortType sortType;
 @property (assign) SortOrder sortOrder;
 
@@ -65,7 +66,7 @@
     
     if (_originDataArr) {
         [self presentAlertWithConfirmTitle:@"提醒" message:@"有演示中的排序。要开始新的排序吗" Action:^(UIAlertAction *alert) {
-            [self clearContent];
+            self.viewDataArr = [[NSMutableArray alloc] init];
             [self initializeWithArr:noti.userInfo[kDataArr] type:t order:o];
         }];
     } else {
@@ -78,6 +79,7 @@
     _sortType = t;
     _sortOrder = o;
     _originDataArr = arr;
+    [self initializeSorter];
     [self updateItemSize];
     [_viewDataArr addObject:self.originDataArr]; //copy点语法
     [_collection reloadData];
@@ -88,6 +90,22 @@
    
 }
 
+///由initializeWithArr调用，对sorter配置
+- (void)initializeSorter {
+    if (_sortType == SortTypeBubble) {
+        _sorter = [[BubbleSorter alloc] init];
+    } else if (_sortType == SortTypeInsertion) {
+        //_sorter = [[InsertionSorter alloc] init];
+    } else if (_sortType == SortTypeSelection) {
+        //_sorter = [[SelectionSorter alloc] init];
+    } else if (_sortType == SortTypeHeap) {
+        //_sorter = [[HeapSorter alloc] init];
+    }
+    
+    
+}
+
+///为不同type的cell设置不同的size
 - (void)updateItemSize {
     CGFloat w = self.view.width;
     CGFloat h = self.view.height;
@@ -149,11 +167,7 @@
 
 - (void)clearContent {
     _originDataArr = 0;
-    if (!_viewDataArr) {
-        _viewDataArr = [[NSMutableArray alloc] init];
-    } else {
-        [_viewDataArr removeAllObjects];
-    }
+    _viewDataArr = [[NSMutableArray alloc] init];
     [_collection reloadData];
 }
 

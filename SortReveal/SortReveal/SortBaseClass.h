@@ -7,38 +7,27 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Common.h"
-
-///想排序 必须遵循的接口
-@protocol Sorter <NSObject>
-@optional
-- (void)initializeWithArray:(NSArray *)array order:(SortOrder)order;
-
-- (NSArray<NSString *> *)next;
-
-- (NSArray<NSString *> *)last;
-
-@end
-
+#import "Protocols.h"
 
 
 @interface SortBaseClass : NSObject <Sorter>
+
 @property (assign) SortOrder sortOrder;
+
+- (void)swap_i:(int)i j:(int)j;
+
+
 @end
-@implementation SortBaseClass
-@end
+
+
 
 @interface LinearSort : SortBaseClass
+
 @property (nonatomic, copy) NSArray<NSString *> *originArr;
-
-
-
-@end
-@implementation LinearSort
+@property (assign) int currentI;
+@property (assign) int currentJ;
 @end
 
-@interface BubbleSorter : LinearSort
 
-@end
 
 

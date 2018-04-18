@@ -10,7 +10,6 @@
 #define ELCollectionCell_h
 
 #import <UIKit/UIKit.h>
-#import "Protocols.h"
 
 @interface ELCollectionViewCell: UICollectionViewCell
 @property (nonatomic, copy) NSArray<NSString *> *dataArr;

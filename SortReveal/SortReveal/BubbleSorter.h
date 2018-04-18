@@ -6,8 +6,9 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "Sorters.h"
+#import "SortBaseClass.h"
 
-@interface BubbleSorter1 : LinearSort
+@interface BubbleSorter : LinearSort
 
 @end
+

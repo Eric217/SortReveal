@@ -8,6 +8,7 @@
 
 #ifndef Sorters_h
 #define Sorters_h
+#import "BubbleSorter.h"
 
 
 #endif /* Sorters_h */

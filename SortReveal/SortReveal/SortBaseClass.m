@@ -6,8 +6,20 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "BubbleSorter1.h"
+#import "SortBaseClass.h"
 
-@implementation BubbleSorter1
+@implementation SortBaseClass
 
+
+- (void)swap_i:(int)i j:(int)j {
+    
+}
+@end
+
+
+
+@implementation LinearSort
+- (void)swap_i:(int)i j:(int)j {
+    
+}
 @end
