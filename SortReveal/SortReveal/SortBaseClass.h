@@ -24,6 +24,7 @@
     NSMutableArray<NSString *> *dataArr;
 }
 
+///这tm就是当前该执行的！
 @property (assign) int currentI;
 @property (assign) int currentJ;
 

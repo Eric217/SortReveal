@@ -54,15 +54,7 @@
     NSString *num0 = [NSString stringWithFormat:@"%d", j];
     NSString *num1 = [NSString stringWithFormat:@"%d", j+1];
     NSString *numI = [NSString stringWithFormat:@"%d", i];
-    NSString *positions[3];
-    positions[0] = num0;
-    positions[1] = num1;
-    positions[2] = numI;
-    
-    NSString *titles[3];
-    titles[0] = @"j";
-    titles[1] = @"j+1";
-    titles[2] = @"i";
+ 
     NSArray *data = [[NSArray alloc] initWithArray:dataArr copyItems:1];
     //NSArray *color = [NSArray arrayWithObjects:NSString stri UIColor.blackColor count:1];
     
