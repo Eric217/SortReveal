@@ -66,7 +66,7 @@
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    if ([text characterAtIndex:0] == '\n') {
+    if (![text isEqual: @""] && [text characterAtIndex:0] == '\n') {
         [textView endEditing:1];
         return 0;
     }
