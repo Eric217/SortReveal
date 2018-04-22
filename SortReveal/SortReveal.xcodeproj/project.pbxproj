@@ -28,6 +28,7 @@
 		079089CE2083A9D7008890F8 /* UIViewController+funcs.m in Sources */ = {isa = PBXBuildFile; fileRef = 079089CD2083A9D7008890F8 /* UIViewController+funcs.m */; };
 		079089D12083AFD3008890F8 /* SelectOrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 079089D02083AFD3008890F8 /* SelectOrderController.m */; };
 		07BDAE45207D9307009BFD30 /* SortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BDAE44207D9307009BFD30 /* SortingViewController.m */; };
+		07D3C6302089736400DE7AAF /* ELGroupedUnitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */; };
 		07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */; };
 		07E38E0C207CF63100E3A4BB /* ELSortNameCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E0B207CF63100E3A4BB /* ELSortNameCollectionCell.m */; };
 		22E5C98030DE225BA63F3508 /* Pods_SortReveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */; };
@@ -77,6 +78,7 @@
 		079089D02083AFD3008890F8 /* SelectOrderController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectOrderController.m; sourceTree = "<group>"; };
 		07BDAE43207D9307009BFD30 /* SortingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SortingViewController.h; sourceTree = "<group>"; };
 		07BDAE44207D9307009BFD30 /* SortingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SortingViewController.m; sourceTree = "<group>"; };
+		07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELGroupedUnitCell.m; sourceTree = "<group>"; };
 		07E38E04207CF1FF00E3A4BB /* UIView+frameProperty.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+frameProperty.h"; sourceTree = "<group>"; };
 		07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+frameProperty.m"; sourceTree = "<group>"; };
 		07E38E0A207CF63100E3A4BB /* ELSortNameCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELSortNameCollectionCell.h; sourceTree = "<group>"; };
@@ -116,11 +118,11 @@
 		07245C162086E4AF00490B4C /* Sort */ = {
 			isa = PBXGroup;
 			children = (
+				070032802086C8BD00A15D7E /* SortBaseClass.h */,
 				07245C182086E61100490B4C /* Sorters.h */,
 				070032812086C8BD00A15D7E /* BubbleSorter.m */,
 				072E88A020878AC80044B478 /* InsertionSorter.m */,
 				077A40972084CA3500D887FB /* HeapSorter.m */,
-				070032802086C8BD00A15D7E /* SortBaseClass.h */,
 				07245C142086E49300490B4C /* LinearSorter.m */,
 			);
 			name = Sort;
@@ -233,6 +235,7 @@
 				07BDAE44207D9307009BFD30 /* SortingViewController.m */,
 				0706F6012086189800A2753D /* ELCollectionCell.h */,
 				0706F5F92085DA6000A2753D /* ELLinearUnitCell.m */,
+				07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */,
 				070EA1162086568F002B84E2 /* ELTreeUnitCell.mm */,
 			);
 			name = SortingViewController;
@@ -397,6 +400,7 @@
 			files = (
 				077A40982084CA3500D887FB /* HeapSorter.m in Sources */,
 				07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */,
+				07D3C6302089736400DE7AAF /* ELGroupedUnitCell.m in Sources */,
 				07545DDC2083575400430681 /* UIImage+operations.m in Sources */,
 				07E38E0C207CF63100E3A4BB /* ELSortNameCollectionCell.m in Sources */,
 				079089CE2083A9D7008890F8 /* UIViewController+funcs.m in Sources */,

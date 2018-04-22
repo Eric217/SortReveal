@@ -18,7 +18,12 @@
 #define sortingVCId @"sortingvcid"
 #define selectOrderVCId @"selectOrderID"
 
+
 #define kDataArr @"dataArr"
+#define kColorArr @"colorArr"
+#define kPositionArr @"positionsArr"
+#define kTitleArr @"titleArray"
+
 #define kSortOrder @"sortType"
 #define kSortType @"sortOrder"
 

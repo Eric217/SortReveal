@@ -14,8 +14,20 @@
 
 @end
 
+
 @interface InsertionSorter: LinearSorter
 
 @end
+
+
+@interface SelectionSorter: LinearSorter
+
+@end
+
+
+@interface HeapSorter: SortBaseClass
+
+@end
+
 
 #endif /* Sorters_h */

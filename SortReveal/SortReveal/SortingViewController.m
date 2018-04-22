@@ -22,7 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *settings;
 
 @property (nonatomic, copy) NSMutableArray *originDataArr;
-@property (nonatomic, copy) NSMutableArray<NSArray *> *viewDataArr;
+@property (nonatomic, copy) NSMutableArray<NSDictionary *> *viewDataDictArr;
 
 @property (nonatomic, strong) id <Sorter> sorter;
 @property (assign) SortType sortType;
@@ -64,11 +64,11 @@
 - (IBAction)nextStep:(id)sender {
     BOOL finished = false;
     
-    NSArray *nextRow = [_sorter nextTurn:&finished];
+    NSDictionary *nextRow = [_sorter nextTurn:&finished];
     
     if (nextRow) {
-        [_viewDataArr addObject:nextRow];
-        NSIndexPath *idx = [Config idxPath:_viewDataArr.count-1];
+        [_viewDataDictArr addObject:nextRow];
+        NSIndexPath *idx = [Config idxPath:_viewDataDictArr.count-1];
         [_collection insertItemsAtIndexPaths:@[idx]];
         [_collection scrollToItemAtIndexPath:idx atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:1];
         [_lastStepButton setEnabled:1];
@@ -115,7 +115,7 @@
     _sortType = t;
     _sortOrder = o;
     _originDataArr = arr;
-    _viewDataArr = [[NSMutableArray alloc] init];
+    _viewDataDictArr = [[NSMutableArray alloc] init];
     
     [self initializeSorter];
     [self updateItemSize];
@@ -123,7 +123,7 @@
     [_lastStepButton setEnabled:0];
     [_nextStepButton setEnabled:arr.count != 1];
     
-    [_viewDataArr addObject:_originDataArr];
+    [_viewDataDictArr addObject:@{kDataArr: _originDataArr}];
     [_collection reloadData];
 }
 
@@ -161,7 +161,7 @@
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return _viewDataArr.count;
+    return _viewDataDictArr.count;
 }
 
 
@@ -174,7 +174,7 @@
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELLinearUnitCell.class) forIndexPath:indexPath];
     }
     
-    cell.dataArr = _viewDataArr[indexPath.item];
+    cell.dataDict = _viewDataDictArr[indexPath.item];
     //!!!!不知道为什么 重新开始一次演示的时候总是画不出来。后来发现drawRect没被调用，就让他needs display。 OK！
     [cell setNeedsDisplay];
     return cell;
@@ -193,7 +193,7 @@
 
 - (void)clearContent {
     _originDataArr = 0;
-    _viewDataArr = [[NSMutableArray alloc] init];
+    _viewDataDictArr = [[NSMutableArray alloc] init];
     [_collection reloadData];
 }
 

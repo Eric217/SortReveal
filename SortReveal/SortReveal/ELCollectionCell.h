@@ -12,7 +12,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ELCollectionViewCell: UICollectionViewCell
-@property (nonatomic, copy) NSArray<NSString *> *dataArr;
+@property (nonatomic, copy) NSDictionary *dataDict;
 @end
 
 @interface ELTreeUnitCell : ELCollectionViewCell
@@ -20,4 +20,9 @@
 
 @interface ELLinearUnitCell : ELCollectionViewCell
 @end
+
+@interface ELGroupedUnitCell : ELCollectionViewCell
+@end
+
+
 #endif /* ELCollectionVCell_h */

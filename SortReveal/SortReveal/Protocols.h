@@ -15,10 +15,11 @@
 @optional
 - (void)initializeWithArray:(NSMutableArray *)array order:(SortOrder)order;
 
-- (NSArray<NSString *> *)nextTurn:(BOOL *)finished;
-- (NSArray<NSString *> *)nextRow:(BOOL *)finished;
-- (NSArray<NSString *> *)lastRow:(BOOL *)finished;
-- (NSArray<NSString *> *)lastTurn:(BOOL *)finished;
+///返回的字典中 含有1. 数组kDataArr 2. 箭头信息kArrowArr 3. 颜色信息kColorArr
+- (NSDictionary *)nextTurn:(BOOL *)finished;
+- (NSDictionary *)nextRow:(BOOL *)finished;
+- (NSDictionary *)lastRow:(BOOL *)finished;
+- (NSDictionary *)lastTurn:(BOOL *)finished;
 
 @end
 
