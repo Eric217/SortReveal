@@ -10,7 +10,10 @@
 #import "Protocols.h"
 
 ///直接实现Sorter协议，含有sort order 这一通用值
-@interface SortBaseClass : NSObject <Sorter, Comparable>
+@interface SortBaseClass : NSObject <Sorter, Comparable> {
+@public
+    NSMutableArray *historyArr;
+}
 
 @property (assign) SortOrder sortOrder;
 

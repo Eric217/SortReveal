@@ -18,8 +18,8 @@
 ///返回的字典中 含有1. 数组kDataArr 2. 箭头信息kArrowArr 3. 颜色信息kColorArr
 - (NSDictionary *)nextTurn:(BOOL *)finished;
 - (NSDictionary *)nextRow:(BOOL *)finished;
-- (NSDictionary *)lastRow:(BOOL *)finished;
-- (NSDictionary *)lastTurn:(BOOL *)finished;
+
+- (void)lastStep;
 
 @end
 

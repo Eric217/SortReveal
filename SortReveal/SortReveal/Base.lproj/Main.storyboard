@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14111" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14087.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14075.4"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -292,9 +292,17 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="8JP-yw-Gbp"/>
-                        <barButtonItem title="顺序执行" id="de7-d6-ZNs"/>
-                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="zVT-rZ-ynQ"/>
-                        <barButtonItem title="下一步" id="DzT-EO-usg">
+                        <barButtonItem title="顺序执行" id="de7-d6-ZNs">
+                            <connections>
+                                <action selector="play:" destination="eLp-hK-nOQ" id="GMu-S0-c27"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="单组跳过" id="jIi-VH-WqQ">
+                            <connections>
+                                <action selector="nextRow:" destination="eLp-hK-nOQ" id="m7y-9L-EBG"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="单步执行" id="DzT-EO-usg">
                             <connections>
                                 <action selector="nextStep:" destination="eLp-hK-nOQ" id="Qb4-Ol-92b"/>
                             </connections>
@@ -314,13 +322,18 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="设置" id="SWA-wp-mDY">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="openSettings:" destination="eLp-hK-nOQ" id="B19-xA-ufL"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="backButton" destination="eYT-nX-EH1" id="xr8-ip-HK6"/>
                         <outlet property="collection" destination="utT-8q-9Wg" id="Oxg-fA-aBH"/>
+                        <outlet property="flowRunButton" destination="de7-d6-ZNs" id="76q-pg-UE3"/>
                         <outlet property="lastStepButton" destination="u7P-nK-BxU" id="TzP-Nz-27Y"/>
+                        <outlet property="nextRowButton" destination="jIi-VH-WqQ" id="kqF-Jp-SgH"/>
                         <outlet property="nextStepButton" destination="DzT-EO-usg" id="ndk-wS-X2D"/>
                         <outlet property="settings" destination="SWA-wp-mDY" id="VAW-xz-we3"/>
                     </connections>

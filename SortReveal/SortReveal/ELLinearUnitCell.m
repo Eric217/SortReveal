@@ -49,7 +49,7 @@
     textStyle.lineBreakMode = NSLineBreakByWordWrapping;
     textStyle.alignment = NSTextAlignmentCenter;//水平居中
     
-    NSMutableDictionary *attr =  [@{NSFontAttributeName: [UIFont systemFontOfSize:30], NSParagraphStyleAttributeName: textStyle} mutableCopy];
+    NSMutableDictionary *attr =  [@{NSFontAttributeName: [UIFont systemFontOfSize:29], NSParagraphStyleAttributeName: textStyle} mutableCopy];
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     CGMutablePathRef path = CGPathCreateMutable();
@@ -66,21 +66,22 @@
 
     
     for (int i = 0; i < arrSize; i++) {
-        CGRect r = CGRectMake(offset+i*unitLength, 3, unitLength, hBlow);//3是文字偏移量
+        CGRect r = CGRectMake(offset+i*unitLength, 2, unitLength, hBlow);//3是文字偏移量
         CGPathMoveToPoint(path, 0, unitLength+r.origin.x, 0);
         CGPathAddLineToPoint(path, 0, unitLength+r.origin.x, hBlow);
         [self.dataArr[i] drawInRect:r withAttributes:attr];
     }
     
-    attr[NSFontAttributeName] = [UIFont systemFontOfSize:16];
-    
+
     UIImage *upArrow = [UIImage imageNamed:@"upArrow"];
     int titleCount = (int)(self.titlArr.count);
     int repeati = -1, repeatj = -1; //这是在posiArr里的下标，其pos一样，为posiArr[i]
     bool hasRepeat = [self repeatIdx:&repeati idx:&repeatj];
+    
     if (hasRepeat) {
         int r_idx = _posiArr[repeati].intValue;
-        
+        attr[NSFontAttributeName] = [UIFont systemFontOfSize:15];
+    
         CGRect r = CGRectMake(offset+r_idx*unitLength, hTextAbove, unitLength/2, h-hTextAbove);
         [_titlArr[repeati] drawInRect:r withAttributes:attr];
         r.origin.x += unitLength/2;
@@ -89,13 +90,15 @@
         r.origin.y = hBlow;
         r.size.height = hTextAbove-hBlow;
 
-        [upArrow drawInRect:CGRectInset(r, 2, 10)];
+        [upArrow drawInRect:CGRectInset(r, 2, 6)];
         r.origin.x -= 0.5*unitLength;
-        [upArrow drawInRect:CGRectInset(r, 2, 10)];
+        [upArrow drawInRect:CGRectInset(r, 2, 6)];
       
     }
-        
+
+    attr[NSFontAttributeName] = [UIFont systemFontOfSize:17];
     CGRect r = CGRectMake(0, 0, unitLength, 0);
+
     for (int i = 0; i < titleCount; i++) {
         NSString * ps = _posiArr[i];
         int p = ps.intValue;
@@ -109,7 +112,7 @@
         [_titlArr[i] drawInRect:r withAttributes:attr];
         r.origin.y = hBlow;
         r.size.height = hTextAbove-hBlow;
-        [upArrow drawInRect:CGRectInset(r, 8, 0)];
+        [upArrow drawInRect:CGRectInset(r, 10, 6)];
         
     }
     

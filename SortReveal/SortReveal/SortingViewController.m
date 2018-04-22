@@ -20,6 +20,8 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *nextStepButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *lastStepButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *settings;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *nextRowButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *flowRunButton;
 
 @property (nonatomic, copy) NSMutableArray *originDataArr;
 @property (nonatomic, copy) NSMutableArray<NSDictionary *> *viewDataDictArr;
@@ -38,6 +40,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setTitle:@"动态演示"];
+    
     _edgeDistance = [Config v_pad:30 plus:15 p:10 min:10];
     [Config addObserver:self selector:@selector(prepareDisplay:) notiName:SortingVCShouldStartDisplayNotification];
 
@@ -45,19 +49,26 @@
     _collection.delegate = self;
     _collection.dataSource = self;
     _collection.alwaysBounceVertical = 1;
-    _collection.contentInset = UIEdgeInsetsMake(20, _edgeDistance, 18, _edgeDistance);
+    _collection.contentInset = UIEdgeInsetsMake(38.5, _edgeDistance, 14, _edgeDistance);
     [_collection registerClass:ELTreeUnitCell.class forCellWithReuseIdentifier:NSStringFromClass(ELTreeUnitCell.class)];
     [_collection registerClass:ELLinearUnitCell.class forCellWithReuseIdentifier:NSStringFromClass(ELLinearUnitCell.class)];
     
     [_backButton setImage:[Config backImage] forState:UIControlStateNormal];
-    [self setTitle:@"动态演示"];
-    
     [_backButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
+//MARK: - 4 bottom button
 - (IBAction)lastStep:(id)sender {
-    
+    int len = (int)(_viewDataDictArr.count);
+ 
+    [_sorter lastStep]; //目前finish没用
+    [_viewDataDictArr removeLastObject];
+    [_collection deleteItemsAtIndexPaths:@[[Config idxPath:len-1]]];
+    [_nextStepButton setEnabled:1];
+    if (len < 3) {
+        [_lastStepButton setEnabled:0];
+    }
 }
 
 
@@ -66,7 +77,7 @@
     
     NSDictionary *nextRow = [_sorter nextTurn:&finished];
     
-    if (nextRow) {
+    if (nextRow) { //never nil currently
         [_viewDataDictArr addObject:nextRow];
         NSIndexPath *idx = [Config idxPath:_viewDataDictArr.count-1];
         [_collection insertItemsAtIndexPaths:@[idx]];
@@ -80,21 +91,44 @@
     
 }
 
+- (IBAction)nextRow:(id)sender {
+    BOOL b = 0;
+    NSDictionary *nextRow = [_sorter nextRow:&b];
+    
+    if (nextRow) { //never nil currently
+        [_viewDataDictArr addObject:nextRow];
+        NSIndexPath *idx = [Config idxPath:_viewDataDictArr.count-1];
+        [_collection insertItemsAtIndexPaths:@[idx]];
+        [_collection scrollToItemAtIndexPath:idx atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:1];
+        [_lastStepButton setEnabled:1];
+    }
+    if (b) {
+        [_nextStepButton setEnabled:0];
+    }
+}
+
+- (IBAction)play:(id)sender {
+    
+}
 
 
 - (void)stop:(id)sender {
     
 }
-- (IBAction)play:(id)sender {
-    
-}
+
+//MARK: - 2 top buttons
 
 ///点击展示界面上的返回按钮
 - (void)clickBack:(id)sender {
- 
     
 }
 
+- (IBAction)openSettings:(id)sender {
+    
+}
+
+
+//MARK: - So many initializers
 ///点击展示按钮后，如果正在展示则询问，否则直接展示原始数据第一单元。prepare后调用initialize来开始。
 - (void)prepareDisplay:(NSNotification *)noti {
     
@@ -119,24 +153,37 @@
     
     [self initializeSorter];
     [self updateItemSize];
-   
+    
+    bool e = arr.count != 1;
     [_lastStepButton setEnabled:0];
-    [_nextStepButton setEnabled:arr.count != 1];
+    [_nextStepButton setEnabled:e];
+    [_nextRowButton setEnabled:e];
+    [_flowRunButton setEnabled:e];
     
     NSArray *posi = [self getInitialPositions];
     NSArray *titl = [self getInitialTitles];
-    [_viewDataDictArr addObject:@{kDataArr: _originDataArr, kPositionArr: posi, kTitleArr: titl}];
+    if (posi) {
+        [_viewDataDictArr addObject:@{kDataArr: _originDataArr, kPositionArr: posi, kTitleArr: titl}];
+    } else {
+        [_viewDataDictArr addObject:@{kDataArr: _originDataArr}];
+    }
     [_collection reloadData];
 }
 
 - (NSArray *)getInitialPositions {
+    if (_originDataArr.count == 1) {
+        return 0;
+    }
     if (_sortType == SortTypeBubble) {
-        return @[@"0", @"1", [NSString stringWithFormat:@"%zd", _originDataArr.count-1]];
+        return @[@"0", @"1", [NSString stringWithFormat:@"%d", (int)(_originDataArr.count)]];
     }
     return 0;
 }
 
 - (NSArray *)getInitialTitles {
+    if (_originDataArr.count == 1) {
+        return 0;
+    }
     if (_sortType == SortTypeBubble) {
         return @[@"j", @"j+1", @"i"];
     }
@@ -159,6 +206,7 @@
     
 }
 
+//MARK: - Collection View
 ///为不同type的cell设置不同的size
 - (void)updateItemSize {
     CGFloat w = self.view.width;
@@ -202,7 +250,7 @@
 
 ///行间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 30;
+    return 29;
 }
 
 
