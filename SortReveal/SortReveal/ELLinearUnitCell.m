@@ -49,7 +49,7 @@
     textStyle.lineBreakMode = NSLineBreakByWordWrapping;
     textStyle.alignment = NSTextAlignmentCenter;//水平居中
     
-    NSDictionary *attr =  @{NSFontAttributeName: [UIFont systemFontOfSize:30], NSParagraphStyleAttributeName: textStyle};
+    NSMutableDictionary *attr =  [@{NSFontAttributeName: [UIFont systemFontOfSize:30], NSParagraphStyleAttributeName: textStyle} mutableCopy];
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     CGMutablePathRef path = CGPathCreateMutable();
@@ -72,8 +72,9 @@
         [self.dataArr[i] drawInRect:r withAttributes:attr];
     }
     
-    [attr setValue:[UIFont systemFontOfSize:16] forKey:NSFontAttributeName];
+    attr[NSFontAttributeName] = [UIFont systemFontOfSize:16];
     
+    UIImage *upArrow = [UIImage imageNamed:@"upArrow"];
     int titleCount = (int)(self.titlArr.count);
     int repeati = -1, repeatj = -1; //这是在posiArr里的下标，其pos一样，为posiArr[i]
     bool hasRepeat = [self repeatIdx:&repeati idx:&repeatj];
@@ -88,9 +89,9 @@
         r.origin.y = hBlow;
         r.size.height = hTextAbove-hBlow;
 
-        [[UIImage imageNamed:@"pushImage"] drawInRect:r];
+        [upArrow drawInRect:CGRectInset(r, 2, 10)];
         r.origin.x -= 0.5*unitLength;
-        [[UIImage imageNamed:@"backImage"] drawInRect:r];
+        [upArrow drawInRect:CGRectInset(r, 2, 10)];
       
     }
         
@@ -102,13 +103,13 @@
             continue;
         }
         //每个p是有字的位置，其字为title[i]
-        r.origin.x = offset + p *(unitLength);
+        r.origin.x = offset + p*(unitLength);
         r.origin.y = hTextAbove;
         r.size.height = h-hTextAbove;
         [_titlArr[i] drawInRect:r withAttributes:attr];
         r.origin.y = hBlow;
         r.size.height = hTextAbove-hBlow;
-        [[UIImage imageNamed:@"pushImage"] drawInRect:r];
+        [upArrow drawInRect:CGRectInset(r, 8, 0)];
         
     }
     

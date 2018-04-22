@@ -123,8 +123,24 @@
     [_lastStepButton setEnabled:0];
     [_nextStepButton setEnabled:arr.count != 1];
     
-    [_viewDataDictArr addObject:@{kDataArr: _originDataArr}];
+    NSArray *posi = [self getInitialPositions];
+    NSArray *titl = [self getInitialTitles];
+    [_viewDataDictArr addObject:@{kDataArr: _originDataArr, kPositionArr: posi, kTitleArr: titl}];
     [_collection reloadData];
+}
+
+- (NSArray *)getInitialPositions {
+    if (_sortType == SortTypeBubble) {
+        return @[@"0", @"1", [NSString stringWithFormat:@"%zd", _originDataArr.count-1]];
+    }
+    return 0;
+}
+
+- (NSArray *)getInitialTitles {
+    if (_sortType == SortTypeBubble) {
+        return @[@"j", @"j+1", @"i"];
+    }
+    return 0;
 }
 
 ///由initializeWithArr调用，对sorter配置
@@ -139,7 +155,7 @@
         //_sorter = [[HeapSorter alloc] init];
     }
    
-    [_sorter initializeWithArray:_originDataArr order:_sortOrder]; //deep copy inside the func
+    [_sorter initializeWithArray:_originDataArr order:_sortOrder]; //inside deep
     
 }
 
