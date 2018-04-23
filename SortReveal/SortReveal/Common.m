@@ -11,6 +11,7 @@
 
 NSNotificationName const ELSplitVCShouldDismissNotification = @"adcasefawes";
 NSNotificationName const SortingVCShouldStartDisplayNotification = @"dadasfeswqa";
+NSNotificationName const ELTextFieldShouldResignNotification = @"dafwqswqGTR";
 
 static NSString * docPath = 0;
 static UIImage * _backImage = 0;
@@ -22,6 +23,10 @@ static UIImage * _pushImage = 0;
 @end
 
 @implementation Config
+
++ (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId {
+    return [[UIStoryboard storyboardWithName:sbName bundle:0] instantiateViewControllerWithIdentifier:sbId];
+}
 
 + (void)addObserver:(id)target selector:(SEL)func notiName:(NSNotificationName)name {
     [[NSNotificationCenter defaultCenter] addObserver:target selector:func name:name object:nil];

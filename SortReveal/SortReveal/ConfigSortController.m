@@ -37,11 +37,13 @@
     [_selectOrder setImage:img forState:UIControlStateNormal];
     _inputField.delegate = self;
     [_selectOrder addTarget:self action:@selector(selectOrder:) forControlEvents:UIControlEventTouchUpInside];
+    [Config addObserver:self selector:@selector(resignFirstResponder) notiName:ELTextFieldShouldResignNotification];
     [_startShow addTarget:self action:@selector(startDisplay:) forControlEvents:UIControlEventTouchUpInside];
     _sortOrder = SortOrderAutomatic;
     [_selectOrder setTitle:@"自动推断" forState:UIControlStateNormal];
  
 }
+
 
 - (void)startDisplay:(id)sender {
  

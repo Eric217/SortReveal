@@ -12,4 +12,6 @@
 
 - (void)presentAlertWithConfirmTitle:(NSString *)title message:(NSString *)msg Action:(void (^) (UIAlertAction *))handler;
 
+- (void)pushWithoutBottomBar:(UIViewController *)vc;
+
 @end

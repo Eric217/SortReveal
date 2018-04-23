@@ -20,5 +20,9 @@
     
 }
 
+- (void)pushWithoutBottomBar:(UIViewController *)vc {
+    [vc setHidesBottomBarWhenPushed:1];
+    [self.navigationController pushViewController:vc animated:1];
+}
 
 @end

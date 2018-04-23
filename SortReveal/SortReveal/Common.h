@@ -17,6 +17,7 @@
 #define configSortVCId @"configsortID"
 #define sortingVCId @"sortingvcid"
 #define selectOrderVCId @"selectOrderID"
+#define settingVCId @"settingvcID"
 
 
 #define kDataArr @"dataArr"
@@ -33,6 +34,7 @@
 
 UIKIT_EXTERN NSNotificationName const ELSplitVCShouldDismissNotification;
 UIKIT_EXTERN NSNotificationName const SortingVCShouldStartDisplayNotification;
+UIKIT_EXTERN NSNotificationName const ELTextFieldShouldResignNotification;
 
 typedef NS_ENUM(NSUInteger, SortType) {
     SortTypeBubble = 0,
@@ -67,6 +69,8 @@ typedef NS_ENUM(NSUInteger, SortOrder) {
  
 
 @interface Config: NSObject
+
++ (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId;
 
 + (void)addObserver:(id)target selector:(SEL)func notiName:(NSNotificationName)name;
 + (void)postNotification:(NSNotificationName)name message:(nullable NSDictionary *)info;

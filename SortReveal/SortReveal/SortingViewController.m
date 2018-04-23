@@ -11,6 +11,7 @@
 #import "ELCollectionCell.h"
 #import "UIView+frameProperty.h"
 #import "UIViewController+funcs.h"
+#import "SettingViewController.h"
 #import "Sorters.h"
 
 @interface SortingViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -58,6 +59,12 @@
     
 }
 
+- (void)setEnabled:(bool)b {
+    [_nextRowButton setEnabled:b];
+    [_nextStepButton setEnabled:b];
+    [_flowRunButton setEnabled:b];
+}
+
 //MARK: - 4 bottom button
 - (IBAction)lastStep:(id)sender {
     int len = (int)(_viewDataDictArr.count);
@@ -65,7 +72,7 @@
     [_sorter lastStep]; //目前finish没用
     [_viewDataDictArr removeLastObject];
     [_collection deleteItemsAtIndexPaths:@[[Config idxPath:len-1]]];
-    [_nextStepButton setEnabled:1];
+    [self setEnabled:1];
     if (len < 3) {
         [_lastStepButton setEnabled:0];
     }
@@ -73,6 +80,9 @@
 
 
 - (IBAction)nextStep:(id)sender {
+    if (!(_viewDataDictArr.count)) {
+        return;
+    }
     BOOL finished = false;
     
     NSDictionary *nextRow = [_sorter nextTurn:&finished];
@@ -86,12 +96,16 @@
     }
     
     if (finished) {
-        [_nextStepButton setEnabled:0];
+        [self setEnabled:0];
     }
     
 }
 
 - (IBAction)nextRow:(id)sender {
+    if (!(_viewDataDictArr.count)) {
+        return;
+    }
+    
     BOOL b = 0;
     NSDictionary *nextRow = [_sorter nextRow:&b];
     
@@ -103,11 +117,14 @@
         [_lastStepButton setEnabled:1];
     }
     if (b) {
-        [_nextStepButton setEnabled:0];
+        [self setEnabled:0];
     }
 }
 
 - (IBAction)play:(id)sender {
+    if (!(_viewDataDictArr.count)) {
+        return;
+    }
     
 }
 
@@ -124,7 +141,7 @@
 }
 
 - (IBAction)openSettings:(id)sender {
-    
+    [self pushWithoutBottomBar:[Config viewControllerFromSBName:@"Main" id:settingVCId]];
 }
 
 
@@ -154,11 +171,10 @@
     [self initializeSorter];
     [self updateItemSize];
     
-    bool e = arr.count != 1;
+    
+    bool e = arr.count > 1;
     [_lastStepButton setEnabled:0];
-    [_nextStepButton setEnabled:e];
-    [_nextRowButton setEnabled:e];
-    [_flowRunButton setEnabled:e];
+    [self setEnabled:e];
     
     NSArray *posi = [self getInitialPositions];
     NSArray *titl = [self getInitialTitles];

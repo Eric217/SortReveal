@@ -1,0 +1,35 @@
+//
+//  SwitchTableViewCell.m
+//  SortReveal
+//
+//  Created by Eric on 2018/4/23.
+//  Copyright © 2018 Eric. All rights reserved.
+//
+
+#import "SwitchCell.h"
+#import <Masonry/Masonry.h>
+
+ 
+@implementation SwitchCell
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        _switcher = [[UISwitch alloc] init];
+        [self addSubview:_switcher];
+        //尽管apple推荐在update里。。。
+        [_switcher mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.mas_right).offset(-27);
+            make.centerY.equalTo(self);
+        }];
+    }
+    return self;
+    
+}
+
+- (void)addTarget:(id)target action:(nonnull SEL)action {
+    [_switcher addTarget:target action:action forControlEvents:UIControlEventValueChanged];
+}
+
+@end
+
