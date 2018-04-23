@@ -11,15 +11,17 @@
 #include <UIKit/UIKit.h>
 
 //MARK: - Project Specified
+//MARK: - localized files and properties
 #define SortNameFile @"SortNames.plist"
 #define SortOrderFile @"SortOrder.plist"
+#define kSkipNullStep @"skip null"
+#define kTimeInterval @"dawfewaf"
 
+//MARK: - vc id
 #define configSortVCId @"configsortID"
 #define sortingVCId @"sortingvcid"
-#define selectOrderVCId @"selectOrderID"
-#define settingVCId @"settingvcID"
 
-
+//MARK: - display cell data source
 #define kDataArr @"dataArr"
 #define kColorArr @"colorArr"
 #define kPositionArr @"positionsArr"
@@ -28,14 +30,12 @@
 #define kSortOrder @"sortType"
 #define kSortType @"sortOrder"
 
-#define kSkipNullStep @"skip null"
-
-#define systemBlue [UIColor colorWithRed:0 green:111.0/255 blue:1 alpha:1]
-
+//MARK: - noti names
 UIKIT_EXTERN NSNotificationName const ELSplitVCShouldDismissNotification;
 UIKIT_EXTERN NSNotificationName const SortingVCShouldStartDisplayNotification;
 UIKIT_EXTERN NSNotificationName const ELTextFieldShouldResignNotification;
 
+//MARK: - enum and options
 typedef NS_ENUM(NSUInteger, SortType) {
     SortTypeBubble = 0,
     SortTypeInsertion = 2,
@@ -55,19 +55,23 @@ typedef NS_ENUM(NSUInteger, SortOrder) {
     SortOrderAutomatic = 30,
 };
 
- 
+
 //MARK: - REAL COMMON
+
+//MARK: - convenient marcos
 #define ScreenW UIScreen.mainScreen.bounds.size.width
 #define ScreenH UIScreen.mainScreen.bounds.size.height
 
-#define IPAD UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad
 #define IPHONE4 ScreenH == 480
 #define IPHONE5 ScreenH == 568
 #define IPHONE6 ScreenH == 667
 #define IPHONE6P ScreenH == 736
 #define IPhoneX !IPAD && ScreenH > 736
- 
 
+#define systemBlue [UIColor colorWithRed:0 green:111.0/255 blue:1 alpha:1]
+#define IPAD UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad
+
+//MARK: - common and useful funcs
 @interface Config: NSObject
 
 + (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId;

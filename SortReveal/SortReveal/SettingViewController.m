@@ -10,10 +10,11 @@
 #import "SettingViewController.h"
 #import "SwitchCell.h"
 #import "TextFieldCell.h"
+#import <Masonry/Masonry.h>
 
 @interface SettingViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
-@property (strong, nonatomic) IBOutlet UITableView *table;
+@property (strong, nonatomic) UITableView *table;
 //@property (nonatomic, copy) NSMutableArray<NSMutableArray *> *array;
 
 @end
@@ -24,29 +25,58 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
     [self.navigationController.navigationBar setTintColor:UIColor.blackColor];
     [self setTitle:@"演示设置"];
 
+    _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    [self.view addSubview:_table];
+    [_table mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.size.equalTo(self.view);
+    }];
+    
     _table.delegate = self;
     _table.dataSource = self;
-    //[_table registerClass:SwitchCell.class forCellReuseIdentifier:NSStringFromClass(SwitchCell.class)];
+  
     [_table registerClass:UITableViewHeaderFooterView.class forHeaderFooterViewReuseIdentifier:@"headerid"];
     [_table setRowHeight:50];
     
-//    NSArray<NSArray *> *arr = [Config getArrayDataFromFile:SortOrderFile];
-//    if (!arr) {
-//        arr = @[@[@"顺序执行时间间隔", @"跳过没有发生交换的步骤", @"数值大小"], @[@"字符升序", @"字符降序", @"字符顺序"], @[@"字典升序", @"字典降序", @"字典顺序"], @[@"自动推断", @" "]];
-//        [Config writeArrayToFile:SortOrderFile data:arr];
-//    }
-    
+    [Config postNotification:ELTextFieldShouldResignNotification message:0];
+    [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
  
+ 
+}
+//MARK: - 业务需求处理
+
+- (void)resignResponder {
+    [_table endEditing:1];
 }
 
 - (void)didChangeSkipNull:(UISwitch *)sender {
-    NSLog(@"%d", [sender isOn]);
     [NSUserDefaults.standardUserDefaults setBool:sender.isOn forKey:kSkipNullStep];
+    [NSUserDefaults.standardUserDefaults synchronize];
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField endEditing:1];
+    return 1;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    NSUserDefaults * d = [NSUserDefaults standardUserDefaults];
+    double interval = textField.text.doubleValue;
+    
+    if (interval < 0.3 || interval > 10) {
+        textField.text = @"0.8";
+    } else {
+        [d setDouble:interval forKey:kTimeInterval];
+        [d synchronize];
+    }
+    return 1;
+}
+
+//MARK: - table view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 0) {
@@ -62,6 +92,14 @@
             TextFieldCell *cell = [[TextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(TextFieldCell.class)];
             [cell.textLabel setText:@"顺序执行时间间隔"];
             cell.textField.delegate = self;
+            double ti = [[NSUserDefaults standardUserDefaults] doubleForKey:kTimeInterval];
+            if (ti <= 0) {
+                [NSUserDefaults.standardUserDefaults setDouble:0.8 forKey:kTimeInterval];
+                [NSUserDefaults.standardUserDefaults synchronize];
+                [cell.textField setText:@"0.8"];
+            } else {
+                [cell.textField setText:[NSString stringWithFormat:@"%.2f", ti]];
+            }
             return cell;
         }
         
@@ -71,17 +109,12 @@
         
     }
     
-    //[[cell textLabel] setText:_array[indexPath.section][indexPath.row]];
-    //if (indexPath.section == _array.count-1) {
-     //   [[cell textLabel] setTextColor:systemBlue];
-    //}
- 
+
     return 0;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    
-}
+
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
@@ -108,9 +141,8 @@
 
    // return _array[section].count-1;
 }
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [_table endEditing:1];
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+ 
     [Config postNotification:ELTextFieldShouldResignNotification message:0];
 }
 
@@ -120,7 +152,7 @@
         if (indexPath.row == 1) {
             [tableView deselectRowAtIndexPath:indexPath animated:1];
             TextFieldCell *textFiel = [tableView cellForRowAtIndexPath:indexPath];
-            [textFiel becomeFirstResponder];
+            [textFiel.textField becomeFirstResponder];
             
         }
     }

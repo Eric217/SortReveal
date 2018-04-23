@@ -39,7 +39,6 @@
             make.width.mas_equalTo(100);
         }];
         [_textField setTextAlignment:NSTextAlignmentRight];
-        [_textField setText:@"0.8"];
         [_textField setKeyboardType:UIKeyboardTypeNumberPad];
     }
     return self;

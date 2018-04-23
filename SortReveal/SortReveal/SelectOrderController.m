@@ -8,10 +8,11 @@
 
 #import "SelectOrderController.h"
 #import "Common.h"
+#import <Masonry/Masonry.h>
 
 @interface SelectOrderController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (strong, nonatomic) IBOutlet UITableView *table;
+@property (strong, nonatomic) UITableView *table;
 @property (nonatomic, copy) NSMutableArray<NSMutableArray *> *array;
 
 
@@ -24,6 +25,14 @@
     
     [self.navigationController.navigationBar setTintColor:UIColor.blackColor];
     [self setTitle:@"排序方式"];
+    
+    _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    [self.view addSubview:_table];
+    [_table mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.size.equalTo(self.view);
+    }];
+    
     _table.delegate = self;
     _table.dataSource = self;
     [_table registerClass:UITableViewCell.class forCellReuseIdentifier:@"cellid"];

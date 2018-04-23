@@ -141,7 +141,7 @@
 }
 
 - (IBAction)openSettings:(id)sender {
-    [self pushWithoutBottomBar:[Config viewControllerFromSBName:@"Main" id:settingVCId]];
+    [self pushWithoutBottomBar:[[SettingViewController alloc] init]];
 }
 
 
@@ -222,7 +222,21 @@
     
 }
 
-//MARK: - Collection View
+//MARK: - other funcs
+- (void)clearContent {
+    _originDataArr = 0;
+    _viewDataDictArr = [[NSMutableArray alloc] init];
+    [_collection reloadData];
+}
+
+- (void)dealloc {
+    [Config removeObserver:self];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [Config postNotification:ELTextFieldShouldResignNotification message:0];
+}
+
 ///为不同type的cell设置不同的size
 - (void)updateItemSize {
     CGFloat w = self.view.width;
@@ -239,6 +253,7 @@
     
 }
 
+//MARK: - Collection View
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return _viewDataDictArr.count;
@@ -268,19 +283,5 @@
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 29;
 }
-
-
-
-- (void)clearContent {
-    _originDataArr = 0;
-    _viewDataDictArr = [[NSMutableArray alloc] init];
-    [_collection reloadData];
-}
-
-- (void)dealloc {
-    [Config removeObserver:self];
-}
-
-
 
 @end

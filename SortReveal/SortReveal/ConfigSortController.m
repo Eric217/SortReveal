@@ -37,13 +37,16 @@
     [_selectOrder setImage:img forState:UIControlStateNormal];
     _inputField.delegate = self;
     [_selectOrder addTarget:self action:@selector(selectOrder:) forControlEvents:UIControlEventTouchUpInside];
-    [Config addObserver:self selector:@selector(resignFirstResponder) notiName:ELTextFieldShouldResignNotification];
+    [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
     [_startShow addTarget:self action:@selector(startDisplay:) forControlEvents:UIControlEventTouchUpInside];
     _sortOrder = SortOrderAutomatic;
     [_selectOrder setTitle:@"自动推断" forState:UIControlStateNormal];
  
 }
 
+- (void)resignResponder {
+    [_inputField resignFirstResponder];
+}
 
 - (void)startDisplay:(id)sender {
  
@@ -61,7 +64,7 @@
 
 - (void)selectOrder:(id)sender {
     
-    SelectOrderController *selectVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:selectOrderVCId];
+    SelectOrderController *selectVC = [[SelectOrderController alloc] init];
     selectVC.delegate = self;
     [self.navigationController pushViewController:selectVC animated:1];
     
