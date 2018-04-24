@@ -117,8 +117,7 @@
         [upArrow drawInRect:CGRectInset(r, 10, 6)];
         
     }
-    
-    
+ 
     CGContextSetLineWidth(ctx, lineWidth);
     CGContextSetStrokeColorWithColor(ctx, UIColor.blackColor.CGColor);
     CGContextAddPath(ctx, path);

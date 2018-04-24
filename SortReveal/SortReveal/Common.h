@@ -20,9 +20,6 @@
 #define kSkipNullStep @"skip null"
 #define kTimeInterval @"dawfewaf"
 #define kFlowExecWay @"gresweqwqa"
-
-//MARK: - vc id
-#define configSortVCId @"configsortID"
  
 //MARK: - display cell data source
 #define kDataArr @"dataArr"

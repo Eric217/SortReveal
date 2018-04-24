@@ -13,11 +13,5 @@
 @end
 
 @implementation ELTreeUnitCell
-
-- (void)test {
-    
-}
-
-
-
+ 
 @end

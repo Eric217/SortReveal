@@ -246,19 +246,20 @@
     [self setEnabled:e];
     [self stop:0];
     
-    NSArray *posi = [self getInitialPositions];
-    NSArray *titl = [self getInitialTitles];
-    if (posi) {
-        [_viewDataDictArr addObject:@{kDataArr: _originDataArr, kPositionArr: posi, kTitleArr: titl}];
-    } else {
-        [_viewDataDictArr addObject:@{kDataArr: _originDataArr}];
+    if (arr.count != 0) {
+        NSArray *posi = [self getInitialPositions];
+        NSArray *titl = [self getInitialTitles];
+        if (posi) {
+            [_viewDataDictArr addObject:@{kDataArr: _originDataArr, kPositionArr: posi, kTitleArr: titl}];
+        } else {
+            [_viewDataDictArr addObject:@{kDataArr: _originDataArr}];
+        }
     }
-    
     [_collection reloadData];
 }
 
 - (NSArray *)getInitialPositions {
-    if (_originDataArr.count == 1) {
+    if (_originDataArr.count <= 1) {
         return 0;
     }
     if (_sortType == SortTypeBubble) {
@@ -268,7 +269,7 @@
 }
 
 - (NSArray *)getInitialTitles {
-    if (_originDataArr.count == 1) {
+    if (_originDataArr.count <= 1) {
         return 0;
     }
     if (_sortType == SortTypeBubble) {

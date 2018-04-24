@@ -21,12 +21,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-   
-    UINavigationController *masterNavVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:configSortVCId];
-    _master = masterNavVC.viewControllers[0];
-    
-    
+    _master = [[ConfigSortController alloc] init];
     _detail = [[SortingViewController alloc] init];
+    UINavigationController *masterNavVC = [[UINavigationController alloc] initWithRootViewController:_master];
     UINavigationController *detailNavVC = [[UINavigationController alloc] initWithRootViewController:_detail];
     [detailNavVC setToolbarHidden:0];
  

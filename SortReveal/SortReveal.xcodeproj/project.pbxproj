@@ -183,9 +183,6 @@
 		0724768A207DD5E6004786B8 /* Sort */ = {
 			isa = PBXGroup;
 			children = (
-				07545DD72083028700430681 /* ELSplitViewController.h */,
-				07545DD82083028700430681 /* ELSplitViewController.m */,
-				07BD8C992085B4D6008440A7 /* Model */,
 				07BDAE46207D97F4009BFD30 /* ConfigSortController */,
 				07BDAE42207D92E3009BFD30 /* SortingViewController */,
 				071D3776208EDC4300E59AA7 /* SelectController */,
@@ -215,7 +212,7 @@
 		07828060207C5FDC000D0B4A /* SortReveal */ = {
 			isa = PBXGroup;
 			children = (
-				07946479208E16390021458A /* Setting */,
+				07BD8C992085B4D6008440A7 /* Model */,
 				0724768A207DD5E6004786B8 /* Sort */,
 				07BDAE40207D8E8B009BFD30 /* Main */,
 				07BDAE41207D8EC1009BFD30 /* Common */,
@@ -237,13 +234,6 @@
 				07828067207C5FDC000D0B4A /* Main.storyboard */,
 			);
 			name = support;
-			sourceTree = "<group>";
-		};
-		07946479208E16390021458A /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Setting;
 			sourceTree = "<group>";
 		};
 		07A75A45208E166A004BA670 /* SettingViewController */ = {
@@ -282,6 +272,8 @@
 			children = (
 				07828064207C5FDC000D0B4A /* ViewController.h */,
 				07828065207C5FDC000D0B4A /* ViewController.m */,
+				07545DD72083028700430681 /* ELSplitViewController.h */,
+				07545DD82083028700430681 /* ELSplitViewController.m */,
 				07E38E0A207CF63100E3A4BB /* ELSortNameCollectionCell.h */,
 				07E38E0B207CF63100E3A4BB /* ELSortNameCollectionCell.m */,
 			);
@@ -305,8 +297,8 @@
 				07BDAE44207D9307009BFD30 /* SortingViewController.m */,
 				0706F6012086189800A2753D /* ELCollectionCell.h */,
 				0706F5F92085DA6000A2753D /* ELLinearUnitCell.m */,
-				07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */,
 				070EA1162086568F002B84E2 /* ELTreeUnitCell.mm */,
+				07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */,
 			);
 			name = SortingViewController;
 			sourceTree = "<group>";
