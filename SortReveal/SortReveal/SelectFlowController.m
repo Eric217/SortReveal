@@ -1,37 +1,80 @@
 //
-//  SelectFlowController.m
+//  SettingViewController.m
 //  SortReveal
 //
-//  Created by Eric on 2018/4/24.
+//  Created by Eric on 2018/4/23.
 //  Copyright © 2018 Eric. All rights reserved.
 //
+
 
 #import "SelectFlowController.h"
 
 @interface SelectFlowController ()
 
+@property (nonatomic, copy) NSArray<NSString *> *dataArr;
+
 @end
 
 @implementation SelectFlowController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    
+    [self.navigationController.navigationBar setTintColor:UIColor.blackColor];
+    [self setTitle:@"顺序执行方式"];
+ 
+    [self.table registerClass:UITableViewCell.class forCellReuseIdentifier:@"cellid"];
+    [self.table setRowHeight:50];
+ 
+    _dataArr = @[SingleStep, GroupStep];
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+//MARK: - table view
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellid"];
+    [[cell textLabel] setText:_dataArr[indexPath.row]];
+    return cell;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 2;
 }
-*/
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:1];
+    [[self navigationController] popViewControllerAnimated:1];
+    [self.delegate transferData:_dataArr[indexPath.row]];
+}
+
+
+
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    if (section == 0) {
+//        return 44;
+//    }
+//    return 33;
+//}
+
+
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    return 0;
+//    //UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headerid"];
+//
+//    //return headerView;
+//}
+
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//
+//    return 2;
+//}
+
+
+
 
 @end

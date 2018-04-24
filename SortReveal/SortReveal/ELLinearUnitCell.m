@@ -45,11 +45,13 @@
     CGFloat offset = w/2 - arrSize * hBlow/2;
     offset = offset < 0 ? 0 : offset;
     CGFloat unitLength = (w-offset*2)/arrSize;
+    CGFloat lineWidth = 2;
+    
     NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     textStyle.lineBreakMode = NSLineBreakByWordWrapping;
     textStyle.alignment = NSTextAlignmentCenter;//水平居中
     
-    NSMutableDictionary *attr =  [@{NSFontAttributeName: [UIFont systemFontOfSize:29], NSParagraphStyleAttributeName: textStyle} mutableCopy];
+    NSMutableDictionary *attr =  [@{NSFontAttributeName: [UIFont systemFontOfSize:27], NSParagraphStyleAttributeName: textStyle} mutableCopy];
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     CGMutablePathRef path = CGPathCreateMutable();
@@ -58,15 +60,15 @@
     CGPathMoveToPoint(path, 0, offset, 0);
     CGPathAddLineToPoint(path, 0, offset, hBlow);
     //下
-    CGPathMoveToPoint(path, 0, offset, hBlow);
-    CGPathAddLineToPoint(path, 0, w-offset, hBlow);
+    CGPathMoveToPoint(path, 0, offset-lineWidth/2, hBlow);
+    CGPathAddLineToPoint(path, 0, w-offset+lineWidth/2, hBlow);
     //上
-    CGPathMoveToPoint(path, 0, offset, 0);
-    CGPathAddLineToPoint(path, 0, w-offset, 0);
+    CGPathMoveToPoint(path, 0, offset, lineWidth/2);
+    CGPathAddLineToPoint(path, 0, w-offset, lineWidth/2);
 
     
     for (int i = 0; i < arrSize; i++) {
-        CGRect r = CGRectMake(offset+i*unitLength, 2, unitLength, hBlow);//3是文字偏移量
+        CGRect r = CGRectMake(offset+i*unitLength, 2.5, unitLength, hBlow);//2.5是文字偏移量
         CGPathMoveToPoint(path, 0, unitLength+r.origin.x, 0);
         CGPathAddLineToPoint(path, 0, unitLength+r.origin.x, hBlow);
         [self.dataArr[i] drawInRect:r withAttributes:attr];
@@ -117,7 +119,7 @@
     }
     
     
-    CGContextSetLineWidth(ctx, 2);
+    CGContextSetLineWidth(ctx, lineWidth);
     CGContextSetStrokeColorWithColor(ctx, UIColor.blackColor.CGColor);
     CGContextAddPath(ctx, path);
     CGContextStrokePath(ctx);

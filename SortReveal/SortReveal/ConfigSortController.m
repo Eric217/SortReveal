@@ -102,5 +102,9 @@
     [_selectOrder setTitle:a[1] forState:UIControlStateNormal];
 }
 
+- (void)dealloc
+{
+    [Config removeObserver:self];
+}
 
 @end

@@ -29,7 +29,7 @@
         [l setTextColor:UIColor.lightGrayColor];
         [self addSubview:l];
         [l mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.mas_right).offset(-17);
+            make.right.equalTo(self).offset(-9);
             make.centerY.equalTo(self);
             make.size.mas_equalTo(CGSizeMake(24, 45));
         }];

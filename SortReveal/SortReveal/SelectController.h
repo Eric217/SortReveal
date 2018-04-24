@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Protocols.h"
+
 
 @interface SelectController : UIViewController
+
+@property (strong, nonatomic) UITableView *table;
+@property (weak, nonatomic) id <SimpleTransfer> delegate;
 
 @end

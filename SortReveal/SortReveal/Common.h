@@ -14,13 +14,16 @@
 //MARK: - localized files and properties
 #define SortNameFile @"SortNames.plist"
 #define SortOrderFile @"SortOrder.plist"
+#define SingleStep @"单步执行"
+#define GroupStep @"单组跳过"
+
 #define kSkipNullStep @"skip null"
 #define kTimeInterval @"dawfewaf"
+#define kFlowExecWay @"gresweqwqa"
 
 //MARK: - vc id
 #define configSortVCId @"configsortID"
-#define sortingVCId @"sortingvcid"
-
+ 
 //MARK: - display cell data source
 #define kDataArr @"dataArr"
 #define kColorArr @"colorArr"
@@ -55,6 +58,11 @@ typedef NS_ENUM(NSUInteger, SortOrder) {
     SortOrderAutomatic = 30,
 };
 
+typedef NS_ENUM(NSUInteger, ExecuteWay) {
+    ExecuteWayStep = 0,
+    ExecuteWayGroup = 1,
+};
+
 
 //MARK: - REAL COMMON
 
@@ -74,6 +82,7 @@ typedef NS_ENUM(NSUInteger, SortOrder) {
 //MARK: - common and useful funcs
 @interface Config: NSObject
 
++ (double)doubleValue:(NSString *)text;
 + (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId;
 
 + (void)addObserver:(id)target selector:(SEL)func notiName:(NSNotificationName)name;

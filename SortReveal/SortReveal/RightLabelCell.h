@@ -10,4 +10,6 @@
 
 @interface RightLabelCell : UITableViewCell
 
+@property (nonatomic, strong) UILabel *rightLabel;
+
 @end

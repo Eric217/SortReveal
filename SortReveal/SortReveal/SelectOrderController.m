@@ -10,11 +10,9 @@
 #import "Common.h"
 #import <Masonry/Masonry.h>
 
-@interface SelectOrderController () <UITableViewDelegate, UITableViewDataSource>
+@interface SelectOrderController ()
 
-@property (strong, nonatomic) UITableView *table;
 @property (nonatomic, copy) NSMutableArray<NSMutableArray *> *array;
-
 
 @end
 
@@ -26,17 +24,9 @@
     [self.navigationController.navigationBar setTintColor:UIColor.blackColor];
     [self setTitle:@"排序方式"];
     
-    _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-    [self.view addSubview:_table];
-    [_table mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-        make.size.equalTo(self.view);
-    }];
     
-    _table.delegate = self;
-    _table.dataSource = self;
-    [_table registerClass:UITableViewCell.class forCellReuseIdentifier:@"cellid"];
-    [_table registerClass:UITableViewHeaderFooterView.class forHeaderFooterViewReuseIdentifier:@"headerid"];
+    [self.table registerClass:UITableViewCell.class forCellReuseIdentifier:@"cellid"];
+    [self.table registerClass:UITableViewHeaderFooterView.class forHeaderFooterViewReuseIdentifier:@"headerid"];
  
     NSArray<NSArray *> *arr = [Config getArrayDataFromFile:SortOrderFile];
     if (!arr) {
@@ -74,7 +64,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellid" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellid"];
     [[cell textLabel] setText:_array[indexPath.section][indexPath.row]];
     if (indexPath.section == _array.count-1) {
         [[cell textLabel] setTextColor:systemBlue];
@@ -85,16 +75,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSNumber *order = [NSNumber numberWithLong:(indexPath.section * 10 + indexPath.row)];
     NSArray *data = [NSArray arrayWithObjects:order, _array[indexPath.section][indexPath.row], nil];
-    [_delegate transferData:data];
+    [self.delegate transferData:data];
     
     [tableView deselectRowAtIndexPath:indexPath animated:1];
     [self.navigationController popViewControllerAnimated:1];
 }
 
-
-
-
-
-
-
+ 
 @end

@@ -23,11 +23,13 @@
     
    
     UINavigationController *masterNavVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:configSortVCId];
-    UINavigationController *detailNavVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:sortingVCId];
-    
     _master = masterNavVC.viewControllers[0];
-    _detail = detailNavVC.viewControllers[0];
     
+    
+    _detail = [[SortingViewController alloc] init];
+    UINavigationController *detailNavVC = [[UINavigationController alloc] initWithRootViewController:_detail];
+    [detailNavVC setToolbarHidden:0];
+ 
     _splitView = [[UISplitViewController alloc] init];
     [_splitView setViewControllers:[NSArray arrayWithObjects:masterNavVC, detailNavVC, nil]];
     _splitView.delegate = self;

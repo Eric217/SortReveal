@@ -7,18 +7,26 @@
 //
 
 #import "RightLabelCell.h"
+#import <Masonry/Masonry.h>
 
 @implementation RightLabelCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        _rightLabel = [[UILabel alloc] init];
+        [self addSubview:_rightLabel];
+ 
+        [_rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self).offset(-27);
+            make.centerY.equalTo(self);
+            make.size.mas_equalTo(CGSizeMake(120, 45));
+        }];
+        [_rightLabel setTextAlignment:NSTextAlignmentRight];
+        [_rightLabel setTextColor:UIColor.lightGrayColor];
+    }
+    return self;
+    
 }
 
 @end

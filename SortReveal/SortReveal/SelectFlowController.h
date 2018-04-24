@@ -6,8 +6,8 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "SelectController.h"
 
-@interface SelectFlowController : UIViewController
+@interface SelectFlowController : SelectController
 
 @end

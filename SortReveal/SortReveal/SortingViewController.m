@@ -13,19 +13,24 @@
 #import "UIViewController+funcs.h"
 #import "SettingViewController.h"
 #import "Sorters.h"
+#import <Masonry/Masonry.h>
 
-@interface SortingViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+//TODO: - save arrays in db
 
-@property (strong, nonatomic) IBOutlet UICollectionView *collection;
-@property (strong, nonatomic) IBOutlet UIButton *backButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *nextStepButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *lastStepButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *settings;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *nextRowButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *flowRunButton;
+@interface SortingViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+
+@property (strong, nonatomic) UIBarButtonItem *settings;
+
+@property (strong, nonatomic) UICollectionView *collection;
+@property (strong, nonatomic) UIButton *backButton;
+@property (strong, nonatomic) UIBarButtonItem *nextStepButton;
+@property (strong, nonatomic) UIBarButtonItem *lastStepButton;
+@property (strong, nonatomic) UIBarButtonItem *nextRowButton;
+@property (strong, nonatomic) UIBarButtonItem *flowRunButton;
 
 @property (nonatomic, copy) NSMutableArray *originDataArr;
 @property (nonatomic, copy) NSMutableArray<NSDictionary *> *viewDataDictArr;
+@property (weak, nonatomic) NSTimer *timer;
 
 @property (nonatomic, strong) id <Sorter> sorter;
 @property (assign) SortType sortType;
@@ -41,11 +46,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setTitle:@"动态演示"];
+   
+    //buttons
+    _backButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 6, 92, 32)];
+    [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 0)];
+    [_backButton setTitle:@"配置排序" forState:UIControlStateNormal];
+    [_backButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    [_backButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
+    [_backButton setImage:[Config backImage] forState:UIControlStateNormal];
+    [_backButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItems = @[[[UIBarButtonItem alloc] initWithCustomView:_backButton]];
     
+    _settings = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStylePlain target:self action:@selector(openSettings:)];
+    [_settings setTintColor:UIColor.blackColor];
+    self.navigationItem.rightBarButtonItems = @[_settings];
+    
+    _lastStepButton = [[UIBarButtonItem alloc] initWithTitle:@"上一步" style:UIBarButtonItemStylePlain target:self action:@selector(lastStep:)];
+    _flowRunButton = [[UIBarButtonItem alloc] initWithTitle:@"顺序执行" style:UIBarButtonItemStylePlain target:self action:@selector(play:)];
+    _nextRowButton = [[UIBarButtonItem alloc] initWithTitle:@"单组跳过" style:UIBarButtonItemStylePlain target:self action:@selector(nextRow:)];
+    _nextStepButton = [[UIBarButtonItem alloc] initWithTitle:@"单步执行" style:UIBarButtonItemStylePlain target:self action:@selector(nextStep:)];
+    UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:0 action:0];
+    [fixedSpace setWidth:42];
+    self.toolbarItems = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:0 action:0], _lastStepButton, fixedSpace, _flowRunButton, _nextRowButton, _nextStepButton];
+    
+    
+    //collection view
     _edgeDistance = [Config v_pad:30 plus:15 p:10 min:10];
-    [Config addObserver:self selector:@selector(prepareDisplay:) notiName:SortingVCShouldStartDisplayNotification];
-
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+    _collection = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+    [_collection setBackgroundColor:UIColor.whiteColor];
     [_collection setAllowsSelection:0];
     _collection.delegate = self;
     _collection.dataSource = self;
@@ -53,9 +83,25 @@
     _collection.contentInset = UIEdgeInsetsMake(38.5, _edgeDistance, 14, _edgeDistance);
     [_collection registerClass:ELTreeUnitCell.class forCellWithReuseIdentifier:NSStringFromClass(ELTreeUnitCell.class)];
     [_collection registerClass:ELLinearUnitCell.class forCellWithReuseIdentifier:NSStringFromClass(ELLinearUnitCell.class)];
+    [self.view addSubview:_collection];
+    [_collection mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.size.equalTo(self.view);
+    }];
     
-    [_backButton setImage:[Config backImage] forState:UIControlStateNormal];
-    [_backButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
+    //user defaults
+    NSUserDefaults *d = NSUserDefaults.standardUserDefaults;
+    if ([d doubleForKey:kTimeInterval] <= 0) {
+        [d setDouble:1.5 forKey:kTimeInterval];
+    }
+    if (![d stringForKey:kFlowExecWay]) {
+        [d setObject:SingleStep forKey:kFlowExecWay];
+        [d synchronize];
+    }
+    
+    //other settings
+    [self setTitle:@"动态演示"];
+    [Config addObserver:self selector:@selector(prepareDisplay:) notiName:SortingVCShouldStartDisplayNotification];
     
 }
 
@@ -66,10 +112,10 @@
 }
 
 //MARK: - 4 bottom button
-- (IBAction)lastStep:(id)sender {
+- (void)lastStep:(id)sender {
     int len = (int)(_viewDataDictArr.count);
  
-    [_sorter lastStep]; //目前finish没用
+    [_sorter lastStep];
     [_viewDataDictArr removeLastObject];
     [_collection deleteItemsAtIndexPaths:@[[Config idxPath:len-1]]];
     [self setEnabled:1];
@@ -79,7 +125,7 @@
 }
 
 
-- (IBAction)nextStep:(id)sender {
+- (void)nextStep:(id)sender {
     if (!(_viewDataDictArr.count)) {
         return;
     }
@@ -97,17 +143,18 @@
     
     if (finished) {
         [self setEnabled:0];
+        [self stop:sender];
     }
     
 }
 
-- (IBAction)nextRow:(id)sender {
+- (void)nextRow:(id)sender {
     if (!(_viewDataDictArr.count)) {
         return;
     }
     
-    BOOL b = 0;
-    NSDictionary *nextRow = [_sorter nextRow:&b];
+    BOOL finished = 0;
+    NSDictionary *nextRow = [_sorter nextRow:&finished];
     
     if (nextRow) { //never nil currently
         [_viewDataDictArr addObject:nextRow];
@@ -116,21 +163,38 @@
         [_collection scrollToItemAtIndexPath:idx atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:1];
         [_lastStepButton setEnabled:1];
     }
-    if (b) {
+    if (finished) {
         [self setEnabled:0];
+        [self stop:sender];
     }
 }
 
-- (IBAction)play:(id)sender {
+- (void)play:(id)sender {
     if (!(_viewDataDictArr.count)) {
         return;
+    }
+    NSString *pause = @"暂停演示";
+    if ([_flowRunButton.title isEqualToString:pause]) {
+        [self stop:sender];
+    } else {
+        [_flowRunButton setTitle:pause];
+        NSString *exeway = [NSUserDefaults.standardUserDefaults stringForKey:kFlowExecWay];
+        SEL func;
+        if ([exeway isEqualToString:SingleStep]) {
+            func = @selector(nextStep:);
+        } else {
+            func = @selector(nextRow:);
+        }
+        _timer = [NSTimer scheduledTimerWithTimeInterval:[NSUserDefaults.standardUserDefaults doubleForKey:kTimeInterval]  target:self selector:func userInfo:0 repeats:1];
+        [_timer fire];
     }
     
 }
 
 
 - (void)stop:(id)sender {
-    
+    [_timer invalidate];
+    [_flowRunButton setTitle:@"顺序执行"];
 }
 
 //MARK: - 2 top buttons
@@ -140,10 +204,15 @@
     
 }
 
-- (IBAction)openSettings:(id)sender {
+- (void)openSettings:(id)sender {
+    
     [self pushWithoutBottomBar:[[SettingViewController alloc] init]];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self stop:0];
+}
 
 //MARK: - So many initializers
 ///点击展示按钮后，如果正在展示则询问，否则直接展示原始数据第一单元。prepare后调用initialize来开始。
@@ -170,11 +239,12 @@
     
     [self initializeSorter];
     [self updateItemSize];
-    
+    [self.navigationController popToRootViewControllerAnimated:1];
     
     bool e = arr.count > 1;
     [_lastStepButton setEnabled:0];
     [self setEnabled:e];
+    [self stop:0];
     
     NSArray *posi = [self getInitialPositions];
     NSArray *titl = [self getInitialTitles];
@@ -183,6 +253,7 @@
     } else {
         [_viewDataDictArr addObject:@{kDataArr: _originDataArr}];
     }
+    
     [_collection reloadData];
 }
 
@@ -213,9 +284,11 @@
     } else if (_sortType == SortTypeInsertion) {
         _sorter = [[InsertionSorter alloc] init];
     } else if (_sortType == SortTypeSelection) {
-        //_sorter = [[SelectionSorter alloc] init];
+        _sorter = [[SelectionSorter alloc] init];
     } else if (_sortType == SortTypeHeap) {
-        //_sorter = [[HeapSorter alloc] init];
+        _sorter = [[HeapSorter alloc] init];
+    } else {
+        
     }
    
     [_sorter initializeWithArray:_originDataArr order:_sortOrder]; //inside deep
@@ -224,9 +297,19 @@
 
 //MARK: - other funcs
 - (void)clearContent {
+   
     _originDataArr = 0;
     _viewDataDictArr = [[NSMutableArray alloc] init];
+    //[self.navigationController popToRootViewControllerAnimated:0];
+    NSMutableArray *vcs = [self.navigationController.viewControllers mutableCopy];
+    while (![vcs.lastObject isKindOfClass:SortingViewController.class]) {
+         [vcs removeLastObject];
+    }
+    [self.navigationController setViewControllers:vcs];
     [_collection reloadData];
+    [self setEnabled:1];
+    [_lastStepButton setEnabled:0];
+    [self stop:0];
 }
 
 - (void)dealloc {
@@ -281,7 +364,7 @@
 
 ///行间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 29;
+    return 27;
 }
 
 @end

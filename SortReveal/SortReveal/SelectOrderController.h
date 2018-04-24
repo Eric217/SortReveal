@@ -6,10 +6,8 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "Protocols.h"
+#import "SelectController.h"
 
-@interface SelectOrderController : UIViewController
-@property (assign) id <SimpleTransfer> delegate;
-
+@interface SelectOrderController : SelectController
+ 
 @end

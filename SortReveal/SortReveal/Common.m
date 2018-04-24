@@ -24,6 +24,15 @@ static UIImage * _pushImage = 0;
 
 @implementation Config
 
++ (double)doubleValue:(NSString *)text {
+    NSScanner *scanner = [NSScanner scannerWithString:text];
+    double result = 0;
+    if (!([scanner scanDouble:&result] && [scanner isAtEnd])) {
+        result = 0;
+    }
+    return result;
+}
+
 + (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId {
     return [[UIStoryboard storyboardWithName:sbName bundle:0] instantiateViewControllerWithIdentifier:sbId];
 }
