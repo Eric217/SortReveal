@@ -64,9 +64,15 @@
     _lastStepButton = [[UIBarButtonItem alloc] initWithTitle:@"上一步" style:UIBarButtonItemStylePlain target:self action:@selector(lastStep:)];
     _flowRunButton = [[UIBarButtonItem alloc] initWithTitle:@"顺序执行" style:UIBarButtonItemStylePlain target:self action:@selector(play:)];
     _nextRowButton = [[UIBarButtonItem alloc] initWithTitle:@"单组跳过" style:UIBarButtonItemStylePlain target:self action:@selector(nextRow:)];
-    _nextStepButton = [[UIBarButtonItem alloc] initWithTitle:@"单步执行" style:UIBarButtonItemStylePlain target:self action:@selector(nextStep:)];
+    CGFloat www; NSString *nextStepStr;
+    if (IPHONE4 || IPHONE5) {
+        www = 0; nextStepStr = @"下一步";
+    } else {
+        www = 42; nextStepStr = @"单步执行";
+    }
+    _nextStepButton = [[UIBarButtonItem alloc] initWithTitle:nextStepStr style:UIBarButtonItemStylePlain target:self action:@selector(nextStep:)];
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:0 action:0];
-    [fixedSpace setWidth:IPAD ? 42 : 0];
+    [fixedSpace setWidth:www];
     self.toolbarItems = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:0 action:0], _lastStepButton, fixedSpace, _flowRunButton, _nextRowButton, _nextStepButton];
     
     
