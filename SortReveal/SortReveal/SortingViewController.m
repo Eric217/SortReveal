@@ -66,7 +66,7 @@
     _nextRowButton = [[UIBarButtonItem alloc] initWithTitle:@"单组跳过" style:UIBarButtonItemStylePlain target:self action:@selector(nextRow:)];
     _nextStepButton = [[UIBarButtonItem alloc] initWithTitle:@"单步执行" style:UIBarButtonItemStylePlain target:self action:@selector(nextStep:)];
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:0 action:0];
-    [fixedSpace setWidth:42];
+    [fixedSpace setWidth:IPAD ? 42 : 0];
     self.toolbarItems = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:0 action:0], _lastStepButton, fixedSpace, _flowRunButton, _nextRowButton, _nextStepButton];
     
     

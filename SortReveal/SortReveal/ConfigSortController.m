@@ -9,6 +9,7 @@
 #import "ConfigSortController.h"
 #import "SelectOrderController.h"
 #import "Protocols.h"
+#import <Masonry/Masonry.h>
 
 @interface ConfigSortController () <UITextViewDelegate, SimpleTransfer>
 
@@ -16,7 +17,6 @@
 @property (strong, nonatomic) IBOutlet UITextView *inputField;
 @property (strong, nonatomic) IBOutlet UIButton *selectOrder;
 @property (strong, nonatomic) IBOutlet UIButton *startShow;
-@property (strong, nonatomic) IBOutlet UIButton *backButton;
 
 @property (assign) SortOrder sortOrder;
 @property (assign) SortType sortType;
@@ -30,7 +30,10 @@
     [[_inputField layer] setCornerRadius:3];
     [_inputField setContentInset:UIEdgeInsetsMake(0, 8, 0, 6)];
  
-    [_backButton setImage:[Config backImage] forState:UIControlStateNormal];
+    UIBarButtonItem *backItem = [Config customBackBarButtonItemWithTitle:@"返回" target:self action:@selector(dismiss:)];
+    self.navigationItem.leftBarButtonItems = @[backItem];
+    self.navigationItem.title = @"配置排序";
+    //[_backButton setImage:[Config backImage] forState:UIControlStateNormal];
     
     UIImage *img = [Config pushImage];
     [_startShow setImage:img forState:UIControlStateNormal];
@@ -46,6 +49,7 @@
 
 - (void)resignResponder {
     [_inputField resignFirstResponder];
+    
 }
 
 - (void)startDisplay:(id)sender {

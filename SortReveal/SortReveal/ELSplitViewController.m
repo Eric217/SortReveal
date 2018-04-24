@@ -35,7 +35,7 @@
     _splitView.delegate = self;
     
     [self.view addSubview:_splitView.view];
-
+    
     [Config addObserver:self selector:@selector(dismiss) notiName:ELSplitVCShouldDismissNotification];
     [self initOrResetContent:_type];
     

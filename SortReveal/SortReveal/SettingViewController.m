@@ -10,7 +10,6 @@
 #import "SettingViewController.h"
 #import "SwitchCell.h"
 #import "TextFieldCell.h"
-#import "RightLabelCell.h"
 #import <Masonry/Masonry.h>
 #import "Protocols.h"
 #import "SelectFlowController.h"
@@ -29,10 +28,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    //works only on ipad
     [self.navigationController.navigationBar setTintColor:UIColor.blackColor];
     [self setTitle:@"演示设置"];
-
+    
     _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     [self.view addSubview:_table];
     [_table mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -47,7 +46,7 @@
     [_table setRowHeight:50];
     
     _array = @[@[@"跳过没有发生交换的步骤", @"如果当前步骤不会发生交换，则跳过并执行下一步"],
-               @[@"顺序执行时间间隔", @"顺序执行时单步执行或单组跳过", @"顺序执行设置"]];
+               @[@"顺序执行时间间隔", @"顺序执行时单步或单组跳过", @"顺序执行设置"]];
     [Config postNotification:ELTextFieldShouldResignNotification message:0];
     [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
  
@@ -120,13 +119,14 @@
             tableCell = cell;
             
         } else if (indexPath.row == 1) {
-            RightLabelCell *cell = [[RightLabelCell alloc]  initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(RightLabelCell.class)];
+ 
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cellid"];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.rightLabel.text = [[NSUserDefaults standardUserDefaults] stringForKey:kFlowExecWay];
+            cell.detailTextLabel.text = [[NSUserDefaults standardUserDefaults] stringForKey:kFlowExecWay];
+ 
             tableCell = cell;
         }
-        
-        
+ 
     } else {
         
     }
@@ -185,10 +185,10 @@
 }
 
 - (void)transferData:(id)data {
-    RightLabelCell *cell = [_table cellForRowAtIndexPath:[Config idxPathS:1 item:1]];
+    UITableViewCell *cell = [_table cellForRowAtIndexPath:[Config idxPathS:1 item:1]];
     
-    if (cell.rightLabel.text != data) {
-        cell.rightLabel.text = data;
+    if (cell.detailTextLabel.text != data) {
+        cell.detailTextLabel.text = data;
         [NSUserDefaults.standardUserDefaults setObject:data forKey:kFlowExecWay];
         [NSUserDefaults.standardUserDefaults synchronize];
     }

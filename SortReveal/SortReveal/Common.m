@@ -107,4 +107,16 @@ static UIImage * _pushImage = 0;
     }
 }
 
++ (UIBarButtonItem *)customBackBarButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)selec {
+    UIButton *_backButton = [[UIButton alloc] init];;
+    [_backButton setFrame:CGRectMake(0, 6, 92, 32)];
+    [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -53, 0, 0)];
+    [_backButton setTitle:title forState:UIControlStateNormal];
+    [_backButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    [_backButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
+    [_backButton setImage:[Config backImage] forState:UIControlStateNormal];
+    [_backButton addTarget:target action:selec forControlEvents:UIControlEventTouchUpInside];
+    return [[UIBarButtonItem alloc] initWithCustomView:_backButton];
+ 
+}
 @end

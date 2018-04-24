@@ -50,7 +50,6 @@
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
     _collection = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
     [_collection setBackgroundColor:UIColor.whiteColor];
-    [_collection setAllowsSelection:0];
     _collection.delegate = self;
     _collection.dataSource = self;
     _collection.alwaysBounceVertical = 1;

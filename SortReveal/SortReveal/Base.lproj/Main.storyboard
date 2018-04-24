@@ -28,7 +28,7 @@
             </objects>
             <point key="canvasLocation" x="-963" y="-564"/>
         </scene>
-        <!--配置排序-->
+        <!--Config Sort Controller-->
         <scene sceneID="CUc-pd-ff0">
             <objects>
                 <viewController id="Hhv-pI-Zbc" customClass="ConfigSortController" sceneMemberID="viewController">
@@ -145,26 +145,8 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Blb-na-VQK" secondAttribute="trailing" constant="40" id="tGY-Y8-gCv"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="配置排序" id="kdH-pQ-VTO">
-                        <barButtonItem key="leftBarButtonItem" title="what" id="Nhc-4V-sL4">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="OCC-De-CuZ">
-                                <rect key="frame" x="20" y="6" width="72" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <inset key="contentEdgeInsets" minX="-30" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="返回">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="dismiss:" destination="Hhv-pI-Zbc" eventType="touchUpInside" id="Lyq-m2-xZ1"/>
-                                </connections>
-                            </button>
-                            <connections>
-                                <action selector="dismiss:" destination="Hhv-pI-Zbc" id="HJ9-KQ-Yzm"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="kdH-pQ-VTO"/>
                     <connections>
-                        <outlet property="backButton" destination="OCC-De-CuZ" id="9J4-Xx-WlD"/>
                         <outlet property="inputField" destination="Blb-na-VQK" id="evS-Qq-Aud"/>
                         <outlet property="selectOrder" destination="SvI-a2-lx6" id="mrX-ci-MWm"/>
                         <outlet property="sortName" destination="4vR-JH-MdO" id="8RS-lZ-Kfi"/>
@@ -173,7 +155,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jb2-8b-o7P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-285" y="-564"/>
+            <point key="canvasLocation" x="353" y="-483"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eiu-qI-AGr">

@@ -100,6 +100,7 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 + (void)writeArrayToFile:(NSString *)file data:(NSArray *)arr;
 
 + (CGFloat)v_pad:(CGFloat)ipad plus:(CGFloat)b p:(CGFloat)s min:(CGFloat)ss;
++ (UIBarButtonItem *)customBackBarButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)selec;
 
 @end
 

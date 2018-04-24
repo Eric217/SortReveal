@@ -16,11 +16,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _switcher = [[UISwitch alloc] init];
-        [self addSubview:_switcher];
+        [self.contentView addSubview:_switcher];
         //尽管apple推荐在update里。。。
         [_switcher mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.mas_right).offset(-27);
-            make.centerY.equalTo(self);
+            make.right.equalTo(self.contentView.mas_right).inset(20);
+            make.centerY.equalTo(self.contentView);
         }];
     }
     return self;

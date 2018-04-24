@@ -14,7 +14,6 @@
 		070EA11F2086568F002B84E2 /* BinaryTree.mm in Sources */ = {isa = PBXBuildFile; fileRef = 070EA1192086568F002B84E2 /* BinaryTree.mm */; };
 		071D3775208EDB9900E59AA7 /* SelectFlowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071D3774208EDB9900E59AA7 /* SelectFlowController.m */; };
 		071D3779208EDC8300E59AA7 /* SelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 071D3778208EDC8300E59AA7 /* SelectController.m */; };
-		071D377D208EE46B00E59AA7 /* RightLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 071D377C208EE46B00E59AA7 /* RightLabelCell.m */; };
 		071D377F208F1FF700E59AA7 /* SelectionSorter.m in Sources */ = {isa = PBXBuildFile; fileRef = 071D377E208F1FF700E59AA7 /* SelectionSorter.m */; };
 		07245C152086E49300490B4C /* LinearSorter.m in Sources */ = {isa = PBXBuildFile; fileRef = 07245C142086E49300490B4C /* LinearSorter.m */; };
 		072D6570207FA24B00C25E75 /* ConfigSortController.m in Sources */ = {isa = PBXBuildFile; fileRef = 072D656F207FA24B00C25E75 /* ConfigSortController.m */; };
@@ -60,8 +59,6 @@
 		071D3774208EDB9900E59AA7 /* SelectFlowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectFlowController.m; sourceTree = "<group>"; };
 		071D3777208EDC8300E59AA7 /* SelectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectController.h; sourceTree = "<group>"; };
 		071D3778208EDC8300E59AA7 /* SelectController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectController.m; sourceTree = "<group>"; };
-		071D377B208EE46B00E59AA7 /* RightLabelCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RightLabelCell.h; sourceTree = "<group>"; };
-		071D377C208EE46B00E59AA7 /* RightLabelCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RightLabelCell.m; sourceTree = "<group>"; };
 		071D377E208F1FF700E59AA7 /* SelectionSorter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectionSorter.m; sourceTree = "<group>"; };
 		07245C142086E49300490B4C /* LinearSorter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LinearSorter.m; sourceTree = "<group>"; };
 		07245C182086E61100490B4C /* Sorters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sorters.h; sourceTree = "<group>"; };
@@ -258,8 +255,6 @@
 				07333230208DA110009E2E38 /* SwitchCell.m */,
 				07A75A47208E19C5004BA670 /* TextFieldCell.h */,
 				07A75A48208E19C5004BA670 /* TextFieldCell.m */,
-				071D377B208EE46B00E59AA7 /* RightLabelCell.h */,
-				071D377C208EE46B00E59AA7 /* RightLabelCell.m */,
 			);
 			name = SettingViewController;
 			sourceTree = "<group>";
@@ -485,7 +480,6 @@
 				072D6570207FA24B00C25E75 /* ConfigSortController.m in Sources */,
 				07828079207C765E000D0B4A /* Common.m in Sources */,
 				07BDAE45207D9307009BFD30 /* SortingViewController.m in Sources */,
-				071D377D208EE46B00E59AA7 /* RightLabelCell.m in Sources */,
 				0733322E208D721A009E2E38 /* SettingViewController.m in Sources */,
 				0706F5FA2085DA6000A2753D /* ELLinearUnitCell.m in Sources */,
 				07828066207C5FDC000D0B4A /* ViewController.m in Sources */,

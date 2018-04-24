@@ -23,14 +23,14 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _textField = [[UITextField alloc] init];
-        [self addSubview:_textField];
+        [self.contentView addSubview:_textField];
         UILabel *l = [[UILabel alloc] init];
         [l setText:@"秒"];
         [l setTextColor:UIColor.lightGrayColor];
-        [self addSubview:l];
+        [self.contentView addSubview:l];
         [l mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self).offset(-9);
-            make.centerY.equalTo(self);
+            make.right.equalTo(self.contentView).inset(10);
+            make.centerY.equalTo(self.contentView);
             make.size.mas_equalTo(CGSizeMake(24, 45));
         }];
         [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
