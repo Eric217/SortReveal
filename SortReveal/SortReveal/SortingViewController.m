@@ -15,6 +15,8 @@
 #import "LinearSubSorters.h"
 #import <Masonry/Masonry.h>
 
+#define emptyDisplayString @"配置排序\n以开始"
+
 //TODO: - save arrays in db
 
 @interface SortingViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -27,6 +29,7 @@
 @property (strong, nonatomic) UIBarButtonItem *lastStepButton;
 @property (strong, nonatomic) UIBarButtonItem *nextRowButton;
 @property (strong, nonatomic) UIBarButtonItem *flowRunButton;
+@property (strong, nonatomic) UILabel *collectionBackView;
 
 @property (nonatomic, copy) NSMutableArray *originDataArr;
 @property (nonatomic, copy) NSMutableArray<NSDictionary *> *viewDataDictArr;
@@ -119,6 +122,10 @@
     
 }
 
+- (void)restart:(id)sender {
+    
+}
+
 - (void)openSettings:(id)sender {
     [self pushWithoutBottomBar:[[SettingViewController alloc] init]];
 }
@@ -154,6 +161,9 @@
         NSArray *posi = [self getInitialPositions];
         NSArray *titl = [self getInitialTitles];
         [_viewDataDictArr addObject:@{kDataArr: _originDataArr, kPositionArr: posi, kTitleArr: titl}];
+        _collectionBackView.text = @"";
+    } else {
+        _collectionBackView.text = emptyDisplayString;
     }
 
     [self.navigationController popToRootViewControllerAnimated:1];
@@ -211,7 +221,8 @@
    
     _originDataArr = 0;
     _viewDataDictArr = [[NSMutableArray alloc] init];
-    
+    _collectionBackView.text = @"";
+
     //TODO: - 以后熟悉了splitViewController这里可能要改。用pop会警告
     //[self.navigationController popToRootViewControllerAnimated:0];
     
@@ -294,7 +305,7 @@
     
     //buttons
     _backButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 6, 92, 32)];
-    [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 0)];
+    [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, IPAD ? -14 : -20, 0, 0)];
     [_backButton setTitle:@"配置排序" forState:UIControlStateNormal];
     [_backButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     [_backButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
@@ -302,9 +313,11 @@
     [_backButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItems = @[[[UIBarButtonItem alloc] initWithCustomView:_backButton]];
     
+    UIBarButtonItem *restart = [[UIBarButtonItem alloc] initWithTitle:@"重新开始" style:UIBarButtonItemStylePlain target:self action:@selector(restart:)];
+    [restart setTintColor:UIColor.blackColor];
     _settings = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStylePlain target:self action:@selector(openSettings:)];
     [_settings setTintColor:UIColor.blackColor];
-    self.navigationItem.rightBarButtonItems = @[_settings];
+    self.navigationItem.rightBarButtonItems = @[_settings, restart];
     
     _lastStepButton = [[UIBarButtonItem alloc] initWithTitle:@"上一步" style:UIBarButtonItemStylePlain target:self action:@selector(lastStep:)];
     _flowRunButton = [[UIBarButtonItem alloc] initWithTitle:@"顺序执行" style:UIBarButtonItemStylePlain target:self action:@selector(play:)];
@@ -339,23 +352,36 @@
         make.size.equalTo(self.view);
     }];
     
-    UIView *collectionBackView = [[UIView alloc] init];
-    [_collection setBackgroundView:collectionBackView];
-    
+    _collectionBackView = [[UILabel alloc] init];
+    [_collection insertSubview:_collectionBackView atIndex:0];
+    UIColor *tc = [UIColor.grayColor colorWithAlphaComponent:0.78];
+    [_collectionBackView setTextColor:tc];
+    _collectionBackView.text = emptyDisplayString;
+    _collectionBackView.numberOfLines = 2;
+    _collectionBackView.font = [UIFont systemFontOfSize:28];
+    _collectionBackView.textAlignment = NSTextAlignmentCenter;
+    [_collectionBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.collection);
+        make.centerY.equalTo(self.collection.mas_centerY).mas_offset(-122);
+        make.size.mas_equalTo(CGSizeMake(300, 200));
+    }];
+ 
     //user defaults
-    NSUserDefaults *d = NSUserDefaults.standardUserDefaults;
-    if ([d doubleForKey:kTimeInterval] <= 0) {
-        [d setDouble:1.5 forKey:kTimeInterval];
+    if ([UserDefault doubleForKey:kTimeInterval] <= 0) {
+        [Config saveDouble:1.5 forKey:kTimeInterval];
     }
-    if (![d stringForKey:kFlowExecWay]) {
-        [d setObject:SingleStep forKey:kFlowExecWay];
-        [d synchronize];
+    if (![UserDefault stringForKey:kFlowExecWay]) {
+        [UserDefault setObject:SingleStep forKey:kFlowExecWay];
+        [UserDefault synchronize];
     }
     
     //other settings
     [self setTitle:@"动态演示"];
     [Config addObserver:self selector:@selector(prepareDisplay:) notiName:SortingVCShouldStartDisplayNotification];
 }
+
+
+
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
