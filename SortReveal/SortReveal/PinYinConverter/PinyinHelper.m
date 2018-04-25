@@ -207,8 +207,8 @@
                                                                [pinyinStrArray objectAtIndex:i]withHanyuPinyinOutputFormat:outputFormat]];
         }
         return pinyinStrArray;
-    }
-    else return nil;
+    } else
+        return nil;
 }
 
 + (NSArray *)getUnformattedHanyuPinyinStringArrayWithChar:(unichar)ch {

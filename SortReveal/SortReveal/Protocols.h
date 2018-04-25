@@ -27,10 +27,12 @@
 
 @optional
 - (void)swap_a:(int)i b:(int)j;
-- (bool)compare_a:(int)a b:(int)b;
+- (bool)compareAtIndex_a:(int)a b:(int)b;
+
 - (bool)compareByNumber:(double)a with:(double)b order:(bool)lower;
 - (bool)compareByChar:(NSString *)a with:(NSString *)b order:(bool)lower;
 - (bool)compareByDict:(NSString *)a with:(NSString *)b order:(bool)lower;
+- (bool)compareByAutomatic:(NSString *)a with:(NSString *)b order:(bool)lower;
 
 @end
 

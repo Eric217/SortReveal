@@ -6,18 +6,14 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "SortBaseClass.h"
-
-@implementation SortBaseClass
+#import "LinearSorter.h"
+#import "PinYin4Objc.h"
  
-@end
-
-
 
 @implementation LinearSorter
 
 ///返回1则要交换
-- (bool)compare_a:(int)a b:(int)b {
+- (bool)compareAtIndex_a:(int)a b:(int)b {
     SortOrder order = self.sortOrder;
     bool asc = order % 10; //降序为true 升序则false
     NSUInteger i = order/10; //0 num, 1 char, 2 dict, 3 auto
@@ -33,31 +29,10 @@
     } else if (i == 2) {
         return [self compareByDict:x with:y order:asc];
     } else {
-        
+        //如果是a9和a10，哪个大？思路：带汉字的，都先转成拼音，李 -- 林，然后对于数字，采用智能比较。ASCII内的都是按char比较，即apple自带的
+        return [self compareByAutomatic:x with:y order:asc];
     }
-  
-    return 0;
-}
-
-- (bool)compareByDict:(NSString *)a with:(NSString *)b order:(bool)lower {
-
-
-
-    return 0;
-}
-
-- (bool)compareByChar:(NSString *)a with:(NSString *)b order:(bool)lower {
-    NSUInteger r = [a compare:b];
-    if (r == 0) {
-        return 0;
-    } else  {
-        bool m = r == -1;
-        return (m && lower) || !(m || lower);
-    }
-}
-
-- (bool)compareByNumber:(double)a with:(double)b order:(bool)lower {
-    return lower ? a < b : a > b;
+ 
 }
 
 - (void)swap_a:(int)i b:(int)j {

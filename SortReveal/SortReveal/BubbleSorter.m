@@ -34,13 +34,13 @@
     int i = self.currentI, j = self.currentJ; //1
     NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr copyItems:1];
     if (dataArr.count == 2) { //1.1
-        if ([self compare_a:0 b:1]) {
+        if ([self compareAtIndex_a:0 b:1]) {
             [self swap_a:0 b:1];
         }
         *finished = 1;
     } else {
         
-        bool needSwap = [self compare_a:j b:j+1]; //2
+        bool needSwap = [self compareAtIndex_a:j b:j+1]; //2
 
         if (j == i - 2) { //3
             self.currentJ = 0;
@@ -83,7 +83,7 @@
     bool swapped = 0; //1.1
     
     for (int m = j; m < i - 1; m++) { //2
-        if ([self compare_a:m b:m+1]) {
+        if ([self compareAtIndex_a:m b:m+1]) {
             swapped = 1;
             [self swap_a:m b:m+1];
         }

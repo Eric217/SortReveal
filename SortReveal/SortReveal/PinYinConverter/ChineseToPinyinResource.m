@@ -110,8 +110,8 @@ static ChineseToPinyinResource *shared = nil;
         NSRange rangeOfRightBracket= [pinyinRecord rangeOfString:RIGHT_BRACKET];
         NSString *stripedString = [pinyinRecord substringWithRange:NSMakeRange(rangeOfLeftBracket.location+rangeOfLeftBracket.length, rangeOfRightBracket.location-rangeOfLeftBracket.location-rangeOfLeftBracket.length)];
         return [stripedString componentsSeparatedByString:COMMA];
-    }
-    else return nil;
+    } else
+        return nil;
 }
 
 - (BOOL)isValidRecordWithNSString:(NSString *)record {

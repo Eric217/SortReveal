@@ -20,7 +20,8 @@
 #define kSkipNullStep @"skip null"
 #define kTimeInterval @"dawfewaf"
 #define kFlowExecWay @"gresweqwqa"
- 
+#define kNumericCompare @"NumericComeufgdsa"
+
 //MARK: - display cell data source
 #define kDataArr @"dataArr"
 #define kColorArr @"colorArr"

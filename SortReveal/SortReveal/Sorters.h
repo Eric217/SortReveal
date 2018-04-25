@@ -8,7 +8,7 @@
 
 #ifndef Sorters_h
 #define Sorters_h
-#import "SortBaseClass.h"
+#import "LinearSorter.h"
 
 @interface BubbleSorter : LinearSorter
 

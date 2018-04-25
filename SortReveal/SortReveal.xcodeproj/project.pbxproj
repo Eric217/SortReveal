@@ -43,6 +43,7 @@
 		07D3C6302089736400DE7AAF /* ELGroupedUnitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */; };
 		07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */; };
 		07E38E0C207CF63100E3A4BB /* ELSortNameCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E0B207CF63100E3A4BB /* ELSortNameCollectionCell.m */; };
+		07FC6DEF2090784B00167E51 /* SortBaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC6DEE2090784B00167E51 /* SortBaseClass.m */; };
 		22E5C98030DE225BA63F3508 /* Pods_SortReveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +119,8 @@
 		07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+frameProperty.m"; sourceTree = "<group>"; };
 		07E38E0A207CF63100E3A4BB /* ELSortNameCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELSortNameCollectionCell.h; sourceTree = "<group>"; };
 		07E38E0B207CF63100E3A4BB /* ELSortNameCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELSortNameCollectionCell.m; sourceTree = "<group>"; };
+		07FC6DEE2090784B00167E51 /* SortBaseClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SortBaseClass.m; sourceTree = "<group>"; };
+		07FC6DF3209078A600167E51 /* LinearSorter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LinearSorter.h; sourceTree = "<group>"; };
 		389835949699565BBE7AC97C /* Pods-SortReveal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SortReveal.release.xcconfig"; path = "Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal.release.xcconfig"; sourceTree = "<group>"; };
 		99BFB568E97EE65F8C1DD419 /* Pods-SortReveal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SortReveal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal.debug.xcconfig"; sourceTree = "<group>"; };
 		EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SortReveal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,13 +176,12 @@
 		07245C162086E4AF00490B4C /* Sort */ = {
 			isa = PBXGroup;
 			children = (
-				070032802086C8BD00A15D7E /* SortBaseClass.h */,
+				07FC6DED209073BC00167E51 /* Base */,
 				07245C182086E61100490B4C /* Sorters.h */,
+				077A40972084CA3500D887FB /* HeapSorter.m */,
 				070032812086C8BD00A15D7E /* BubbleSorter.m */,
 				071D377E208F1FF700E59AA7 /* SelectionSorter.m */,
 				072E88A020878AC80044B478 /* InsertionSorter.m */,
-				077A40972084CA3500D887FB /* HeapSorter.m */,
-				07245C142086E49300490B4C /* LinearSorter.m */,
 			);
 			name = Sort;
 			sourceTree = "<group>";
@@ -331,7 +333,6 @@
 			children = (
 				07828077207C7641000D0B4A /* Common.h */,
 				07828078207C765E000D0B4A /* Common.m */,
-				078175602084ADCA00FD043B /* Protocols.h */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -356,6 +357,18 @@
 				072D656F207FA24B00C25E75 /* ConfigSortController.m */,
 			);
 			name = ConfigSortController;
+			sourceTree = "<group>";
+		};
+		07FC6DED209073BC00167E51 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				078175602084ADCA00FD043B /* Protocols.h */,
+				070032802086C8BD00A15D7E /* SortBaseClass.h */,
+				07FC6DEE2090784B00167E51 /* SortBaseClass.m */,
+				07FC6DF3209078A600167E51 /* LinearSorter.h */,
+				07245C142086E49300490B4C /* LinearSorter.m */,
+			);
+			name = Base;
 			sourceTree = "<group>";
 		};
 		650120B2EA3BDD2D39541CBF /* Frameworks */ = {
@@ -520,6 +533,7 @@
 				07333231208DA110009E2E38 /* SwitchCell.m in Sources */,
 				079089CE2083A9D7008890F8 /* UIViewController+funcs.m in Sources */,
 				072D6570207FA24B00C25E75 /* ConfigSortController.m in Sources */,
+				07FC6DEF2090784B00167E51 /* SortBaseClass.m in Sources */,
 				07828079207C765E000D0B4A /* Common.m in Sources */,
 				07BDAE45207D9307009BFD30 /* SortingViewController.m in Sources */,
 				0733322E208D721A009E2E38 /* SettingViewController.m in Sources */,

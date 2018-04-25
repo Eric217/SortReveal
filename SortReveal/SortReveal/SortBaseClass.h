@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.h"
 
-///直接实现Sorter协议，含有sort order 这一通用值
+///实现Sorter协议、Comparable协议，有各种顺序比较的功能
+///内部一个历史记录数组，数组内容是什么根据子类确定。
 @interface SortBaseClass : NSObject <Sorter, Comparable> {
+    
 @public
     NSMutableArray *historyArr;
+    
 }
 
 @property (assign) SortOrder sortOrder;
@@ -20,19 +23,7 @@
 @end
 
 
-///线性（底层为数组）排序的基类，继承自Base，内部有一个数组
-@interface LinearSorter : SortBaseClass {
-    
-@public
-    NSMutableArray<NSString *> *dataArr;
-    
-}
 
-@property (assign) int currentI;
-@property (assign) int currentJ;
-
-
-@end
 
 
 

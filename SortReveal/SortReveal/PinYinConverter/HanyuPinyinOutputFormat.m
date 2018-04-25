@@ -1,27 +1,37 @@
 //
-//  
+//  SortReveal
 //
-//  Created by kimziv on 13-9-14.
+//  Created by Eric on 2018/4/18.
+//  Copyright © 2018 Eric. All rights reserved.
 //
 
 #include "HanyuPinyinOutputFormat.h"
 
 @implementation HanyuPinyinOutputFormat
-@synthesize vCharType=_vCharType;
-@synthesize caseType=_caseType;
-@synthesize toneType=_toneType;
 
-- (id)init {
-  if (self = [super init]) {
-    [self restoreDefault];
-  }
-  return self;
++ (HanyuPinyinOutputFormat *)commonFormat {
+    HanyuPinyinOutputFormat *f = [[HanyuPinyinOutputFormat alloc] init];
+    f.caseType = CaseTypeLowercase;
+    f.vCharType = VCharTypeWithV;
+    f.toneType = ToneTypeWithoutTone;
+    return f;
 }
 
-- (void)restoreDefault {
-    _vCharType = VCharTypeWithUAndColon;
-    _caseType = CaseTypeLowercase;
-    _toneType = ToneTypeWithToneNumber;
++ (HanyuPinyinOutputFormat *)formatWithVCharType:(VCharType)vt caseType:(CaseType)ct toneType:(ToneType)tt {
+    HanyuPinyinOutputFormat *f = [[HanyuPinyinOutputFormat alloc] init];
+    f.caseType = ct;
+    f.vCharType = vt;
+    f.toneType = tt;
+    return f;
+}
+
+- (id)initWithVCharType:(VCharType)vt caseType:(CaseType)ct toneType:(ToneType)tt {
+  if (self = [super init]) {
+      _caseType = ct;
+      _vCharType = vt;
+      _toneType = tt;
+  }
+  return self;
 }
 
 @end

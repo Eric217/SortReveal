@@ -46,7 +46,9 @@
     [_table setRowHeight:50];
     
     _array = @[@[@"跳过没有发生交换的步骤", @"如果当前步骤不会发生交换，则跳过并执行下一步"],
-               @[@"顺序执行时间间隔", @"顺序执行时单步或单组跳过", @"顺序执行设置"]];
+               @[@"顺序执行时间间隔", @"顺序执行时单步或单组跳过", @"顺序执行设置"],
+               @[@"智能比较字母与数字", @"字符或字典排序时，例如 Foo2 < Foo7 < Foo25"]
+             ];
     [Config postNotification:ELTextFieldShouldResignNotification message:0];
     [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
  
@@ -60,6 +62,11 @@
 
 - (void)didChangeSkipNull:(UISwitch *)sender {
     [NSUserDefaults.standardUserDefaults setBool:sender.isOn forKey:kSkipNullStep];
+    [NSUserDefaults.standardUserDefaults synchronize];
+}
+
+- (void)didChangeNumericCompare:(UISwitch *)sender {
+    [NSUserDefaults.standardUserDefaults setBool:sender.isOn forKey:kNumericCompare];
     [NSUserDefaults.standardUserDefaults synchronize];
 }
 
@@ -126,9 +133,14 @@
  
             tableCell = cell;
         }
- 
-    } else {
-        
+    } else if (indexPath.section == 2) {
+        if (indexPath.row == 0) {
+            SwitchCell *cell =  [[SwitchCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(SwitchCell.class)];
+            [cell.switcher addTarget:self action:@selector(didChangeNumericCompare:) forControlEvents:UIControlEventValueChanged];
+            [[cell switcher] setOn:[NSUserDefaults.standardUserDefaults boolForKey:kNumericCompare]];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            tableCell = cell;
+        }
     }
     tableCell.textLabel.text = _array[indexPath.section][indexPath.row];
 
