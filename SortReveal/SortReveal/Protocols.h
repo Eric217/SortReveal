@@ -15,7 +15,7 @@
 @optional
 - (void)initializeWithArray:(NSMutableArray *)array order:(SortOrder)order;
 
-///返回的字典中 含有1. 数组kDataArr 2. 箭头信息kArrowArr 3. 颜色信息kColorArr
+///返回的字典中 含有1. 数组kDataArr 2. 箭头信息 3. 颜色信息kColorArr
 - (NSDictionary *)nextTurn:(BOOL *)finished;
 - (NSDictionary *)nextRow:(BOOL *)finished;
 
@@ -28,6 +28,9 @@
 @optional
 - (void)swap_a:(int)i b:(int)j;
 - (bool)compare_a:(int)a b:(int)b;
+- (bool)compareByNumber:(double)a with:(double)b order:(bool)lower;
+- (bool)compareByChar:(NSString *)a with:(NSString *)b order:(bool)lower;
+- (bool)compareByDict:(NSString *)a with:(NSString *)b order:(bool)lower;
 
 @end
 

@@ -27,24 +27,37 @@
     
     if (i == 0) {
         double x1 = x.doubleValue, y1 = y.doubleValue;
-        return asc ? x1 < y1 : x1 > y1;
-        
+        return [self compareByNumber:x1 with:y1 order:asc];
     } else if (i == 1) { //二竟然比三大: 20108 VS 19977
-        NSUInteger r = [x compare:y];
-        if (r == 0) {
-            return 0;
-        } else  {
-            bool m = r == -1;
-            return (m && asc) || !(m || asc);
-        }
-      
+        return [self compareByChar:x with:y order:asc];
     } else if (i == 2) {
-        
+        return [self compareByDict:x with:y order:asc];
     } else {
         
     }
   
     return 0;
+}
+
+- (bool)compareByDict:(NSString *)a with:(NSString *)b order:(bool)lower {
+
+
+
+    return 0;
+}
+
+- (bool)compareByChar:(NSString *)a with:(NSString *)b order:(bool)lower {
+    NSUInteger r = [a compare:b];
+    if (r == 0) {
+        return 0;
+    } else  {
+        bool m = r == -1;
+        return (m && lower) || !(m || lower);
+    }
+}
+
+- (bool)compareByNumber:(double)a with:(double)b order:(bool)lower {
+    return lower ? a < b : a > b;
 }
 
 - (void)swap_a:(int)i b:(int)j {

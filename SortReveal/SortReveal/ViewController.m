@@ -14,6 +14,8 @@
 #import "ELSplitViewController.h"
 #import "ELSortNameCollectionCell.h"
 
+#import "PinYin4Objc.h"
+
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) UILabel *appTitle;
@@ -33,7 +35,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     //data arr
     NSArray *arr = [Config getArrayDataFromFile:SortNameFile];
     if (!arr) {
@@ -75,6 +77,31 @@
         make.top.equalTo(self.appTitle.mas_bottom);
         make.width.left.bottom.equalTo(self.view);
     }];
+    NSDate *date1 = [NSDate date];
+    NSString *str = @"我是李嵩";
+    HanyuPinyinOutputFormat *outputFormat = [[HanyuPinyinOutputFormat alloc] init];
+    //    format setCaseType:<#(CaseType)#>
+    
+    [outputFormat setToneType:ToneTypeWithoutTone];
+    [outputFormat setVCharType:VCharTypeWithV];
+    [outputFormat setCaseType:CaseTypeLowercase];
+    //  NSTimeInterval startTime=[[NSDate date] timeIntervalSince1970];
+    
+    NSString *outputPiny = [PinyinHelper toHanyuPinyinStringWithSourceString:str withPinyinFormat:outputFormat bySeperator:@""];
+    NSLog(@"%@", outputPiny);
+    NSDate *date2 = [NSDate date];
+    NSLog([NSString stringWithFormat:@"time %f", date2.timeIntervalSince1970-date1.timeIntervalSince1970]);
+    
+    outputPiny = [PinyinHelper toHanyuPinyinStringWithSourceString:str withPinyinFormat:outputFormat bySeperator:@" "];
+    NSLog(@"%@", outputPiny);
+    date1 = [NSDate date];
+    NSLog([NSString stringWithFormat:@"time %f", date1.timeIntervalSince1970-date2.timeIntervalSince1970]);
+    [PinyinHelper clearCache];
+//    NSFileManager.defaultManag
+//    sleep(5);
+   
+   
+    
     
 }
 
