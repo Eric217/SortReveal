@@ -68,7 +68,7 @@
 		071D3778208EDC8300E59AA7 /* SelectController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectController.m; sourceTree = "<group>"; };
 		071D377E208F1FF700E59AA7 /* SelectionSorter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectionSorter.m; sourceTree = "<group>"; };
 		07245C142086E49300490B4C /* LinearSorter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LinearSorter.m; sourceTree = "<group>"; };
-		07245C182086E61100490B4C /* Sorters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sorters.h; sourceTree = "<group>"; };
+		07245C182086E61100490B4C /* LinearSubSorters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LinearSubSorters.h; sourceTree = "<group>"; };
 		072D656E207FA24B00C25E75 /* ConfigSortController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigSortController.h; sourceTree = "<group>"; };
 		072D656F207FA24B00C25E75 /* ConfigSortController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigSortController.m; sourceTree = "<group>"; };
 		072E88A020878AC80044B478 /* InsertionSorter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InsertionSorter.m; sourceTree = "<group>"; };
@@ -121,6 +121,7 @@
 		07E38E0B207CF63100E3A4BB /* ELSortNameCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELSortNameCollectionCell.m; sourceTree = "<group>"; };
 		07FC6DEE2090784B00167E51 /* SortBaseClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SortBaseClass.m; sourceTree = "<group>"; };
 		07FC6DF3209078A600167E51 /* LinearSorter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LinearSorter.h; sourceTree = "<group>"; };
+		07FC6DF6209090F900167E51 /* SorterProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SorterProtocol.h; sourceTree = "<group>"; };
 		389835949699565BBE7AC97C /* Pods-SortReveal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SortReveal.release.xcconfig"; path = "Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal.release.xcconfig"; sourceTree = "<group>"; };
 		99BFB568E97EE65F8C1DD419 /* Pods-SortReveal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SortReveal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SortReveal/Pods-SortReveal.debug.xcconfig"; sourceTree = "<group>"; };
 		EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SortReveal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,7 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				07FC6DED209073BC00167E51 /* Base */,
-				07245C182086E61100490B4C /* Sorters.h */,
+				07245C182086E61100490B4C /* LinearSubSorters.h */,
 				077A40972084CA3500D887FB /* HeapSorter.m */,
 				070032812086C8BD00A15D7E /* BubbleSorter.m */,
 				071D377E208F1FF700E59AA7 /* SelectionSorter.m */,
@@ -331,6 +332,7 @@
 		07BDAE41207D8EC1009BFD30 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				078175602084ADCA00FD043B /* Protocols.h */,
 				07828077207C7641000D0B4A /* Common.h */,
 				07828078207C765E000D0B4A /* Common.m */,
 			);
@@ -362,7 +364,7 @@
 		07FC6DED209073BC00167E51 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				078175602084ADCA00FD043B /* Protocols.h */,
+				07FC6DF6209090F900167E51 /* SorterProtocol.h */,
 				070032802086C8BD00A15D7E /* SortBaseClass.h */,
 				07FC6DEE2090784B00167E51 /* SortBaseClass.m */,
 				07FC6DF3209078A600167E51 /* LinearSorter.h */,

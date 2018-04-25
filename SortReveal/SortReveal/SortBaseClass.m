@@ -48,8 +48,12 @@
     return [self yihuo_r:[a1 compare:a2 options:NSNumericSearch] lower:lower];
 }
 
+- (instancetype)init {
+    self = [super init];
+    if (self && !historyArr)
+        historyArr = [[NSMutableArray alloc] init];
+    return self;
+}
+
 @end
-
-
-
 

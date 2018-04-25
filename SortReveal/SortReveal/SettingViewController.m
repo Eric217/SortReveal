@@ -45,9 +45,10 @@
     [_table registerClass:UITableViewHeaderFooterView.class forHeaderFooterViewReuseIdentifier:@"headerid"];
     [_table setRowHeight:50];
     
-    _array = @[@[@"跳过没有发生交换的步骤", @"如果当前步骤不会发生交换，则跳过并执行下一步"],
-               @[@"顺序执行时间间隔", @"顺序执行时单步或单组跳过", @"顺序执行设置"],
-               @[@"智能比较字母与数字", @"字符或字典排序时，例如 Foo2 < Foo7 < Foo25"]
+    _array = @[@[@"跳过没有发生交换的步骤", @"如果当前步骤不会发生交换，则跳过并执行下一步"], //1+1
+               @[@"顺序执行时间间隔", @"顺序执行时单步或单组跳过", @"顺序执行设置"], //2+1
+               @[@"智能比较字母与数字", @"字符或字典排序时，例如 Foo2 < Foo7 < Foo25"], //1+1
+               @[@"自动推断排序方式时升序", @""], //1+1
              ];
     [Config postNotification:ELTextFieldShouldResignNotification message:0];
     [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
@@ -61,13 +62,15 @@
 }
 
 - (void)didChangeSkipNull:(UISwitch *)sender {
-    [NSUserDefaults.standardUserDefaults setBool:sender.isOn forKey:kSkipNullStep];
-    [NSUserDefaults.standardUserDefaults synchronize];
+    [Config saveDouble:sender.isOn forKey:kSkipNullStep];
 }
 
 - (void)didChangeNumericCompare:(UISwitch *)sender {
-    [NSUserDefaults.standardUserDefaults setBool:sender.isOn forKey:kNumericCompare];
-    [NSUserDefaults.standardUserDefaults synchronize];
+    [Config saveDouble:sender.isOn forKey:kNumericCompare];
+}
+
+- (void)didChangeAutomaticOrder:(UISwitch *)sender {
+    [Config saveDouble:!(sender.isOn) forKey:kAutomaticOrderASD];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -81,20 +84,16 @@
     }
     return 1;
 }
-
-
-
+ 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-    NSUserDefaults * d = [NSUserDefaults standardUserDefaults];
-    
-    NSString *origiText = [NSString stringWithFormat:@"%.2f", [d doubleForKey:kTimeInterval]];
+ 
+    NSString *origiText = [NSString stringWithFormat:@"%.2f", [UserDefault doubleForKey:kTimeInterval]];
 
     double interval = [Config doubleValue:textField.text];
     if (interval < 0.3 || interval > 10) {
         textField.text = origiText;
     } else {
-        [d setDouble:interval forKey:kTimeInterval];
-        [d synchronize];
+        [Config saveDouble:interval forKey:kTimeInterval];
     }
     return 1;
 }
@@ -109,19 +108,14 @@
     UITableViewCell *tableCell;
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            
-            SwitchCell *cell =  [[SwitchCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(SwitchCell.class)];
-            [cell.switcher addTarget:self action:@selector(didChangeSkipNull:) forControlEvents:UIControlEventValueChanged];
-            [[cell switcher] setOn:[NSUserDefaults.standardUserDefaults boolForKey:kSkipNullStep]];
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            tableCell = cell;
+            tableCell = [self switchCellWithAction:@selector(didChangeSkipNull:) isOn:[UserDefault boolForKey:kSkipNullStep]];
         }
         
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             TextFieldCell *cell = [[TextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(TextFieldCell.class)];
             cell.textField.delegate = self;
-            double ti = [[NSUserDefaults standardUserDefaults] doubleForKey:kTimeInterval];
+            double ti = [UserDefault doubleForKey:kTimeInterval];
             [cell.textField setText:[NSString stringWithFormat:@"%.2f", ti]];
             tableCell = cell;
             
@@ -129,17 +123,17 @@
  
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cellid"];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.detailTextLabel.text = [[NSUserDefaults standardUserDefaults] stringForKey:kFlowExecWay];
+            cell.detailTextLabel.text = [UserDefault stringForKey:kFlowExecWay];
  
             tableCell = cell;
         }
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
-            SwitchCell *cell =  [[SwitchCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(SwitchCell.class)];
-            [cell.switcher addTarget:self action:@selector(didChangeNumericCompare:) forControlEvents:UIControlEventValueChanged];
-            [[cell switcher] setOn:[NSUserDefaults.standardUserDefaults boolForKey:kNumericCompare]];
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            tableCell = cell;
+            tableCell = [self switchCellWithAction:@selector(didChangeNumericCompare:) isOn:[NSUserDefaults.standardUserDefaults boolForKey:kNumericCompare]];
+        }
+    } else if (indexPath.section == 3) {
+        if (indexPath.row == 0) {
+            tableCell = [self switchCellWithAction:@selector(didChangeAutomaticOrder:) isOn:![UserDefault boolForKey:kAutomaticOrderASD]];
         }
     }
     tableCell.textLabel.text = _array[indexPath.section][indexPath.row];
@@ -147,7 +141,13 @@
     return tableCell;
 }
 
-
+- (SwitchCell *)switchCellWithAction:(SEL)action isOn:(BOOL)on {
+    SwitchCell *cell =  [[SwitchCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(SwitchCell.class)];
+    [cell.switcher addTarget:self action:action forControlEvents:UIControlEventValueChanged];
+    [[cell switcher] setOn:on];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    return cell;
+}
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

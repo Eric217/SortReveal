@@ -6,9 +6,9 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "Common.h"
 #import "Protocols.h"
-
+#import <UIKit/UIKit.h>
 
 @interface SelectController : UIViewController
 

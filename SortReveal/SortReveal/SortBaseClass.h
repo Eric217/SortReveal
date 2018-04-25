@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Protocols.h"
+#import "SorterProtocol.h"
 
 ///实现Sorter协议、Comparable协议，有各种顺序比较的功能
 ///内部一个历史记录数组，数组内容是什么根据子类确定。

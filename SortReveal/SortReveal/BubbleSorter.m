@@ -6,29 +6,15 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "Sorters.h"
+#import "LinearSubSorters.h"
 
 @interface BubbleSorter ()
-
-@property (nonatomic, copy) NSString *kHistoryPosition;
 
 @end
 
 //historyArr内容格式：NSDictionary, kDataArr: dataArr & kPosition: CGPoint
 //注意dataArr是deep copy到sorting的，hist中是reference，从hist中恢复时需要deep copy
 @implementation BubbleSorter
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        if (!historyArr) {
-            historyArr = [[NSMutableArray alloc] init];
-        }
-        _kHistoryPosition = @"fdsddfsw";
-    }
-    return self;
-}
 
 - (NSDictionary *)nextTurn:(BOOL *)finished { //整体思路先把 *.* 去掉，只看 *
     int i = self.currentI, j = self.currentJ; //1
@@ -45,14 +31,13 @@
         if (j == i - 2) { //3
             self.currentJ = 0;
             --self.currentI;
- 
+            if (self.currentI == 1 && self.currentJ == 0) {//5
+                *finished = 1;
+            }
         } else { //4
             ++self.currentJ;
         }
-        if (self.currentI == 1 && self.currentJ == 0) {//5
-            *finished = 1;
-        }
-
+       
         if (needSwap) {//6
             [self swap_a:j b:j+1];
         } else if (!(*finished) && [NSUserDefaults.standardUserDefaults boolForKey:kSkipNullStep]) {//6.1
@@ -62,7 +47,7 @@
     
     //尽管会使sortingvc的view data全是同一片数组的引用，但不影响😄
     NSArray *data = [[NSArray alloc] initWithArray:dataArr copyItems:0]; //7
-    [historyArr addObject:@{kDataArr: toBeSavedArray, _kHistoryPosition: NSStringFromCGPoint(CGPointMake(i, j))}]; //10
+    [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGPoint(CGPointMake(i, j))}]; //10
     
     if (*finished) {//8
         NSDictionary *d = @{kDataArr: data};
@@ -99,7 +84,7 @@
         return [self nextRow:finished];
     }
     
-    [historyArr addObject:@{kDataArr: toBeSavedArray, _kHistoryPosition: NSStringFromCGPoint(CGPointMake(i, j))}];
+    [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGPoint(CGPointMake(i, j))}];
     NSArray *data = [[NSArray alloc] initWithArray:dataArr copyItems:0]; //
     if (*finished) {
         return @{kDataArr: data};
@@ -114,7 +99,7 @@
 
 - (void)lastStep {
     NSDictionary *d = [historyArr lastObject];
-    CGPoint p = CGPointFromString(d[_kHistoryPosition]);
+    CGPoint p = CGPointFromString(d[kHistoryPosition]);
     dataArr = d[kDataArr];
     [historyArr removeLastObject];
     self.currentJ = p.y;
@@ -123,8 +108,7 @@
  
 
 - (void)initializeWithArray:(NSMutableArray *)array order:(SortOrder)order {
-    self.sortOrder = order;
-    dataArr = [[NSMutableArray alloc] initWithArray:array copyItems:1];
+    [super initializeWithArray:array order:order];
     self.currentI = (int)(array.count);
     self.currentJ = 0;
     

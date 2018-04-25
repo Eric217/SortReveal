@@ -24,6 +24,11 @@ static UIImage * _pushImage = 0;
 
 @implementation Config
 
++ (void)saveDouble:(double)value forKey:(NSString *)key {
+    [NSUserDefaults.standardUserDefaults setDouble:value forKey:key];
+    [NSUserDefaults.standardUserDefaults synchronize];
+}
+
 + (double)doubleValue:(NSString *)text {
     NSScanner *scanner = [NSScanner scannerWithString:text];
     double result = 0;

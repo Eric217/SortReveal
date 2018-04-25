@@ -21,6 +21,7 @@
 #define kTimeInterval @"dawfewaf"
 #define kFlowExecWay @"gresweqwqa"
 #define kNumericCompare @"NumericComeufgdsa"
+#define kAutomaticOrderASD @"fegrwesadsase"
 
 //MARK: - display cell data source
 #define kDataArr @"dataArr"
@@ -74,12 +75,14 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 #define IPHONE6P ScreenH == 736
 #define IPhoneX !IPAD && ScreenH > 736
 
+#define UserDefault NSUserDefaults.standardUserDefaults
 #define systemBlue [UIColor colorWithRed:0 green:111.0/255 blue:1 alpha:1]
 #define IPAD UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad
 
 //MARK: - common and useful funcs
 @interface Config: NSObject
 
++ (void)saveDouble:(double)value forKey:(NSString *)key;
 + (double)doubleValue:(NSString *)text;
 + (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId;
 

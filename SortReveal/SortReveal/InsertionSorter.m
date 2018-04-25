@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Sorters.h"
+#import "LinearSubSorters.h"
 
 @implementation InsertionSorter
 

@@ -8,6 +8,7 @@
 
 #import "SortBaseClass.h"
 
+#define kHistoryPosition @"grsaereshtbed"
 
 ///线性（底层为数组）排序的基类，继承自Base，内部有一个数组
 @interface LinearSorter : SortBaseClass {
@@ -19,6 +20,5 @@
 
 @property (assign) int currentI;
 @property (assign) int currentJ;
-
-
+ 
 @end

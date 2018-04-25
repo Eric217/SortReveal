@@ -7,7 +7,6 @@
 //
 
 #import "SelectController.h"
-#import "Common.h"
 #import <Masonry/Masonry.h>
 
 @interface SelectController () <UITableViewDelegate, UITableViewDataSource>
