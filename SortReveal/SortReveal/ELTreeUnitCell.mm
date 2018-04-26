@@ -6,11 +6,9 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "ELCollectionCell.h"
+#import "ELTreeUnitCell.h"
 #import "HuffmanTree.hpp"
 
-@implementation ELCollectionViewCell
-@end
 
 @implementation ELTreeUnitCell
  

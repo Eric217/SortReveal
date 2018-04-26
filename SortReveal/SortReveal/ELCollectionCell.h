@@ -10,19 +10,17 @@
 #define ELCollectionCell_h
 
 #import <UIKit/UIKit.h>
+#import "Common.h"
 
+//BASE
 @interface ELCollectionViewCell: UICollectionViewCell
+
 @property (nonatomic, copy) NSDictionary *dataDict;
-@end
 
-@interface ELTreeUnitCell : ELCollectionViewCell
 @end
-
-@interface ELLinearUnitCell : ELCollectionViewCell
-@end
-
+ 
 @interface ELGroupedUnitCell : ELCollectionViewCell
 @end
 
-
+ 
 #endif /* ELCollectionVCell_h */

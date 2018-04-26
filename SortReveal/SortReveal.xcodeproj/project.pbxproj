@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		070032822086C8BD00A15D7E /* BubbleSorter.m in Sources */ = {isa = PBXBuildFile; fileRef = 070032812086C8BD00A15D7E /* BubbleSorter.m */; };
-		0706F5FA2085DA6000A2753D /* ELLinearUnitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0706F5F92085DA6000A2753D /* ELLinearUnitCell.m */; };
 		0706F6002085E48B00A2753D /* UIView+funcs.m in Sources */ = {isa = PBXBuildFile; fileRef = 0706F5FF2085E48B00A2753D /* UIView+funcs.m */; };
 		070EA11E2086568F002B84E2 /* ELTreeUnitCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 070EA1162086568F002B84E2 /* ELTreeUnitCell.mm */; };
 		070EA11F2086568F002B84E2 /* BinaryTree.mm in Sources */ = {isa = PBXBuildFile; fileRef = 070EA1192086568F002B84E2 /* BinaryTree.mm */; };
@@ -43,6 +42,12 @@
 		07D3C6302089736400DE7AAF /* ELGroupedUnitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */; };
 		07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */; };
 		07E38E0C207CF63100E3A4BB /* ELSortNameCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E0B207CF63100E3A4BB /* ELSortNameCollectionCell.m */; };
+		07F233302091913F00FBF692 /* ELRepeatLinearCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F2332F2091913F00FBF692 /* ELRepeatLinearCell.m */; };
+		07F233332091938700FBF692 /* ELCommonLinearCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F233322091938700FBF692 /* ELCommonLinearCell.m */; };
+		07F2333B209196DE00FBF692 /* ELLinearUnitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F2333A209196DE00FBF692 /* ELLinearUnitCell.m */; };
+		07F2333D209197C700FBF692 /* ELCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F2333C209197C700FBF692 /* ELCollectionCell.m */; };
+		07F2334020919D4900FBF692 /* FastSorter.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F2333F20919D4900FBF692 /* FastSorter.m */; };
+		07F233432091A30C00FBF692 /* ELInsertionSortCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F233422091A30C00FBF692 /* ELInsertionSortCell.m */; };
 		07FC6DEF2090784B00167E51 /* SortBaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FC6DEE2090784B00167E51 /* SortBaseClass.m */; };
 		22E5C98030DE225BA63F3508 /* Pods_SortReveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB34E35209FCA2EA7D626133 /* Pods_SortReveal.framework */; };
 /* End PBXBuildFile section */
@@ -50,7 +55,6 @@
 /* Begin PBXFileReference section */
 		070032802086C8BD00A15D7E /* SortBaseClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SortBaseClass.h; sourceTree = "<group>"; };
 		070032812086C8BD00A15D7E /* BubbleSorter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleSorter.m; sourceTree = "<group>"; };
-		0706F5F92085DA6000A2753D /* ELLinearUnitCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELLinearUnitCell.m; sourceTree = "<group>"; };
 		0706F5FE2085E48B00A2753D /* UIView+funcs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+funcs.h"; sourceTree = "<group>"; };
 		0706F5FF2085E48B00A2753D /* UIView+funcs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+funcs.m"; sourceTree = "<group>"; };
 		0706F6012086189800A2753D /* ELCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELCollectionCell.h; sourceTree = "<group>"; };
@@ -119,6 +123,18 @@
 		07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+frameProperty.m"; sourceTree = "<group>"; };
 		07E38E0A207CF63100E3A4BB /* ELSortNameCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELSortNameCollectionCell.h; sourceTree = "<group>"; };
 		07E38E0B207CF63100E3A4BB /* ELSortNameCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELSortNameCollectionCell.m; sourceTree = "<group>"; };
+		07F2332E2091913F00FBF692 /* ELRepeatLinearCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELRepeatLinearCell.h; sourceTree = "<group>"; };
+		07F2332F2091913F00FBF692 /* ELRepeatLinearCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELRepeatLinearCell.m; sourceTree = "<group>"; };
+		07F233312091938700FBF692 /* ELCommonLinearCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELCommonLinearCell.h; sourceTree = "<group>"; };
+		07F233322091938700FBF692 /* ELCommonLinearCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELCommonLinearCell.m; sourceTree = "<group>"; };
+		07F233342091951F00FBF692 /* ELTreeUnitCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELTreeUnitCell.h; sourceTree = "<group>"; };
+		07F23339209196DE00FBF692 /* ELLinearUnitCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELLinearUnitCell.h; sourceTree = "<group>"; };
+		07F2333A209196DE00FBF692 /* ELLinearUnitCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELLinearUnitCell.m; sourceTree = "<group>"; };
+		07F2333C209197C700FBF692 /* ELCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELCollectionCell.m; sourceTree = "<group>"; };
+		07F2333E2091994600FBF692 /* Cells.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cells.h; sourceTree = "<group>"; };
+		07F2333F20919D4900FBF692 /* FastSorter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FastSorter.m; sourceTree = "<group>"; };
+		07F233412091A30C00FBF692 /* ELInsertionSortCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELInsertionSortCell.h; sourceTree = "<group>"; };
+		07F233422091A30C00FBF692 /* ELInsertionSortCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELInsertionSortCell.m; sourceTree = "<group>"; };
 		07FC6DEE2090784B00167E51 /* SortBaseClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SortBaseClass.m; sourceTree = "<group>"; };
 		07FC6DF3209078A600167E51 /* LinearSorter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LinearSorter.h; sourceTree = "<group>"; };
 		07FC6DF6209090F900167E51 /* SorterProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SorterProtocol.h; sourceTree = "<group>"; };
@@ -183,6 +199,7 @@
 				070032812086C8BD00A15D7E /* BubbleSorter.m */,
 				071D377E208F1FF700E59AA7 /* SelectionSorter.m */,
 				072E88A020878AC80044B478 /* InsertionSorter.m */,
+				07F2333F20919D4900FBF692 /* FastSorter.m */,
 			);
 			name = Sort;
 			sourceTree = "<group>";
@@ -206,8 +223,8 @@
 			children = (
 				07BDAE46207D97F4009BFD30 /* ConfigSortController */,
 				07BDAE42207D92E3009BFD30 /* SortingViewController */,
-				071D3776208EDC4300E59AA7 /* SelectController */,
 				07A75A45208E166A004BA670 /* SettingViewController */,
+				071D3776208EDC4300E59AA7 /* SelectController */,
 			);
 			name = Sort;
 			sourceTree = "<group>";
@@ -344,10 +361,7 @@
 			children = (
 				07BDAE43207D9307009BFD30 /* SortingViewController.h */,
 				07BDAE44207D9307009BFD30 /* SortingViewController.m */,
-				0706F6012086189800A2753D /* ELCollectionCell.h */,
-				0706F5F92085DA6000A2753D /* ELLinearUnitCell.m */,
-				070EA1162086568F002B84E2 /* ELTreeUnitCell.mm */,
-				07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */,
+				07F233372091968A00FBF692 /* Cells */,
 			);
 			name = SortingViewController;
 			sourceTree = "<group>";
@@ -359,6 +373,35 @@
 				072D656F207FA24B00C25E75 /* ConfigSortController.m */,
 			);
 			name = ConfigSortController;
+			sourceTree = "<group>";
+		};
+		07F233372091968A00FBF692 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				07F2333E2091994600FBF692 /* Cells.h */,
+				0706F6012086189800A2753D /* ELCollectionCell.h */,
+				07F2333C209197C700FBF692 /* ELCollectionCell.m */,
+				07F23338209196A600FBF692 /* LinearCell */,
+				07F233342091951F00FBF692 /* ELTreeUnitCell.h */,
+				070EA1162086568F002B84E2 /* ELTreeUnitCell.mm */,
+				07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		07F23338209196A600FBF692 /* LinearCell */ = {
+			isa = PBXGroup;
+			children = (
+				07F23339209196DE00FBF692 /* ELLinearUnitCell.h */,
+				07F2333A209196DE00FBF692 /* ELLinearUnitCell.m */,
+				07F233312091938700FBF692 /* ELCommonLinearCell.h */,
+				07F233322091938700FBF692 /* ELCommonLinearCell.m */,
+				07F2332E2091913F00FBF692 /* ELRepeatLinearCell.h */,
+				07F2332F2091913F00FBF692 /* ELRepeatLinearCell.m */,
+				07F233412091A30C00FBF692 /* ELInsertionSortCell.h */,
+				07F233422091A30C00FBF692 /* ELInsertionSortCell.m */,
+			);
+			name = LinearCell;
 			sourceTree = "<group>";
 		};
 		07FC6DED209073BC00167E51 /* Base */ = {
@@ -527,6 +570,8 @@
 				071D3775208EDB9900E59AA7 /* SelectFlowController.m in Sources */,
 				07A83D0C2090274C00C942E7 /* NSString+PinYin4Cocoa.m in Sources */,
 				07A75A49208E19C5004BA670 /* TextFieldCell.m in Sources */,
+				07F2334020919D4900FBF692 /* FastSorter.m in Sources */,
+				07F2333B209196DE00FBF692 /* ELLinearUnitCell.m in Sources */,
 				071D377F208F1FF700E59AA7 /* SelectionSorter.m in Sources */,
 				07A83D082090274C00C942E7 /* HanyuPinyinOutputFormat.m in Sources */,
 				071D3779208EDC8300E59AA7 /* SelectController.m in Sources */,
@@ -536,12 +581,15 @@
 				079089CE2083A9D7008890F8 /* UIViewController+funcs.m in Sources */,
 				072D6570207FA24B00C25E75 /* ConfigSortController.m in Sources */,
 				07FC6DEF2090784B00167E51 /* SortBaseClass.m in Sources */,
+				07F233302091913F00FBF692 /* ELRepeatLinearCell.m in Sources */,
+				07F2333D209197C700FBF692 /* ELCollectionCell.m in Sources */,
 				07828079207C765E000D0B4A /* Common.m in Sources */,
 				07BDAE45207D9307009BFD30 /* SortingViewController.m in Sources */,
+				07F233432091A30C00FBF692 /* ELInsertionSortCell.m in Sources */,
 				0733322E208D721A009E2E38 /* SettingViewController.m in Sources */,
 				07A83D0B2090274C00C942E7 /* PinyinHelper.m in Sources */,
-				0706F5FA2085DA6000A2753D /* ELLinearUnitCell.m in Sources */,
 				07828066207C5FDC000D0B4A /* ViewController.m in Sources */,
+				07F233332091938700FBF692 /* ELCommonLinearCell.m in Sources */,
 				072E88A120878AC80044B478 /* InsertionSorter.m in Sources */,
 				070EA11E2086568F002B84E2 /* ELTreeUnitCell.mm in Sources */,
 				079089D12083AFD3008890F8 /* SelectOrderController.m in Sources */,

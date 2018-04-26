@@ -75,6 +75,7 @@
     [_inputField setFont:[UIFont systemFontOfSize:22]];
     [[_inputField layer] setCornerRadius:4];
     _inputField.clipsToBounds = 1;
+    _inputField.returnKeyType = UIReturnKeyDone;
     [_inputField setContentInset:UIEdgeInsetsMake(0, 8, 0, 8.5)];
     _inputField.delegate = self;
     [self.view addSubview:_inputField];

@@ -38,6 +38,7 @@
             make.centerY.height.equalTo(l);
             make.width.mas_equalTo(100);
         }];
+        _textField.returnKeyType = UIReturnKeyDone;
         [_textField setTextAlignment:NSTextAlignmentRight];
         [_textField setKeyboardType:UIKeyboardTypeNumberPad];
     }

@@ -8,6 +8,9 @@
 
 #ifndef Common_h
 #define Common_h
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullability-completeness"
+
 #include <UIKit/UIKit.h>
 
 //MARK: - Project Specified
@@ -28,14 +31,15 @@
 #define kColorArr @"colorArr"
 #define kPositionArr @"positionsArr"
 #define kTitleArr @"titleArray"
+#define kCommingText @"wsgfwsew"
 
 #define kSortOrder @"sortType"
 #define kSortType @"sortOrder"
 
 //MARK: - noti names
-UIKIT_EXTERN NSNotificationName const ELSplitVCShouldDismissNotification;
-UIKIT_EXTERN NSNotificationName const SortingVCShouldStartDisplayNotification;
-UIKIT_EXTERN NSNotificationName const ELTextFieldShouldResignNotification;
+UIKIT_EXTERN NSNotificationName _Nonnull const ELSplitVCShouldDismissNotification;
+UIKIT_EXTERN NSNotificationName _Nonnull const SortingVCShouldStartDisplayNotification;
+UIKIT_EXTERN NSNotificationName _Nonnull const ELTextFieldShouldResignNotification;
 
 //MARK: - enum and options
 typedef NS_ENUM(NSUInteger, SortType) {
@@ -43,7 +47,7 @@ typedef NS_ENUM(NSUInteger, SortType) {
     SortTypeInsertion = 2,
     SortTypeHeap = 3,
     SortTypeSelection = 1,
-    
+    SortTypeFast = 4,
 };
 
 ///section * 10 + row = raw value
@@ -106,5 +110,5 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 @end
 
 
-
-#endif /* Common_h */
+#pragma clang diagnostic pop
+#endif

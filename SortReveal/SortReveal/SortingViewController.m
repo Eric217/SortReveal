@@ -6,14 +6,14 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
+#import <Masonry/Masonry.h>
 #import "SortingViewController.h"
 #import "UIView+funcs.h"
-#import "ELCollectionCell.h"
 #import "UIView+frameProperty.h"
 #import "UIViewController+funcs.h"
 #import "SettingViewController.h"
 #import "LinearSubSorters.h"
-#import <Masonry/Masonry.h>
+#import "Cells.h"
 
 #define emptyDisplayString @"配置排序\n以开始"
 
@@ -119,10 +119,14 @@
 
 ///点击展示界面上的返回按钮
 - (void)clickBack:(id)sender {
-    
+    //TODO: - 
+    [Config postNotification:ELSplitVCShouldDismissNotification message:nil];
+
 }
 
 - (void)restart:(id)sender {
+    [self initializeWithArr:_originDataArr type:self.sortType order:self.sortOrder];
+
     
 }
 
@@ -146,7 +150,7 @@
         [self initializeWithArr:noti.userInfo[kDataArr] type:t order:o];
 }
 
-///由prepare调用，展示开始的唯一入口，参数: 原始数组、排序种类、顺序方式
+///由prepare或restart调用，展示开始的唯一入口，参数: 原始数组、排序种类、顺序方式
 - (void)initializeWithArr:(NSMutableArray *)arr type:(SortType)t order:(SortOrder)o {
     _sortType = t;
     _sortOrder = o;
@@ -181,6 +185,8 @@
         return @[ ];
     } else if (_sortType == SortTypeHeap) {
         return @[ ];
+    } else if (_sortType == SortTypeFast) {
+        
     }
     return 0;
 }
@@ -196,6 +202,8 @@
         return @[ ];
     } else if (_sortType == SortTypeHeap) {
         return @[ ];
+    } else if (_sortType == SortTypeFast) {
+        
     }
     return 0;
 }
@@ -210,6 +218,8 @@
         _sorter = [[SelectionSorter alloc] init];
     } else if (_sortType == SortTypeHeap) {
         _sorter = [[HeapSorter alloc] init];
+    } else if (_sortType == SortTypeFast) {
+        _sorter = [[FastSorter alloc] init];
     }
    
     [_sorter initializeWithArray:_originDataArr order:_sortOrder]; //inside deep
@@ -221,7 +231,7 @@
    
     _originDataArr = 0;
     _viewDataDictArr = [[NSMutableArray alloc] init];
-    _collectionBackView.text = @"";
+    _collectionBackView.text = emptyDisplayString;
 
     //TODO: - 以后熟悉了splitViewController这里可能要改。用pop会警告
     //[self.navigationController popToRootViewControllerAnimated:0];
@@ -281,8 +291,12 @@
     if (_sortType == SortTypeHeap) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELTreeUnitCell.class) forIndexPath:indexPath];
    
-    } else {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELLinearUnitCell.class) forIndexPath:indexPath];
+    } else if (_sortType == SortTypeBubble || _sortType == SortTypeSelection){
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELCommonLinearCell.class) forIndexPath:indexPath];
+    } else if (_sortType == SortTypeInsertion) {
+        
+    } else if (_sortType == SortTypeFast) {
+        
     }
     
     cell.dataDict = _viewDataDictArr[indexPath.item];
@@ -315,7 +329,7 @@
     
     UIBarButtonItem *restart = [[UIBarButtonItem alloc] initWithTitle:@"重新开始" style:UIBarButtonItemStylePlain target:self action:@selector(restart:)];
     [restart setTintColor:UIColor.blackColor];
-    _settings = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStylePlain target:self action:@selector(openSettings:)];
+    _settings = [[UIBarButtonItem alloc] initWithTitle:@" 设置" style:UIBarButtonItemStylePlain target:self action:@selector(openSettings:)];
     [_settings setTintColor:UIColor.blackColor];
     self.navigationItem.rightBarButtonItems = @[_settings, restart];
     
@@ -345,7 +359,10 @@
     _collection.alwaysBounceVertical = 1;
     _collection.contentInset = UIEdgeInsetsMake(38.5, _edgeDistance, 24, _edgeDistance);
     [_collection registerClass:ELTreeUnitCell.class forCellWithReuseIdentifier:NSStringFromClass(ELTreeUnitCell.class)];
-    [_collection registerClass:ELLinearUnitCell.class forCellWithReuseIdentifier:NSStringFromClass(ELLinearUnitCell.class)];
+    [_collection registerClass:ELCommonLinearCell.class forCellWithReuseIdentifier:NSStringFromClass(ELCommonLinearCell.class)];
+    [_collection registerClass:ELRepeatLinearCell.class forCellWithReuseIdentifier:NSStringFromClass(ELRepeatLinearCell.class)];
+    [_collection registerClass:ELGroupedUnitCell.class forCellWithReuseIdentifier:NSStringFromClass(ELGroupedUnitCell.class)];
+//    [_collection registerClass:ELLinearUnitCell.class forCellWithReuseIdentifier:NSStringFromClass(ELLinearUnitCell.class)];
     [self.view addSubview:_collection];
     [_collection mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
@@ -379,9 +396,6 @@
     [self setTitle:@"动态演示"];
     [Config addObserver:self selector:@selector(prepareDisplay:) notiName:SortingVCShouldStartDisplayNotification];
 }
-
-
-
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];

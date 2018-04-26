@@ -29,5 +29,9 @@
 
 @end
 
+@interface FastSorter: SortBaseClass
+
+@end
+
 
 #endif /* Sorters_h */
