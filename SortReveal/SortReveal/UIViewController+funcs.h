@@ -18,6 +18,7 @@
 
 
 @interface UIViewController (ELSplitController)
+- (bool)isDevicePortait;
 
 - (bool)isPortrait;
 

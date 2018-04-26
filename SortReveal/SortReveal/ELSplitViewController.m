@@ -38,6 +38,13 @@
     
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    if (self.view.bounds.size.width == _splitView.view.bounds.size.width) {
+        printf("ojbkl😭");
+    }
+}
+
 - (void)dismiss {
     if (!_backVC) {
         return;

@@ -40,7 +40,7 @@
         }];
         _textField.returnKeyType = UIReturnKeyDone;
         [_textField setTextAlignment:NSTextAlignmentRight];
-        [_textField setKeyboardType:UIKeyboardTypeNumberPad];
+        [_textField setKeyboardType:UIKeyboardTypeDecimalPad];
     }
     return self;
     

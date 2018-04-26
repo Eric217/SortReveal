@@ -9,6 +9,7 @@
 #import "ConfigSortController.h"
 #import "SelectOrderController.h"
 #import "Protocols.h"
+#import "UIViewController+funcs.h"
 #import <Masonry/Masonry.h>
 
 @interface ConfigSortController () <UITextViewDelegate, SimpleTransfer>
@@ -17,6 +18,8 @@
 @property (strong, nonatomic) UITextView *inputField;
 @property (strong, nonatomic) UIButton *selectOrder;
 @property (strong, nonatomic) UIButton *startShow;
+@property (strong, nonatomic) UILabel *label1;
+@property (strong, nonatomic) UIView *way;
 
 @property (assign) SortOrder sortOrder;
 @property (assign) SortType sortType;
@@ -24,6 +27,41 @@
 @end
 
 @implementation ConfigSortController
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    if (ScreenH > self.view.bounds.size.height && ![self isDevicePortait]) {
+        [self update4Y:76 label:12 way:3 start:7 tfup:6 tfBott:2];
+        
+    } else {
+        [self update4Y:64+[Config v_pad:44 plus:28 p:26 min:24] label:[Config v_pad:45 plus:36 p:32 min:25] way:[Config v_pad:65 plus:40 p:36 min:32] start:[Config v_pad:58 plus:34 p:30 min:24] tfup:(IPAD ? 29 : 24) tfBott:IPAD ? 29 : 25];
+    }
+    
+    
+}
+
+- (void)update4Y:(CGFloat)y1 label:(CGFloat)y2 way:(CGFloat)y3 start:(CGFloat)y4 tfup:(CGFloat)tfup tfBott:(CGFloat)tfBott {
+    [_sortName mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(y1);
+    }];
+    
+    [_label1 mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.sortName.mas_bottom).offset(y2);
+    }];
+    
+    [_way mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.startShow.mas_top).inset(y3);
+    }];
+    
+    [_startShow mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view).inset(y4);
+    }];
+    [_inputField mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.label1.mas_bottom).offset(24 + tfup);
+        make.bottom.equalTo(self.way.mas_top).inset(tfBott);
+    }];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,8 +75,8 @@
     _sortName = [self getLabelWithTitle:0 fontSize:(IPAD ? 29 : 27)];
     [self.view addSubview:_sortName];
     
-    UILabel *label1 = [self getLabelWithTitle:@"输入要演示的排序内容。" fontSize:18];
-    [self.view addSubview:label1];
+    _label1 = [self getLabelWithTitle:@"输入要演示的排序内容。" fontSize:18];
+    [self.view addSubview:_label1];
     UILabel *label2 = [self getLabelWithTitle:@"以空格分隔每个元素。" fontSize:18];
     [self.view addSubview:label2];
 
@@ -55,11 +93,11 @@
     [self.view addSubview:_startShow];
     
     //sort order
-    UIView *way = [[UIView alloc] init];
-    [way setBackgroundColor:UIColor.clearColor];
-    [self.view addSubview:way];
+    _way = [[UIView alloc] init];
+    [_way setBackgroundColor:UIColor.clearColor];
+    [self.view addSubview:_way];
     UILabel *wayDec = [self getLabelWithTitle:@"排序方式" fontSize:20];
-    [way addSubview:wayDec];
+    [_way addSubview:wayDec];
     _selectOrder = [[UIButton alloc] init];
     [_selectOrder setTitle:@"自动推断" forState:UIControlStateNormal];
     [_selectOrder.titleLabel setFont:[UIFont systemFontOfSize:20]];
@@ -68,7 +106,7 @@
     [_selectOrder setImage:img forState:UIControlStateNormal];
     [_selectOrder setTitleEdgeInsets:UIEdgeInsetsMake(0, -30, 0, 0)];
     [_selectOrder setImageEdgeInsets:UIEdgeInsetsMake(0, 100, 0, 0)];
-    [way addSubview:_selectOrder];
+    [_way addSubview:_selectOrder];
     
     //input field
     _inputField = [[UITextView alloc] init];
@@ -88,45 +126,45 @@
     [_sortName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
         make.height.mas_equalTo(36);
-        make.top.equalTo(self.view).offset(64+[Config v_pad:44 plus:28 p:26 min:24]);
+        make.top.equalTo(self.view);
     }];
     [_startShow mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).inset([Config v_pad:58 plus:34 p:30 min:24]);
-        make.height.mas_greaterThanOrEqualTo(44);
+        make.bottom.equalTo(self.view);
+        make.height.mas_equalTo(44);
         make.centerX.equalTo(self.view);
     }];
-    [label1 mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_label1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(24);
         make.left.right.equalTo(self.view);
-        make.top.equalTo(self.sortName.mas_bottom).offset([Config v_pad:45 plus:36 p:32 min:25]);
+        make.top.equalTo(self.sortName.mas_bottom);
     }];
     [label2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(21);
         make.left.right.equalTo(self.view);
-        make.top.equalTo(label1.mas_bottom).offset(3);
+        make.top.equalTo(self.label1.mas_bottom).offset(3);
     }];
-    [way mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_way mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.startShow.mas_top).inset([Config v_pad:65 plus:40 p:36 min:32]);
+        make.bottom.equalTo(self.startShow.mas_top);
         make.size.mas_equalTo(CGSizeMake(240, 61));
     }];
     [wayDec mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(way).inset(110);
-        make.left.greaterThanOrEqualTo(way);
-        make.centerY.equalTo(way);
-        make.width.mas_greaterThanOrEqualTo(116);
+
+        make.left.equalTo(self.way);
+        make.centerY.equalTo(self.way);
+        make.size.mas_equalTo(CGSizeMake(126, 55));
     }];
     [_selectOrder mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(way);
-        make.right.equalTo(way).inset(14);
-        make.width.mas_greaterThanOrEqualTo(114);
-        make.left.mas_greaterThanOrEqualTo(way);
+        make.centerY.equalTo(self.way);
+        make.right.equalTo(self.way).inset(14);
+        make.size.mas_equalTo(CGSizeMake(114, 55));
+        
     }];
     [_inputField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(40);
         make.right.equalTo(self.view).inset(40);
         make.top.equalTo(label2.mas_bottom).offset(IPAD ? 29 : 24);
-        make.bottom.equalTo(way.mas_top).inset(IPAD ? 29 : 25);
+        make.bottom.equalTo(self.way.mas_top).inset(IPAD ? 29 : 25);
     }];
     
 }

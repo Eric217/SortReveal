@@ -24,11 +24,14 @@
 @property (strong, nonatomic) UIBarButtonItem *settings;
 
 @property (strong, nonatomic) UICollectionView *collection;
+@property (strong, nonatomic) UIBarButtonItem *customBackItem;
 @property (strong, nonatomic) UIButton *backButton;
 @property (strong, nonatomic) UIBarButtonItem *nextStepButton;
 @property (strong, nonatomic) UIBarButtonItem *lastStepButton;
 @property (strong, nonatomic) UIBarButtonItem *nextRowButton;
 @property (strong, nonatomic) UIBarButtonItem *flowRunButton;
+@property (strong, nonatomic) UIBarButtonItem *restartButton;
+@property (strong, nonatomic) UIBarButtonItem *cancelFullScreen;
 @property (strong, nonatomic) UILabel *collectionBackView;
 
 @property (nonatomic, copy) NSMutableArray *originDataArr;
@@ -46,12 +49,59 @@
 
 @implementation SortingViewController
 
-- (UIViewController *)primaryViewControllerForExpandingSplitViewController:(UISplitViewController *)splitViewController {
+//- (UIViewController *)primaryViewControllerForExpandingSplitViewController:(UISplitViewController *)splitViewController {
+//
+//}
+//
+//- (UIViewController *)primaryViewControllerForCollapsingSplitViewController:(UISplitViewController *)splitViewController {
+//
+//
+//}
+
+- (void)automaticSplitStyle {
+    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModeAutomatic];
+    self.navigationItem.leftBarButtonItems = @[_customBackItem];
+}
+
+///点击展示界面上的返回按钮
+- (void)clickBack:(id)sender {
+    if ([_backButton.titleLabel.text isEqualToString:@"全屏显示"]) {
+        [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModePrimaryHidden];
+        self.navigationItem.leftBarButtonItems = @[_customBackItem, _cancelFullScreen];
+        [Config postNotification:ELTextFieldShouldResignNotification message:0];
+    } else if (self.navigationItem.leftBarButtonItems.count > 1) {
+        [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModePrimaryOverlay];
+    }
+    if (self.view.width == self.splitViewController.view.width) {
+        printf("OK");
+    }
     
 }
 
-- (UIViewController *)primaryViewControllerForCollapsingSplitViewController:(UISplitViewController *)splitViewController {
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    //右边下边几个button模块
+    if ([self isFloatingOrThirth]) {
+        [_settings setTitle:@"设置"];
+        [_nextStepButton setTitle:@"下一步"];
+        [_restartButton setTitle:@"重置"];
+        [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -18, 0, 0)];
+    } else {
+        [_settings setTitle:@" 设置"];
+        [_restartButton setTitle:@"重新开始"];
+        [_nextStepButton setTitle:@"单步执行"];
+        [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -14, 0, 0)];
+    }
     
+    if ([self.splitViewController canShowBoth] && [self isTwoThirth]) {
+        [_backButton setTitle:@"全屏显示" forState:UIControlStateNormal];
+        
+    } else {
+        [_backButton setTitle:@"配置排序" forState:UIControlStateNormal];
+    }
+    
+    
+    //split vc模块
     
 }
 
@@ -124,16 +174,13 @@
     [_flowRunButton setTitle:@"顺序执行"];
 }
 
-//MARK: - 2 top buttons
+//MARK: - top buttons
 
-///点击展示界面上的返回按钮
-- (void)clickBack:(id)sender {
-    //TODO: - 
-    [Config postNotification:ELSplitVCShouldDismissNotification message:nil];
-
-}
 
 - (void)restart:(id)sender {
+    if (_originDataArr.count <= 1) {
+        return;
+    }
     [self initializeWithArr:_originDataArr type:self.sortType order:self.sortOrder];
 
     
@@ -185,7 +232,7 @@
 
 - (NSArray *)getInitialPositions {
     if (_originDataArr.count <= 1) {
-        return 0;
+        return @[];
     } else if (_sortType == SortTypeBubble) {
         return @[@"0", @"1", [NSString stringWithFormat:@"%d", (int)(_originDataArr.count)]];
     } else if (_sortType == SortTypeSelection) {
@@ -202,7 +249,7 @@
 
 - (NSArray *)getInitialTitles {
     if (_originDataArr.count <= 1) {
-        return 0;
+        return @[];
     } else if (_sortType == SortTypeBubble) {
         return @[@"j", @"j+1", @"i"];
     } else if (_sortType == SortTypeSelection) {
@@ -251,6 +298,8 @@
     [self.navigationController setViewControllers:vcs];
     [_collection reloadData];
     [self initButtonState:1];
+    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModeAutomatic];
+
 }
 
 - (void)initButtonState:(BOOL)state {
@@ -328,34 +377,30 @@
     
     //buttons
     _backButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 6, 92, 32)];
-    [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, IPAD ? -14 : -20, 0, 0)];
     [_backButton setTitle:@"配置排序" forState:UIControlStateNormal];
     [_backButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     [_backButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
     [_backButton setImage:[Config backImage] forState:UIControlStateNormal];
     [_backButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *customBackItem = [[UIBarButtonItem alloc] initWithCustomView:_backButton];
+    _customBackItem = [[UIBarButtonItem alloc] initWithCustomView:_backButton];
     //self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-    self.navigationItem.leftBarButtonItems = @[customBackItem];
+    self.navigationItem.leftBarButtonItems = @[_customBackItem];
+    _cancelFullScreen = [[UIBarButtonItem alloc] initWithTitle:@"取消全屏" style:UIBarButtonItemStylePlain target:self action:@selector(automaticSplitStyle)];
+    [_cancelFullScreen setTintColor:UIColor.blackColor];
     
-    UIBarButtonItem *restart = [[UIBarButtonItem alloc] initWithTitle:@"重新开始" style:UIBarButtonItemStylePlain target:self action:@selector(restart:)];
-    [restart setTintColor:UIColor.blackColor];
+    _restartButton = [[UIBarButtonItem alloc] initWithTitle:@"重新开始" style:UIBarButtonItemStylePlain target:self action:@selector(restart:)];
+    [_restartButton setTintColor:UIColor.blackColor];
     _settings = [[UIBarButtonItem alloc] initWithTitle:@" 设置" style:UIBarButtonItemStylePlain target:self action:@selector(openSettings:)];
     [_settings setTintColor:UIColor.blackColor];
-    self.navigationItem.rightBarButtonItems = @[_settings, restart];
+    self.navigationItem.rightBarButtonItems = @[_settings, _restartButton];
     
     _lastStepButton = [[UIBarButtonItem alloc] initWithTitle:@"上一步" style:UIBarButtonItemStylePlain target:self action:@selector(lastStep:)];
     _flowRunButton = [[UIBarButtonItem alloc] initWithTitle:@"顺序执行" style:UIBarButtonItemStylePlain target:self action:@selector(play:)];
     _nextRowButton = [[UIBarButtonItem alloc] initWithTitle:@"单组跳过" style:UIBarButtonItemStylePlain target:self action:@selector(nextRow:)];
-    CGFloat www; NSString *nextStepStr;
-    if (IPHONE4 || IPHONE5) {
-        www = 0; nextStepStr = @"下一步";
-    } else {
-        www = 42; nextStepStr = @"单步执行";
-    }
-    _nextStepButton = [[UIBarButtonItem alloc] initWithTitle:nextStepStr style:UIBarButtonItemStylePlain target:self action:@selector(nextStep:)];
+ 
+    _nextStepButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:@selector(nextStep:)];
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:0 action:0];
-    [fixedSpace setWidth:www];
+    [fixedSpace setWidth:42];
     self.toolbarItems = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:0 action:0], _lastStepButton, fixedSpace, _flowRunButton, _nextRowButton, _nextStepButton];
     
     //collection view
@@ -389,8 +434,8 @@
     _collectionBackView.font = [UIFont systemFontOfSize:28];
     _collectionBackView.textAlignment = NSTextAlignmentCenter;
     [_collectionBackView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.collection);
-        make.centerY.equalTo(self.collection.mas_centerY).mas_offset(-122);
+        make.centerX.equalTo(self.collection).mas_offset(-15);
+        make.centerY.equalTo(self.collection.mas_centerY).mas_offset(-126);
         make.size.mas_equalTo(CGSizeMake(300, 200));
     }];
  
