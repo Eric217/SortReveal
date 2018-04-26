@@ -30,6 +30,8 @@
         _titleLabel.clipsToBounds = 1;
         _titleLabel.layer.borderColor = [UIColor.lightGrayColor colorWithAlphaComponent:0.7].CGColor;
         _titleLabel.layer.borderWidth = 1.5;
+        self.layer.cornerRadius = 3;
+        self.layer.masksToBounds = 1;
   
     }
     

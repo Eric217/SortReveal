@@ -7,6 +7,7 @@
 //
 
 #import "UIViewController+funcs.h"
+#import "Common.h"
 
 @implementation UIViewController (funcs)
 
@@ -26,3 +27,68 @@
 }
 
 @end
+
+@implementation UIViewController (ELSplitController)
+
+#define Delta 20
+
+///真的ipad是正着还是横屏
+- (bool)isDevicePortait {
+    return ScreenW < ScreenH;
+}
+
+///对于ipad是指除了横屏2/3之外 所有宽小于高的情况，不是物理设备的portrait
+- (bool)isPortrait {
+    CGFloat sw = ScreenW, vw = self.view.bounds.size.width;
+    bool heng2_3 = sw > ScreenH && (vw - sw/2) > Delta && sw > vw;
+    if (heng2_3)
+        return 0;
+    return vw < self.view.bounds.size.height;
+}
+
+- (bool)isFloatingOrThirth {
+    if (!IPAD) {
+        return [self isPortrait];
+    } else {
+        return (ScreenW/2 - self.view.bounds.size.width) > Delta;
+    }
+}
+
+- (bool)isHalfIpad {
+    if (!IPAD) {
+        return 0;
+    }
+    return fabs(ScreenW/2 - self.view.bounds.size.width) < Delta;
+}
+
+- (bool)isTwoThirth {
+    CGFloat sw = ScreenW, vw = self.view.bounds.size.width;
+    return fabs(sw/2-vw) > Delta && sw > vw;
+}
+
+- (bool)isFullScreen {
+    return ScreenW == self.view.bounds.size.width;
+}
+
+- (bool)canPullHideLeft {
+    if (!IPAD)
+        return 0;
+    if ([self isPortrait])
+        return [self isFullScreen];
+    else
+        return [self isTwoThirth];
+}
+
+- (bool)canShowBoth {
+    if (!IPAD)
+        return IPHONE6P;
+    return ![self isPortrait] && [self isFullScreen];
+}
+
+- (bool)isNoSplit {
+    return ![self canShowBoth] && ![self canPullHideLeft];
+}
+
+@end
+
+

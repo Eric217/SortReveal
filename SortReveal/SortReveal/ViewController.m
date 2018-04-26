@@ -12,6 +12,7 @@
 #import <Masonry/Masonry.h>
 #import "UIView+frameProperty.h"
 #import "ELSplitViewController.h"
+#import "UIViewController+funcs.h"
 #import "ELSortNameCollectionCell.h"
  
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -138,29 +139,37 @@
  
 }
 
+
 //比collection view的代理方法先执行
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
    
     const CGSize s = self.view.frame.size;
-    CGFloat w;
-    if (s.width > s.height) {
-        w = s.height;
-    } else {
-        w = s.width;
-    }
-    
+ 
+    CGFloat w = s.width > s.height ? s.height : s.width;
+ 
     if (IPAD) {
-        _itemSize = (w-2*_edgeDistance-2*68)/3;
+     
+        if ([self isFloatingOrThirth]) {
+            _itemSize = (s.width - 2.64*_edgeDistance);
+        } else if ([self isFullScreen]) {
+            _itemSize = (w-2*_edgeDistance-2*68)/3;
+        } else if ([self isHalfIpad] || [self isPortrait]) { //!!!!
+            _itemSize = (s.width - 2.9*_edgeDistance)/2;
+        } else {
+            _itemSize = (w-3.6*_edgeDistance)/3;
+        }
     } else {
         _itemSize = (w-3*_edgeDistance)/2;
     }
-    
-    bool widthLong = s.width > s.height;
-    int ww = IPAD ? 190 : 90;
-    int ws = IPAD ? 170 : 70;
+ 
     [_appTitle mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(widthLong ? ws : ww);
+        CGFloat h;
+        if (IPAD)
+            h = [self isPortrait] ? 190 : 170;
+        else
+            h = [self isPortrait] ? 90 : 70;
+        make.height.mas_equalTo(h);
     }];
 }
 

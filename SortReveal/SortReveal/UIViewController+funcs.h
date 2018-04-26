@@ -15,3 +15,26 @@
 - (void)pushWithoutBottomBar:(UIViewController *)vc;
 
 @end
+
+
+@interface UIViewController (ELSplitController)
+
+- (bool)isPortrait;
+
+- (bool)isFloatingOrThirth;
+    
+- (bool)isHalfIpad;
+    
+- (bool)isTwoThirth;
+    
+- (bool)isFullScreen;
+    
+//以下几个函数涉及到split view controller.
+- (bool)canPullHideLeft;
+    
+- (bool)canShowBoth;
+    
+- (bool)isNoSplit;
+
+
+@end

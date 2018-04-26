@@ -46,6 +46,15 @@
 
 @implementation SortingViewController
 
+- (UIViewController *)primaryViewControllerForExpandingSplitViewController:(UISplitViewController *)splitViewController {
+    
+}
+
+- (UIViewController *)primaryViewControllerForCollapsingSplitViewController:(UISplitViewController *)splitViewController {
+    
+    
+}
+
 //MARK: - 4 bottom control buttons
 - (void)lastStep:(id)sender {
     int len = (int)(_viewDataDictArr.count);
@@ -325,7 +334,9 @@
     [_backButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
     [_backButton setImage:[Config backImage] forState:UIControlStateNormal];
     [_backButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItems = @[[[UIBarButtonItem alloc] initWithCustomView:_backButton]];
+    UIBarButtonItem *customBackItem = [[UIBarButtonItem alloc] initWithCustomView:_backButton];
+    //self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    self.navigationItem.leftBarButtonItems = @[customBackItem];
     
     UIBarButtonItem *restart = [[UIBarButtonItem alloc] initWithTitle:@"重新开始" style:UIBarButtonItemStylePlain target:self action:@selector(restart:)];
     [restart setTintColor:UIColor.blackColor];

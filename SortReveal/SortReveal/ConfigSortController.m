@@ -157,6 +157,8 @@
 
     NSDictionary *userinfo = [NSDictionary dictionaryWithObjects:@[inputData, [NSNumber numberWithUnsignedInteger:_sortType], [NSNumber numberWithUnsignedInteger:_sortOrder]] forKeys:@[kDataArr, kSortType, kSortOrder]];
     [Config postNotification:SortingVCShouldStartDisplayNotification message:userinfo];
+    
+    //[self showDetailViewController:self.splitViewController.viewControllers[1] sender:0];
 }
 
 - (void)selectOrder:(id)sender {

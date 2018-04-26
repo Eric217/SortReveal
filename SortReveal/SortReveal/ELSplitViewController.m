@@ -9,7 +9,7 @@
 #import "ELSplitViewController.h"
 #import "UIViewController+funcs.h"
 
-@interface ELSplitViewController() <UISplitViewControllerDelegate>
+@interface ELSplitViewController()
 
 @property (nonatomic, strong) UISplitViewController *splitView;
 @property (assign) SortType type;
@@ -29,7 +29,7 @@
  
     _splitView = [[UISplitViewController alloc] init];
     [_splitView setViewControllers:[NSArray arrayWithObjects:masterNavVC, detailNavVC, nil]];
-    _splitView.delegate = self;
+    _splitView.delegate = _detail;
     
     [self.view addSubview:_splitView.view];
     

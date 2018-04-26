@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SortingViewController : UIViewController
+@interface SortingViewController : UIViewController <UISplitViewControllerDelegate>
 
 - (void)clearContent;
 

@@ -190,7 +190,7 @@
 			name = SelectFlowController;
 			sourceTree = "<group>";
 		};
-		07245C162086E4AF00490B4C /* Sort */ = {
+		07245C162086E4AF00490B4C /* Sorter */ = {
 			isa = PBXGroup;
 			children = (
 				07FC6DED209073BC00167E51 /* Base */,
@@ -201,7 +201,7 @@
 				072E88A020878AC80044B478 /* InsertionSorter.m */,
 				07F2333F20919D4900FBF692 /* FastSorter.m */,
 			);
-			name = Sort;
+			name = Sorter;
 			sourceTree = "<group>";
 		};
 		07245C172086E4C200490B4C /* DataStructure */ = {
@@ -221,12 +221,22 @@
 		0724768A207DD5E6004786B8 /* Sort */ = {
 			isa = PBXGroup;
 			children = (
+				074A782F20920EA30064D483 /* SplitViewController */,
 				07BDAE46207D97F4009BFD30 /* ConfigSortController */,
 				07BDAE42207D92E3009BFD30 /* SortingViewController */,
 				07A75A45208E166A004BA670 /* SettingViewController */,
 				071D3776208EDC4300E59AA7 /* SelectController */,
 			);
 			name = Sort;
+			sourceTree = "<group>";
+		};
+		074A782F20920EA30064D483 /* SplitViewController */ = {
+			isa = PBXGroup;
+			children = (
+				07545DD72083028700430681 /* ELSplitViewController.h */,
+				07545DD82083028700430681 /* ELSplitViewController.m */,
+			);
+			name = SplitViewController;
 			sourceTree = "<group>";
 		};
 		07828055207C5FDC000D0B4A = {
@@ -327,7 +337,7 @@
 		07BD8C992085B4D6008440A7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				07245C162086E4AF00490B4C /* Sort */,
+				07245C162086E4AF00490B4C /* Sorter */,
 				07245C172086E4C200490B4C /* DataStructure */,
 			);
 			name = Model;
@@ -338,8 +348,6 @@
 			children = (
 				07828064207C5FDC000D0B4A /* ViewController.h */,
 				07828065207C5FDC000D0B4A /* ViewController.m */,
-				07545DD72083028700430681 /* ELSplitViewController.h */,
-				07545DD82083028700430681 /* ELSplitViewController.m */,
 				07E38E0A207CF63100E3A4BB /* ELSortNameCollectionCell.h */,
 				07E38E0B207CF63100E3A4BB /* ELSortNameCollectionCell.m */,
 			);
