@@ -29,10 +29,11 @@
  
     _splitView = [[UISplitViewController alloc] init];
     [_splitView setViewControllers:[NSArray arrayWithObjects:masterNavVC, detailNavVC, nil]];
-    _splitView.delegate = _detail;
-    
+    _splitView.delegate = _master;
+    //_splitView.view.backgroundColor = UIColor.whiteColor;
     [self.view addSubview:_splitView.view];
     
+    self.view.backgroundColor = UIColor.whiteColor;
     [Config addObserver:self selector:@selector(dismiss) notiName:ELSplitVCShouldDismissNotification];
     [self initOrResetContent:_type];
     
@@ -40,9 +41,8 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    if (self.view.bounds.size.width == _splitView.view.bounds.size.width) {
-        printf("ojbkl😭");
-    }
+    //(self.view.bounds.size.width = _splitView.view.bounds.size.width)
+  
 }
 
 - (void)dismiss {

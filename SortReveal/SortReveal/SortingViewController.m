@@ -31,7 +31,7 @@
 @property (strong, nonatomic) UIBarButtonItem *nextRowButton;
 @property (strong, nonatomic) UIBarButtonItem *flowRunButton;
 @property (strong, nonatomic) UIBarButtonItem *restartButton;
-@property (strong, nonatomic) UIBarButtonItem *cancelFullScreen;
+@property (strong, nonatomic) UIBarButtonItem *cancelFullButton;
 @property (strong, nonatomic) UILabel *collectionBackView;
 
 @property (nonatomic, copy) NSMutableArray *originDataArr;
@@ -44,34 +44,30 @@
 
 @property (assign) CGFloat edgeDistance;
 @property (assign) CGSize itemSize;
+@property (assign) int firstOpen;
+@property (assign) bool fullScreenSpecified;
 
 @end
 
 @implementation SortingViewController
 
-//- (UIViewController *)primaryViewControllerForExpandingSplitViewController:(UISplitViewController *)splitViewController {
-//
-//}
-//
-//- (UIViewController *)primaryViewControllerForCollapsingSplitViewController:(UISplitViewController *)splitViewController {
-//
-//
-//}
-
-- (void)automaticSplitStyle {
-    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModeAutomatic];
-    self.navigationItem.leftBarButtonItems = @[_customBackItem];
+- (void)cancelFullScreen:(id)sender {
+    _fullScreenSpecified = 0;
+    [self automaticSplitStyle];
 }
 
 ///点击展示界面上的返回按钮
 - (void)clickBack:(id)sender {
     if ([_backButton.titleLabel.text isEqualToString:@"全屏显示"]) {
-        [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModePrimaryHidden];
-        self.navigationItem.leftBarButtonItems = @[_customBackItem, _cancelFullScreen];
-        [Config postNotification:ELTextFieldShouldResignNotification message:0];
+        _fullScreenSpecified = 1;
+        [self hidePrimarySplitStyle];
     } else if (self.navigationItem.leftBarButtonItems.count > 1) {
-        [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModePrimaryOverlay];
+        [self automaticSplitStyle];
+    } else if ([self isFullScreen] && [self isDevicePortait]) {
+        [self overlaySplitStyle];
     }
+    
+    
     if (self.view.width == self.splitViewController.view.width) {
         printf("OK");
     }
@@ -80,7 +76,42 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    //右边下边几个button模块
+ 
+    //单app全屏时：
+    //横屏 both 模式：
+    if ([self.splitViewController canShowBoth] && [self isTwoThirth]) {
+        [_backButton setTitle:@"全屏显示" forState:UIControlStateNormal];
+        self.navigationItem.leftBarButtonItems = @[_customBackItem];
+        [self automaticSplitStyle];
+    } else if ([self isFullScreen]) {
+        [_backButton setTitle:@"配置排序" forState:UIControlStateNormal];
+    //竖屏全屏模式：
+        if ([self isDevicePortait]) {
+            self.navigationItem.leftBarButtonItems = @[_customBackItem];
+//            if (_firstOpen) {
+//                _firstOpen = !_firstOpen;
+//            } else
+//                if (!_originDataArr.count) {
+//                    [self overlaySplitStyle];
+//                } else {
+                    [self hidePrimarySplitStyle];
+//                }
+            
+    //横屏全屏模式：
+        } else {
+            self.navigationItem.leftBarButtonItems = @[_customBackItem, _cancelFullButton];
+            [self.splitViewController setPreferredDisplayMode:(_fullScreenSpecified ? UISplitViewControllerDisplayModePrimaryHidden : UISplitViewControllerDisplayModeAutomatic)];
+         
+            [Config postNotification:ELTextFieldShouldResignNotification message:0];
+        }
+    //多app共存，本app位置：
+    } else if ([self.splitViewController isFloatingOrThirth]) {
+        
+        
+    }
+    
+  
+    //只是几个button的title、位置，无任何意义
     if ([self isFloatingOrThirth]) {
         [_settings setTitle:@"设置"];
         [_nextStepButton setTitle:@"下一步"];
@@ -92,17 +123,6 @@
         [_nextStepButton setTitle:@"单步执行"];
         [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -14, 0, 0)];
     }
-    
-    if ([self.splitViewController canShowBoth] && [self isTwoThirth]) {
-        [_backButton setTitle:@"全屏显示" forState:UIControlStateNormal];
-        
-    } else {
-        [_backButton setTitle:@"配置排序" forState:UIControlStateNormal];
-    }
-    
-    
-    //split vc模块
-    
 }
 
 //MARK: - 4 bottom control buttons
@@ -182,8 +202,7 @@
         return;
     }
     [self initializeWithArr:_originDataArr type:self.sortType order:self.sortOrder];
-
-    
+    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;    
 }
 
 - (void)openSettings:(id)sender {
@@ -200,10 +219,16 @@
     if (_originDataArr && _originDataArr.count) {
         NSString *msg = @"有演示中的排序。要开始新的排序吗";
         [self presentAlertWithConfirmTitle:@"提醒" message:msg Action:^(UIAlertAction *_) {
+            if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay)
+                self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
             [self initializeWithArr:noti.userInfo[kDataArr] type:t order:o];
         }];
-    } else
+    } else {
+        if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay)
+            self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
         [self initializeWithArr:noti.userInfo[kDataArr] type:t order:o];
+        
+    }
 }
 
 ///由prepare或restart调用，展示开始的唯一入口，参数: 原始数组、排序种类、顺序方式
@@ -215,7 +240,7 @@
     
     [self initializeSorter];
     [self updateItemSize];
-    [self initButtonState:arr.count > 1];
+    [self initButtonState:arr.count != 1];
 
     if (arr.count != 0) {
         NSArray *posi = [self getInitialPositions];
@@ -285,7 +310,11 @@
 //MARK: - other funcs
 - (void)clearContent {
    
+    if (!_collection) {
+        return;
+    }
     _originDataArr = 0;
+    _firstOpen = 1;
     _viewDataDictArr = [[NSMutableArray alloc] init];
     _collectionBackView.text = emptyDisplayString;
 
@@ -319,13 +348,7 @@
 
 //MARK: - View and Collection View
 
-- (void)setEnabled:(bool)b {
-    [_nextRowButton setEnabled:b];
-    [_nextStepButton setEnabled:b];
-    [_flowRunButton setEnabled:b];
-}
-
-///为不同type的cell设置不同的 item size
+///为不同type的cell设置不同的 item size,点击按钮时更新
 - (void)updateItemSize {
     CGFloat w = self.view.width;
     CGFloat h = self.view.height;
@@ -338,38 +361,6 @@
     } else {
         _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
     }
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return _viewDataDictArr.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    ELCollectionViewCell *cell;
-    if (_sortType == SortTypeHeap) {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELTreeUnitCell.class) forIndexPath:indexPath];
-   
-    } else if (_sortType == SortTypeBubble || _sortType == SortTypeSelection){
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELCommonLinearCell.class) forIndexPath:indexPath];
-    } else if (_sortType == SortTypeInsertion) {
-        
-    } else if (_sortType == SortTypeFast) {
-        
-    }
-    
-    cell.dataDict = _viewDataDictArr[indexPath.item];
-    //!!!!不知道为什么 重新开始一次演示的时候总是画不出来。后来发现drawRect没被调用，就让他needs display。 OK！
-    [cell setNeedsDisplay];
-    return cell;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return _itemSize;
-}
-
-///行间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 24;
 }
 
 - (void)viewDidLoad {
@@ -385,8 +376,8 @@
     _customBackItem = [[UIBarButtonItem alloc] initWithCustomView:_backButton];
     //self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
     self.navigationItem.leftBarButtonItems = @[_customBackItem];
-    _cancelFullScreen = [[UIBarButtonItem alloc] initWithTitle:@"取消全屏" style:UIBarButtonItemStylePlain target:self action:@selector(automaticSplitStyle)];
-    [_cancelFullScreen setTintColor:UIColor.blackColor];
+    _cancelFullButton = [[UIBarButtonItem alloc] initWithTitle:@"取消全屏" style:UIBarButtonItemStylePlain target:self action:@selector(cancelFullScreen:)];
+    [_cancelFullButton setTintColor:UIColor.blackColor];
     
     _restartButton = [[UIBarButtonItem alloc] initWithTitle:@"重新开始" style:UIBarButtonItemStylePlain target:self action:@selector(restart:)];
     [_restartButton setTintColor:UIColor.blackColor];
@@ -449,6 +440,8 @@
     }
     
     //other settings
+    _firstOpen = 1;
+    _fullScreenSpecified = 0;
     [self setTitle:@"动态演示"];
     [Config addObserver:self selector:@selector(prepareDisplay:) notiName:SortingVCShouldStartDisplayNotification];
 }
@@ -458,4 +451,53 @@
     [self stop:0];
 }
 
+- (void)setEnabled:(bool)b {
+    [_nextRowButton setEnabled:b];
+    [_nextStepButton setEnabled:b];
+    [_flowRunButton setEnabled:b];
+}
+
+
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return _viewDataDictArr.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    ELCollectionViewCell *cell;
+    if (_sortType == SortTypeHeap) {
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELTreeUnitCell.class) forIndexPath:indexPath];
+        
+    } else if (_sortType == SortTypeBubble || _sortType == SortTypeSelection){
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELCommonLinearCell.class) forIndexPath:indexPath];
+    } else if (_sortType == SortTypeInsertion) {
+        
+    } else if (_sortType == SortTypeFast) {
+        
+    }
+    
+    cell.dataDict = _viewDataDictArr[indexPath.item];
+    //!!!!不知道为什么 重新开始一次演示的时候总是画不出来。后来发现drawRect没被调用，就让他needs display。 OK！
+    [cell setNeedsDisplay];
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return _itemSize;
+}
+
+///行间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 24;
+}
+
+- (void)automaticSplitStyle {
+    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModeAutomatic];
+}
+- (void)overlaySplitStyle {
+    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModePrimaryOverlay];
+}
+- (void)hidePrimarySplitStyle {
+    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModePrimaryHidden];
+}
 @end

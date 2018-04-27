@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Common.h"
 
-@interface ConfigSortController : UIViewController 
+@interface ConfigSortController : UIViewController <UISplitViewControllerDelegate>
 
 - (void)initializeWithSortType:(SortType)type;
 

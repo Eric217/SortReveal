@@ -66,6 +66,7 @@
     return fabs(sw/2-vw) > Delta && sw > vw;
 }
 
+ 
 - (bool)isFullScreen {
     return ScreenW == self.view.bounds.size.width;
 }

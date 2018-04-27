@@ -28,6 +28,15 @@
 
 @implementation ConfigSortController
 
+
+
+
+
+
+
+
+
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -195,12 +204,12 @@
 
     NSDictionary *userinfo = [NSDictionary dictionaryWithObjects:@[inputData, [NSNumber numberWithUnsignedInteger:_sortType], [NSNumber numberWithUnsignedInteger:_sortOrder]] forKeys:@[kDataArr, kSortType, kSortOrder]];
     [Config postNotification:SortingVCShouldStartDisplayNotification message:userinfo];
-    
+    [_inputField endEditing:1];
     //[self showDetailViewController:self.splitViewController.viewControllers[1] sender:0];
 }
 
 - (void)selectOrder:(id)sender {
-    
+    [_inputField endEditing:1];
     SelectOrderController *selectVC = [[SelectOrderController alloc] init];
     selectVC.delegate = self;
     [self.navigationController pushViewController:selectVC animated:1];
