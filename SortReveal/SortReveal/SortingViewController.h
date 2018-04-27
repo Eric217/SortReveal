@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Common.h"
 
 @interface SortingViewController : UIViewController
-
-- (void)clearContent;
+ 
+- (instancetype)initWithArr:(NSMutableArray *)arr sortType:(SortType)type sortOrder:(SortOrder)order;
+- (void)stopTimer:(id)sender;
 
 @end

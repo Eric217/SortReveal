@@ -14,7 +14,8 @@
 #import "ELSplitViewController.h"
 #import "UIViewController+funcs.h"
 #import "ELSortNameCollectionCell.h"
- 
+
+
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) UILabel *appTitle;
@@ -32,13 +33,14 @@
 
 @implementation ViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     //data arr
     NSArray *arr = [Config getArrayDataFromFile:SortNameFile];
     if (!arr) {
-        arr = @[@"冒泡排序", @"选择排序", @"插入排序", @"堆排序"];
+        arr = @[@"冒泡排序", @"选择排序", @"插入排序", @"堆排序", @"快速排序"];
         [Config writeArrayToFile:SortNameFile data:arr];
     }
     _titleArr = arr.mutableCopy;
@@ -105,40 +107,29 @@
     return CGSizeMake(_itemSize, _itemSize);
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    if (self.view.width == size.width) {
-        return;
-    }
-    
-    bool widthLong = size.width > size.height;
-    int ww = IPAD ? 190 : 90;
-    int ws = IPAD ? 170 : 70;
-    [_appTitle mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(widthLong ? ws : ww);
-    }];
- 
-}
-
 ///行间距。列间距 item spacing不论怎么设置，最后系统都会自己调整，按照cell对称、不能显示一半等等得到最后spacing。
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return _verticalSpacing;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (!_splitVC) {
-        _splitVC = [[ELSplitViewController alloc] init];
-        _splitVC.backVC = self;
-    }
-    NSInteger idx = indexPath.item;
+    //
+    UISplitViewController *splitVC = [[UISplitViewController alloc] init];
+
+    //
+   
+    SortingViewController *vc = [[SortingViewController alloc] init];
+    UINavigationController *emptyDetailNav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [emptyDetailNav setToolbarHidden:0];
     
-    if (idx < 4) {
-        [_splitVC initOrResetContent:indexPath.item];
-        [self.view.window setRootViewController:_splitVC];
-    }
+    //
+    ConfigSortController *conf = [[ConfigSortController alloc] initWithSortType:indexPath.item anotherRoot:self];
+    UINavigationController *masterNav = [[UINavigationController alloc] initWithRootViewController:conf];
+    
+    [splitVC setViewControllers:@[masterNav, emptyDetailNav]];
+    [self.view.window setRootViewController:splitVC];
  
 }
-
 
 //比collection view的代理方法先执行
 - (void)viewDidLayoutSubviews {

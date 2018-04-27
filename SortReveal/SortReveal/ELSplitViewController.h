@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) ConfigSortController *master;
 @property (nonatomic, strong) SortingViewController *detail;
-///这里采用strong加改变内容形式切换root vc. 如果weak则被自动回收了，即使我有一个指针指向它。
+@property (nonatomic, strong) UISplitViewController *splitVC;
 @property (nonatomic, strong) UIViewController *backVC;
 
 - (void)initOrResetContent:(SortType)type;

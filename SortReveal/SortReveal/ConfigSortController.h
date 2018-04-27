@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Common.h"
+#import "SortingViewController.h"
 
-@interface ConfigSortController : UIViewController <UISplitViewControllerDelegate>
+@interface ConfigSortController : UIViewController
 
-- (void)initializeWithSortType:(SortType)type;
+- (instancetype)initWithSortType:(SortType)type anotherRoot:(UIViewController *)rootvc;
 
 @end

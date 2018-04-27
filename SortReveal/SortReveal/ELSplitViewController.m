@@ -11,40 +11,42 @@
 
 @interface ELSplitViewController()
 
-@property (nonatomic, strong) UISplitViewController *splitView;
 @property (assign) SortType type;
 
 @end
 
+
+
 @implementation ELSplitViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     _master = [[ConfigSortController alloc] init];
     _detail = [[SortingViewController alloc] init];
-    UINavigationController *masterNavVC = [[UINavigationController alloc] initWithRootViewController:_master];
+  //  [[UINavigationController alloc] initWithRootViewController:_master];
     UINavigationController *detailNavVC = [[UINavigationController alloc] initWithRootViewController:_detail];
     [detailNavVC setToolbarHidden:0];
  
-    _splitView = [[UISplitViewController alloc] init];
-    [_splitView setViewControllers:[NSArray arrayWithObjects:masterNavVC, detailNavVC, nil]];
-    _splitView.delegate = _master;
-    //_splitView.view.backgroundColor = UIColor.whiteColor;
-    [self.view addSubview:_splitView.view];
-    
-    self.view.backgroundColor = UIColor.whiteColor;
+    self.splitVC = [[UISplitViewController alloc] init];
+    //[self.splitVC setViewControllers:[NSArray arrayWithObjects:masterNavVC, detailNavVC, nil]];
+   // self.splitVC.delegate = _master;
+    [self.view addSubview:self.splitVC.view];
     [Config addObserver:self selector:@selector(dismiss) notiName:ELSplitVCShouldDismissNotification];
     [self initOrResetContent:_type];
-    
+    [self.splitVC setViewControllers:[NSArray arrayWithObjects:_master.navigationController, nil]];
+    self.splitVC.maximumPrimaryColumnWidth = ScreenW;
+     
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    //(self.view.bounds.size.width = _splitView.view.bounds.size.width)
-  
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+   // [self.splitVC setViewControllers:[NSArray arrayWithObjects:_master.navigationController, nil]];
+    //[_splitVC showViewController:_master.navigationController sender:0];
+    //[_splitVC showDetailViewController:_detail.navigationController sender:0];
 }
-
+ 
 - (void)dismiss {
     if (!_backVC) {
         return;
@@ -54,8 +56,8 @@
 
 - (void)initOrResetContent:(SortType)type {
     _type = type;
-    [_master initializeWithSortType:type];
-    [_detail clearContent];
+    //[_master initializeWithSortType:type];
+   // [_detail clearContent];
 }
 
 - (void)dealloc {

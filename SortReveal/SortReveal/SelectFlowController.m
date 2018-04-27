@@ -17,6 +17,16 @@
 
 @implementation SelectFlowController
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.splitViewController.presentsWithGesture = 0;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.splitViewController.presentsWithGesture = 1;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
