@@ -25,6 +25,7 @@
 #define kFlowExecWay @"gresweqwqa"
 #define kNumericCompare @"NumericComeufgdsa"
 #define kAutomaticOrderASD @"fegrwesadsase"
+#define kIgnoringCases @"imngfadsacxses"
 
 //MARK: - display cell data source
 #define kDataArr @"dataArr"
@@ -82,10 +83,14 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 #define UserDefault NSUserDefaults.standardUserDefaults
 #define systemBlue [UIColor colorWithRed:0 green:111.0/255 blue:1 alpha:1]
 #define IPAD (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
+#define IPHONE (!IPAD)
 
 //MARK: - common and useful funcs
 @interface Config: NSObject
 
+@property (assign, readonly) bool isKeyboardShowing;
+
++ (void)initializeConfig;
 + (void)saveDouble:(double)value forKey:(NSString *)key;
 + (double)doubleValue:(NSString *)text;
 + (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId;

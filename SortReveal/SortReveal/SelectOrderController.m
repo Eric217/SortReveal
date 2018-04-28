@@ -25,7 +25,7 @@
     [self setTitle:@"排序方式"];
     
     
-    [self.table registerClass:UITableViewCell.class forCellReuseIdentifier:@"cellid"];
+    [self.table registerClass:UITableViewCell.class forCellReuseIdentifier:NSStringFromClass(UITableViewCell.class)];
     [self.table registerClass:UITableViewHeaderFooterView.class forHeaderFooterViewReuseIdentifier:@"headerid"];
  
     NSArray<NSArray *> *arr = [Config getArrayDataFromFile:SortOrderFile];
@@ -39,11 +39,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return 72;
+        return 50;
     }
-    return 45;
+    return 30;
 }
 
+ 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headerid"];
@@ -64,7 +65,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellid"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(UITableViewCell.class)];
     [[cell textLabel] setText:_array[indexPath.section][indexPath.row]];
     if (indexPath.section == _array.count-1) {
         [[cell textLabel] setTextColor:systemBlue];

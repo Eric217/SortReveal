@@ -14,5 +14,6 @@
 
 @property (strong, nonatomic) UITableView *table;
 @property (weak, nonatomic) id <SimpleTransfer> delegate;
+@property (copy, nonatomic) NSString *currentSelection;
 
 @end

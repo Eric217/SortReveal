@@ -35,7 +35,7 @@
     [self.navigationController.navigationBar setTintColor:UIColor.blackColor];
     [self setTitle:@"顺序执行方式"];
  
-    [self.table registerClass:UITableViewCell.class forCellReuseIdentifier:@"cellid"];
+    [self.table registerClass:UITableViewCell.class forCellReuseIdentifier:NSStringFromClass(UITableViewCell.class)];
     [self.table setRowHeight:50];
  
     _dataArr = @[SingleStep, GroupStep];
@@ -45,8 +45,14 @@
 
 //MARK: - table view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellid"];
-    [[cell textLabel] setText:_dataArr[indexPath.row]];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(UITableViewCell.class)];
+    NSString *txt = _dataArr[indexPath.row];
+    [[cell textLabel] setText:txt];
+
+    if ([self.currentSelection isEqualToString:txt]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+   
     return cell;
 }
 
@@ -56,7 +62,9 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:1];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    [cell setSelected:0 animated:1];
+    [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     [[self navigationController] popViewControllerAnimated:1];
     [self.delegate transferData:_dataArr[indexPath.row]];
 }

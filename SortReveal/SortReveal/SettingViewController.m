@@ -57,8 +57,8 @@
     
     _array = @[@[@"跳过没有发生交换的步骤", @"如果当前步骤不会发生交换，则跳过并执行下一步"], //1+1
                @[@"顺序执行时间间隔", @"顺序执行时单步或单组跳过", @"顺序执行设置"], //2+1
-               @[@"智能比较字母与数字", @"字符或字典排序时，例如 Foo2 < Foo7 < Foo25"], //1+1
-               @[@"自动推断排序方式时升序", @""], //1+1
+               @[@"智能比较字母与数字", @"字符或字典排序时，使 Foo2 < Foo7 < Foo25"], //1+1
+               @[@"自动推断排序方式时升序", @"忽略字母大小写", @""], //2+1
              ];
     [Config postNotification:ELTextFieldShouldResignNotification message:0];
     [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
@@ -83,9 +83,19 @@
     [Config saveDouble:!(sender.isOn) forKey:kAutomaticOrderASD];
 }
 
+- (void)didChangeIgnoringCases:(UISwitch *)sender {
+    [Config saveDouble:sender.isOn forKey:kIgnoringCases];
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField endEditing:1];
     return 1;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    UITextPosition *end = [textField endOfDocument];
+    UITextPosition *start = [textField positionFromPosition:end offset:-textField.text.length];
+    textField.selectedTextRange = [textField textRangeFromPosition:start toPosition:end];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -144,8 +154,11 @@
     } else if (indexPath.section == 3) {
         if (indexPath.row == 0) {
             tableCell = [self switchCellWithAction:@selector(didChangeAutomaticOrder:) isOn:![UserDefault boolForKey:kAutomaticOrderASD]];
+        } else if (indexPath.row == 1) {
+            tableCell = [self switchCellWithAction:@selector(didChangeIgnoringCases:) isOn:[UserDefault boolForKey:kIgnoringCases]];
         }
     }
+    
     tableCell.textLabel.text = _array[indexPath.section][indexPath.row];
 
     return tableCell;
@@ -199,6 +212,7 @@
         } else if (indexPath.row == 1) {
             SelectFlowController *vc = [[SelectFlowController alloc] init];
             vc.delegate = self;
+            vc.currentSelection = [[tableView cellForRowAtIndexPath:indexPath] detailTextLabel].text;
             [self.navigationController pushViewController:vc animated:1];
         }
         

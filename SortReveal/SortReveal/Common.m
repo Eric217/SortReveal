@@ -16,13 +16,38 @@ NSNotificationName const ELTextFieldShouldResignNotification = @"dafwqswqGTR";
 static NSString * docPath = 0;
 static UIImage * _backImage = 0;
 static UIImage * _pushImage = 0;
-
+static Config *sharedConfig;
 
 @interface Config()
 
 @end
 
 @implementation Config
+
++ (void)initializeConfig {
+    [Config shared];
+}
+
++ (Config *)shared {
+    if (!sharedConfig) {
+        sharedConfig = [[Config alloc] init];
+        [NSNotificationCenter.defaultCenter addObserver:sharedConfig selector:@selector(keyboardShow) name:UIKeyboardWillShowNotification object:0];
+         [NSNotificationCenter.defaultCenter addObserver:sharedConfig selector:@selector(keyBoardHide) name:UIKeyboardWillHideNotification object:0];
+    }
+    return sharedConfig;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)keyboardShow {
+    _isKeyboardShowing = 1;
+}
+
+- (void)keyBoardHide {
+    _isKeyboardShowing = 0;
+}
 
 + (void)saveDouble:(double)value forKey:(NSString *)key {
     [NSUserDefaults.standardUserDefaults setDouble:value forKey:key];
@@ -65,14 +90,14 @@ static UIImage * _pushImage = 0;
 
 + (UIImage *)pushImage {
     if (!_pushImage) {
-        _pushImage = [[UIImage imageNamed:@"pushImage"] imageWithColor:UIColor.blackColor];
+        _pushImage = [UIImage imageNamed:@"pushImage"];
     }
     return _pushImage;
 }
 
 + (UIImage *)backImage {
     if (!_backImage) {
-        _backImage = [[UIImage imageNamed:@"backImage"] imageWithColor:UIColor.blackColor];
+        _backImage = [UIImage imageNamed:@"backImage"];
     }
     return _backImage;
 }
@@ -114,7 +139,7 @@ static UIImage * _pushImage = 0;
 
 + (UIBarButtonItem *)customBackBarButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)selec {
     UIButton *_backButton = [[UIButton alloc] init];
-    [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 20)];
+    [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -12, 0, 20)];
     [_backButton setTitle:title forState:UIControlStateNormal];
     [_backButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     [_backButton.titleLabel setFont:[UIFont systemFontOfSize:18]];

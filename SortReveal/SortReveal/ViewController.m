@@ -77,7 +77,11 @@
         make.top.equalTo(self.appTitle.mas_bottom);
         make.width.left.bottom.equalTo(self.view);
     }];
- 
+  
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [Config initializeConfig];
+    }];
+    
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -112,20 +116,19 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    //
+     
     UISplitViewController *splitVC = [[UISplitViewController alloc] init];
-
-    //
-   
-    SortingViewController *vc = [[SortingViewController alloc] init];
-    UINavigationController *emptyDetailNav = [[UINavigationController alloc] initWithRootViewController:vc];
-    [emptyDetailNav setToolbarHidden:0];
-    
-    //
+ 
     ConfigSortController *conf = [[ConfigSortController alloc] initWithSortType:indexPath.item anotherRoot:self];
     UINavigationController *masterNav = [[UINavigationController alloc] initWithRootViewController:conf];
-    
-    [splitVC setViewControllers:@[masterNav, emptyDetailNav]];
+    if (!IPAD) {
+        [splitVC setViewControllers:@[masterNav]];
+    } else {
+        SortingViewController *vc = [[SortingViewController alloc] init];
+        UINavigationController *emptyDetailNav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [emptyDetailNav setToolbarHidden:0];
+        [splitVC setViewControllers:@[masterNav, emptyDetailNav]];
+    }
     [self.view.window setRootViewController:splitVC];
  
 }

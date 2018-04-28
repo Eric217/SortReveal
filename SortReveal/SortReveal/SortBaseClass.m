@@ -23,8 +23,13 @@
 }
 
 - (bool)compareByChar:(NSString *)a with:(NSString *)b order:(bool)lower {
-    bool numeric = [NSUserDefaults.standardUserDefaults boolForKey:kNumericCompare];
-    NSUInteger r = numeric ? [a compare:b options:NSNumericSearch] : [a compare:b];
+    int numeric = [NSUserDefaults.standardUserDefaults boolForKey:kNumericCompare] ? 64 : 0;
+    int caseInsensitive = [UserDefault boolForKey: kIgnoringCases];
+ 
+    
+     NSUInteger r = [a compare:b options:numeric || caseInsensitive];
+    
+//    r = numeric ? [a compare:b options:NSNumericSearch] : [a compare:b];
     return [self yihuo_r:r lower:lower];
 }
 

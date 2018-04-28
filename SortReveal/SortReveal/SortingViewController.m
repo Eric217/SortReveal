@@ -24,8 +24,8 @@
 @property (strong, nonatomic) UIBarButtonItem *settings;
 
 @property (strong, nonatomic) UICollectionView *collection;
-@property (strong, nonatomic) UIBarButtonItem *customBackItem;
-@property (strong, nonatomic) UIButton *backButton;
+@property (strong, nonatomic) UIBarButtonItem *fullScreenItem;
+@property (strong, nonatomic) UIButton *fullScreenButton;
 @property (strong, nonatomic) UIBarButtonItem *nextStepButton;
 @property (strong, nonatomic) UIBarButtonItem *lastStepButton;
 @property (strong, nonatomic) UIBarButtonItem *nextRowButton;
@@ -43,7 +43,7 @@
 
 @property (assign) CGFloat edgeDistance;
 @property (assign) CGSize itemSize;
-@property (assign) bool isTiming;
+
 @property (assign) bool fullScreenSpecified;
 
 @end
@@ -52,7 +52,8 @@
 
  
 //两种情况 一是init时 全空， 一是正常数据
-///执行顺序1 init后最基本的三个数据和sorter有了
+//MARK: - 执行顺序1
+/// init后最基本的三个数据和sorter有了
 - (instancetype)initWithArr:(NSMutableArray *)arr sortType:(SortType)type sortOrder:(SortOrder)order {
     self = [super init];
     if (self) {
@@ -60,16 +61,18 @@
         _sortType = type;
         _sortOrder = order;
         _originDataArr = arr;
-        [self initializeSorter];
-        _viewDataDictArr = [[NSMutableArray alloc] init];
+        if (arr.count) {
+            [self initializeSorter];
+            _viewDataDictArr = [[NSMutableArray alloc] init];
+        }
     }
     return self;
 }
 
 ///点击展示界面上的返回按钮
-- (void)clickBack:(id)sender {
+- (void)setFullScreenDisplay:(id)sender {
     //
-    if ([_backButton.titleLabel.text isEqualToString:@"全屏显示"]) {
+    if ([_fullScreenButton.titleLabel.text isEqualToString:@"全屏显示"]) {
         _fullScreenSpecified = 1;
         [self hidePrimarySplitStyle];
     } else if ([self isFullScreen]) {
@@ -86,7 +89,7 @@
     
 }
 
-//执行顺序4
+//MARK: - 执行顺序4
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -109,6 +112,7 @@
         [_collection reloadData];
     }
 
+    /*
     //if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay)
     //    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
     
@@ -137,23 +141,24 @@
     } else if ([self.splitViewController isTwoThirth] && ![self isDevicePortait]) {
         [self overlaySplitStyle];
     }
-    
+    */
   
     //只是几个button的title、位置，无任何意义
     if ([self isFloatingOrThirth]) {
         [_settings setTitle:@"设置"];
         [_nextStepButton setTitle:@"单步 "];
         [_restartButton setTitle:@"重新开始"]; //重置
-        [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -18, 0, 0)];
+        [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -18, 0, 0)];
     } else {
         [_settings setTitle:@" 设置"];
         [_restartButton setTitle:@"重新开始"];
         [_nextStepButton setTitle:@"单步执行"];
-        [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -14, 0, 0)];
+        [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -14, 0, 0)];
     }
 }
 
-///执行顺序3  展示开始的唯一入口，注意！！！也会被restart调用！！！
+//MARK: - 执行顺序3
+/// 展示开始的唯一入口，注意！！！也会被restart调用！！！
 - (void)initializeDisplay {
   
     _viewDataDictArr = [[NSMutableArray alloc] init];
@@ -171,10 +176,10 @@
     [_collection reloadData];
 }
 
-//执行顺序3.1
+//MARK: - 执行顺序3.1
 - (NSArray<NSArray *> *)getInitialSortData {
     if (_originDataArr.count <= 1) {
-        return @[];
+        return @[@[], @[]];
     } else if (_sortType == SortTypeBubble) {
         return @[@[@"0", @"1", [NSString stringWithFormat:@"%d", (int)(_originDataArr.count)]],
                  @[@"j", @"j+1", @"i"]];
@@ -190,7 +195,7 @@
     return 0;
 }
 
-///执行顺序1.1
+//MARK: - 执行顺序1.1
 ///由initializeWithArr调用，对sorter配置
 - (void)initializeSorter {
     if (_sortType == SortTypeBubble) {
@@ -226,18 +231,18 @@
 
 //MARK: - View and Collection View
 
-//执行顺序2
+//MARK: - 执行顺序2
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     //buttons
-    _backButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 6, 92, 32)];
-    [_backButton setTitle:@"配置排序" forState:UIControlStateNormal];
-    [_backButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    [_backButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
-    [_backButton setImage:[Config backImage] forState:UIControlStateNormal];
-    [_backButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
-    _customBackItem = [[UIBarButtonItem alloc] initWithCustomView:_backButton];
+    _fullScreenButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 6, 92, 32)];
+    [_fullScreenButton setTitle:@"配置排序" forState:UIControlStateNormal];
+    [_fullScreenButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    [_fullScreenButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
+    [_fullScreenButton setImage:[Config backImage] forState:UIControlStateNormal];
+    [_fullScreenButton addTarget:self action:@selector(setFullScreenDisplay:) forControlEvents:UIControlEventTouchUpInside];
+    _fullScreenItem = [[UIBarButtonItem alloc] initWithCustomView:_fullScreenButton];
     //self.navigationItem.leftBarButtonItems = @[self.splitViewController.displayModeButtonItem, _customBackItem];
  
     _restartButton = [[UIBarButtonItem alloc] initWithTitle:@"重新开始" style:UIBarButtonItemStylePlain target:self action:@selector(restart:)];
@@ -295,7 +300,7 @@
  
     //user defaults
     if ([UserDefault doubleForKey:kTimeInterval] <= 0) {
-        [Config saveDouble:1.5 forKey:kTimeInterval];
+        [Config saveDouble:1.2 forKey:kTimeInterval];
     }
     if (![UserDefault stringForKey:kFlowExecWay]) {
         [UserDefault setObject:SingleStep forKey:kFlowExecWay];
@@ -303,7 +308,7 @@
     }
   
     _fullScreenSpecified = 0;
-    _isTiming = 0;
+
     [self setTitle:@"动态演示"];
     [self initializeDisplay];
 }
@@ -321,7 +326,9 @@
 
 //MARK: - 4 bottom control buttons
 - (void)lastStep:(id)sender {
-
+    if (_timer.isValid) {
+        [self stopTimer:0];
+    }
     int len = (int)(_viewDataDictArr.count);
     if (len < 2) {
         [_lastStepButton setEnabled:0];
@@ -337,7 +344,9 @@
 }
 
 - (void)nextStep:(id)sender {
-
+    if (![sender isKindOfClass:NSTimer.class]) {
+        [_timer invalidate];
+    }
     if (!(_viewDataDictArr.count)) {
         return;
     }
@@ -369,14 +378,12 @@
 
 
 - (void)play:(id)sender {
-    if (!(_viewDataDictArr.count)) {
+    if (!(_viewDataDictArr.count))
         return;
-    }
-    NSString *pause = @"暂停演示";
-    if ([_flowRunButton.title isEqualToString:pause]) {
+    if (_timer.isValid) {
         [self stopTimer:sender];
     } else {
-        [_flowRunButton setTitle:pause];
+        [_flowRunButton setTitle:@"暂停演示"];
         NSString *exeway = [NSUserDefaults.standardUserDefaults stringForKey:kFlowExecWay];
         SEL func;
         if ([exeway isEqualToString:SingleStep]) {
@@ -386,12 +393,11 @@
         }
         _timer = [NSTimer scheduledTimerWithTimeInterval:[NSUserDefaults.standardUserDefaults doubleForKey:kTimeInterval]  target:self selector:func userInfo:0 repeats:1];
         [_timer fire];
-        _isTiming = 1;
+
     }
 }
 
 - (void)stopTimer:(id)sender {
-    _isTiming = 0;
     [_timer invalidate];
     [_flowRunButton setTitle:@"顺序执行"];
 }
@@ -412,6 +418,7 @@
     [self pushWithoutBottomBar:[[SettingViewController alloc] init]];
 }
 
+//MARK: - 执行顺序5
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return _viewDataDictArr.count;
 }
