@@ -11,7 +11,8 @@
 #import "ViewController.h"
 #import <Masonry/Masonry.h>
 #import "UIView+frameProperty.h"
-#import "ELSplitViewController.h"
+#import "SortingViewController.h"
+#import "ConfigSortController.h"
 #import "UIViewController+funcs.h"
 #import "ELSortNameCollectionCell.h"
 
@@ -20,8 +21,6 @@
 
 @property (strong, nonatomic) UILabel *appTitle;
 @property (nonatomic, strong) UICollectionView *collection;
-
-@property (nonatomic, strong) ELSplitViewController *splitVC;
 
 @property (nonatomic, copy) NSMutableArray *titleArr;
 

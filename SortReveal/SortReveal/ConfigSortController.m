@@ -9,6 +9,7 @@
 #import "ConfigSortController.h"
 #import "SelectOrderController.h"
 #import "Protocols.h"
+#import "UIView+frameProperty.h"
 #import "UIViewController+funcs.h"
 #import <Masonry/Masonry.h>
 
@@ -18,11 +19,13 @@
 @property (strong, nonatomic) UITextView *inputField;
 @property (strong, nonatomic) UIButton *selectOrder;
 @property (strong, nonatomic) UIButton *startShow;
+@property (strong, nonatomic) UIBarButtonItem *resumeShow;
 @property (strong, nonatomic) UILabel *label1;
 @property (strong, nonatomic) UIView *way;
 
 @property (nonatomic, copy) NSString *sortName;
 @property (strong, nonatomic) UIViewController *anotherRootVC;
+
 @property (strong, nonatomic) SortingViewController *sortingVC;
 
 @property (assign) SortOrder sortOrder;
@@ -31,6 +34,23 @@
 @end
 
 @implementation ConfigSortController
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+   
+ 
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.splitViewController.view.width == self.view.width && _sortingVC) {
+        self.navigationItem.rightBarButtonItems = @[_resumeShow];
+    } else {
+        self.navigationItem.rightBarButtonItems = @[];
+    }
+}
+
 
 //TODO: - dynamic update views
 //- (void)viewDidLayoutSubviews {
@@ -74,12 +94,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIImage *img = [Config pushImage];
+
     //navigation item
     UIBarButtonItem *backItem = [Config customBackBarButtonItemWithTitle:@"返回" target:self action:@selector(dismiss:)];
     self.navigationItem.leftBarButtonItems = @[backItem];
     self.navigationItem.title = @"配置排序";
     
-    //sort name and two description labels
+    UIButton *butt = [self getButton:@"继续演示" fontSize:0 textColor:UIColor.blackColor action:@selector(resumeDisplay:) image:img];
+    //[butt setFrame:CGRectMake(0, 6, 92, 32)];
+    [butt setTitleEdgeInsets:UIEdgeInsetsMake(0, -30, 0, 0)];
+    [butt setImageEdgeInsets:UIEdgeInsetsMake(0, 75, 0, 0)];
+    [butt setContentEdgeInsets:UIEdgeInsetsMake(0, 10, 0, -10)];
+    _resumeShow = [[UIBarButtonItem alloc] initWithCustomView:butt];
+
     _sortNameLabel = [self getLabelWithTitle:0 fontSize:(IPAD ? 29 : 27)];
     [self.view addSubview:_sortNameLabel];
     [_sortNameLabel setText:_sortName];
@@ -90,15 +118,10 @@
     [self.view addSubview:label2];
 
     //start show
-    UIImage *img = [Config pushImage];
-    _startShow = [[UIButton alloc] init];
-    [_startShow.titleLabel setFont:[UIFont systemFontOfSize:23]];
-    [_startShow setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    [_startShow setTitle:@"开始演示" forState:UIControlStateNormal];
-    [_startShow setImage:img forState:UIControlStateNormal];
+    _startShow = [self getButton:@"开始演示" fontSize:23 textColor:UIColor.blackColor action:@selector(startDisplay:) image:img];
+
     [_startShow setTitleEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 0)];
     [_startShow setImageEdgeInsets:UIEdgeInsetsMake(0, 125, 0, 0)];
-    [_startShow addTarget:self action:@selector(startDisplay:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_startShow];
     
     //sort order
@@ -107,12 +130,7 @@
     [self.view addSubview:_way];
     UILabel *wayDec = [self getLabelWithTitle:@"排序方式" fontSize:20];
     [_way addSubview:wayDec];
-    _selectOrder = [[UIButton alloc] init];
-    [_selectOrder setTitle:@"自动推断" forState:UIControlStateNormal];
-    [_selectOrder.titleLabel setFont:[UIFont systemFontOfSize:20]];
-    [_selectOrder setTitleColor:systemBlue forState:UIControlStateNormal];
-    [_selectOrder addTarget:self action:@selector(selectOrder:) forControlEvents:UIControlEventTouchUpInside];
-    [_selectOrder setImage:img forState:UIControlStateNormal];
+    _selectOrder = [self getButton:@"自动推断" fontSize:20 textColor:systemBlue action:@selector(selectOrder:) image:img];
     [_selectOrder setTitleEdgeInsets:UIEdgeInsetsMake(0, -30, 0, 0)];
     [_selectOrder setImageEdgeInsets:UIEdgeInsetsMake(0, 100, 0, 0)];
     [_way addSubview:_selectOrder];
@@ -178,6 +196,19 @@
  
 }
 
+- (UIButton *)getButton:(NSString *)title fontSize:(CGFloat)fs textColor:(nullable UIColor *)color action:(nullable SEL)act image:(nullable UIImage *)image {
+    UIButton *butt = [[UIButton alloc] init];
+    [butt setTitle:title forState:UIControlStateNormal];
+    if (fs)
+        [butt.titleLabel setFont:[UIFont systemFontOfSize:fs]];
+    if (color)
+        [butt setTitleColor:color forState:UIControlStateNormal];
+    [butt addTarget:self action:act forControlEvents:UIControlEventTouchUpInside];
+    if (image)
+        [butt setImage:image forState:UIControlStateNormal];
+    return butt;
+}
+
 - (UILabel *)getLabelWithTitle:(nullable NSString *)title fontSize:(CGFloat)fontSize {
     UILabel *l = [[UILabel alloc] init];
     [l setText:title];
@@ -203,6 +234,10 @@
     [n setToolbarHidden:0];
     [self.splitViewController showDetailViewController:n sender:0];
     [_inputField resignFirstResponder];
+}
+
+- (void)resumeDisplay:(id)sender {
+    [self showDetailNavVCWithRoot:_sortingVC];
 }
 
 - (void)startDisplay:(id)sender {
