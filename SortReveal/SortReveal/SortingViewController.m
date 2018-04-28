@@ -89,10 +89,28 @@
 //执行顺序4
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    [self updateItemSize];
+    
+    CGSize lastItemSize = _itemSize;
 
-    //        if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay)
-    //            self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+    CGFloat w = self.view.width;
+    CGFloat h = self.view.height;
+  
+    if (_sortType == SortTypeHeap) {
+        //    if (w > h) {
+        //        w = h;
+        //    } //w
+        h = (w - 2*_edgeDistance - 20)/2;
+        _itemSize = CGSizeMake(h, h);
+    } else {
+        _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
+    }
+
+    if (!(_itemSize.height == lastItemSize.height && _itemSize.width == lastItemSize.width)) {
+        [_collection reloadData];
+    }
+
+    //if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay)
+    //    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
     
     [_backButton setTitle:@"配置排序" forState:UIControlStateNormal];
 
@@ -207,22 +225,6 @@
 
 
 //MARK: - View and Collection View
-
-///为不同type的cell设置不同的 item size,点击按钮时更新
-- (void)updateItemSize {
-    CGFloat w = self.view.width;
-    CGFloat h = self.view.height;
-    if (w > h) {
-        w = h;
-    } //w
-    if (_sortType == SortTypeHeap) {
-        h = (w - 2*_edgeDistance - 20)/2;
-        _itemSize = CGSizeMake(h, h);
-    } else {
-        _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
-    }
-}
-
 
 //执行顺序2
 - (void)viewDidLoad {

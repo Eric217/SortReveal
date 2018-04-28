@@ -32,9 +32,12 @@
     
     CGMutablePathRef path = CGPathCreateMutable();
     
+    CGFloat leftP = offset == 0 ? lineWidth/2 : offset;
+    CGFloat rightP = offset == 0 ? lineWidth/2 : 0;
+    
     //左
-    CGPathMoveToPoint(path, 0, offset, 0);
-    CGPathAddLineToPoint(path, 0, offset, hBlow);
+    CGPathMoveToPoint(path, 0, leftP, 0);
+    CGPathAddLineToPoint(path, 0, leftP, hBlow);
     //下
     CGPathMoveToPoint(path, 0, offset-lineWidth/2, hBlow);
     CGPathAddLineToPoint(path, 0, w-offset+lineWidth/2, hBlow);
@@ -42,15 +45,15 @@
     CGPathMoveToPoint(path, 0, offset, lineWidth/2);
     CGPathAddLineToPoint(path, 0, w-offset, lineWidth/2);
     
-    
+    //框内字与右
     for (int i = 0; i < arrSize; i++) {
         CGRect r = CGRectMake(offset+i*unitLength, 2.5, unitLength, hBlow);//2.5是文字偏移量
-        CGPathMoveToPoint(path, 0, unitLength+r.origin.x, 0);
-        CGPathAddLineToPoint(path, 0, unitLength+r.origin.x, hBlow);
+        CGPathMoveToPoint(path, 0, unitLength+r.origin.x - rightP, 0);
+        CGPathAddLineToPoint(path, 0, unitLength+r.origin.x - rightP, hBlow);
         [self.dataArr[i] drawInRect:r withAttributes:attr];
     }
     
-    
+    //arrow与title
     UIImage *upArrow = [UIImage imageNamed:@"upArrow"];
     int titleCount = (int)(self.titlArr.count);
  
@@ -62,11 +65,18 @@
         r.origin.x = offset + p*(unitLength);
         r.origin.y = hTextAbove;
         r.size.height = h-hTextAbove;
+        CGFloat dx = 10;
+        if (i == 2 && offset == 0 && r.origin.x > w-3) { //冒泡排序 满格 3是模糊的适配值
+            r.size.width = 0.35*unitLength;
+            r.origin.x -= r.size.width - 3; //3是模糊的适配值
+            dx = 0;
+        }
         [self.titlArr[i] drawInRect:r withAttributes:attr];
         r.origin.y = hBlow;
         r.size.height = hTextAbove-hBlow;
-        [upArrow drawInRect:CGRectInset(r, 10, 6)];
+        [upArrow drawInRect:CGRectInset(r, dx, 6)];
         
+ 
     }
     
     CGContextSetLineWidth(ctx, lineWidth);
