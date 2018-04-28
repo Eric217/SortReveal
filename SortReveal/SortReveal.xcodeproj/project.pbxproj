@@ -19,7 +19,6 @@
 		072E88A120878AC80044B478 /* InsertionSorter.m in Sources */ = {isa = PBXBuildFile; fileRef = 072E88A020878AC80044B478 /* InsertionSorter.m */; };
 		0733322E208D721A009E2E38 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0733322D208D721A009E2E38 /* SettingViewController.m */; };
 		07333231208DA110009E2E38 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07333230208DA110009E2E38 /* SwitchCell.m */; };
-		07545DD92083028700430681 /* ELSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07545DD82083028700430681 /* ELSplitViewController.m */; };
 		07545DDC2083575400430681 /* UIImage+operations.m in Sources */ = {isa = PBXBuildFile; fileRef = 07545DDB2083575400430681 /* UIImage+operations.m */; };
 		077A40982084CA3500D887FB /* HeapSorter.m in Sources */ = {isa = PBXBuildFile; fileRef = 077A40972084CA3500D887FB /* HeapSorter.m */; };
 		07828063207C5FDC000D0B4A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828062207C5FDC000D0B4A /* AppDelegate.m */; };
@@ -80,8 +79,6 @@
 		0733322D208D721A009E2E38 /* SettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		0733322F208DA110009E2E38 /* SwitchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwitchCell.h; sourceTree = "<group>"; };
 		07333230208DA110009E2E38 /* SwitchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SwitchCell.m; sourceTree = "<group>"; };
-		07545DD72083028700430681 /* ELSplitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELSplitViewController.h; sourceTree = "<group>"; };
-		07545DD82083028700430681 /* ELSplitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELSplitViewController.m; sourceTree = "<group>"; };
 		07545DDA2083575400430681 /* UIImage+operations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+operations.h"; sourceTree = "<group>"; };
 		07545DDB2083575400430681 /* UIImage+operations.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+operations.m"; sourceTree = "<group>"; };
 		077A40972084CA3500D887FB /* HeapSorter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeapSorter.m; sourceTree = "<group>"; };
@@ -221,22 +218,12 @@
 		0724768A207DD5E6004786B8 /* Sort */ = {
 			isa = PBXGroup;
 			children = (
-				074A782F20920EA30064D483 /* SplitViewController */,
 				07BDAE46207D97F4009BFD30 /* ConfigSortController */,
 				07BDAE42207D92E3009BFD30 /* SortingViewController */,
 				07A75A45208E166A004BA670 /* SettingViewController */,
 				071D3776208EDC4300E59AA7 /* SelectController */,
 			);
 			name = Sort;
-			sourceTree = "<group>";
-		};
-		074A782F20920EA30064D483 /* SplitViewController */ = {
-			isa = PBXGroup;
-			children = (
-				07545DD72083028700430681 /* ELSplitViewController.h */,
-				07545DD82083028700430681 /* ELSplitViewController.m */,
-			);
-			name = SplitViewController;
 			sourceTree = "<group>";
 		};
 		07828055207C5FDC000D0B4A = {
@@ -608,7 +595,6 @@
 				07245C152086E49300490B4C /* LinearSorter.m in Sources */,
 				07828071207C5FDD000D0B4A /* main.m in Sources */,
 				07828063207C5FDC000D0B4A /* AppDelegate.m in Sources */,
-				07545DD92083028700430681 /* ELSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
