@@ -74,11 +74,12 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 #define ScreenW UIScreen.mainScreen.bounds.size.width
 #define ScreenH UIScreen.mainScreen.bounds.size.height
 
-#define IPHONE4 (ScreenH == 480)
-#define IPHONE5 (ScreenH == 568)
-#define IPHONE6 (ScreenH == 667)
-#define IPHONE6P (ScreenH == 736)
-#define IPhoneX (!IPAD && ScreenH > 736)
+#define IPHONE4 (ScreenH == 480 || ScreenW == 480)
+#define IPHONE5 (ScreenH == 568 || ScreenW == 568)
+#define IPHONE6 (ScreenH == 667 || ScreenW == 667)
+#define IPHONE6P (ScreenH == 736 || ScreenW == 736)
+#define IPhoneX (ScreenH == 812 || ScreenW == 812)
+#define IPADPro (ScreenH == 1366 || ScreenW == 1366)
 
 #define UserDefault NSUserDefaults.standardUserDefaults
 #define systemBlue [UIColor colorWithRed:0 green:111.0/255 blue:1 alpha:1]

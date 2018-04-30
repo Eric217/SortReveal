@@ -53,6 +53,8 @@
  
 //两种情况 一是init时 全空， 一是正常数据
 //MARK: - 执行顺序1
+//MARK: - WARNING: -  restart
+//restart时候，这里初始化的几个属性也要相应reset
 /// init后最基本的三个数据和sorter有了
 - (instancetype)initWithArr:(NSMutableArray *)arr sortType:(SortType)type sortOrder:(SortOrder)order {
     self = [super init];
@@ -69,9 +71,9 @@
     return self;
 }
 
-///点击展示界面上的返回按钮
+///点击展示界面上的fullscreen按钮
 - (void)setFullScreenDisplay:(id)sender {
-    //
+    
     if ([_fullScreenButton.titleLabel.text isEqualToString:@"全屏显示"]) {
         _fullScreenSpecified = 1;
         [self hidePrimarySplitStyle];
@@ -86,105 +88,58 @@
         
     }
     
-    
 }
 
 //MARK: - 执行顺序4
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-//    switch (self.splitViewController.displayMode) {
-//        case UISplitViewControllerDisplayModePrimaryOverlay:
-//            printf("overlay\n");
-//            break;
-//        case UISplitViewControllerDisplayModeAutomatic:
-//            printf("auto\n");
-//            break;
-//        case UISplitViewControllerDisplayModeAllVisible:
-//            printf("all visi\n");
-//            break;
-//        case UISplitViewControllerDisplayModePrimaryHidden:
-//            printf("hide pri\n");
-//            break;
-//        default:
-//            printf("fuck\n");
-//            break;
-//    }
-    
-    
-    
     CGSize lastItemSize = _itemSize;
-
     CGFloat w = self.view.width;
     CGFloat h = self.view.height;
   
     if (_sortType == SortTypeHeap) {
-   
         h = (w - 2*_edgeDistance - 20)/2;
         _itemSize = CGSizeMake(h, h);
-    } else {
+    } else
         _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
-    }
 
     if (!(_itemSize.height == lastItemSize.height && _itemSize.width == lastItemSize.width)) {
+     //   [[_collection cellForItemAtIndexPath:[Config idxPath:0]] setNeedsLayout];
         [_collection reloadData];
     }
-
-    /*
-    //if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay)
-    //    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
-    
-    //[_backButton setTitle:@"配置排序" forState:UIControlStateNormal];
-
-    //单app全屏时：
-    //横屏 both 模式：
-    if ([self.splitViewController canShowBoth] && [self isTwoThirth]) {
-    //    [_backButton setTitle:@"全屏显示" forState:UIControlStateNormal];
-        [self automaticSplitStyle];
-    } else if ([self isFullScreen]) {
-    //竖屏全屏模式：
-        if ([self isDevicePortait]) {
-            [self hidePrimarySplitStyle];
-    //横屏全屏模式：
+    if (IPAD) {
+        
+        if ([self canPullHideLeft]) {
+            self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+            [self.navigationItem.leftBarButtonItem setTintColor:UIColor.blackColor];
+            //[self.navigationItem.leftBarButtonItem setTitle:@"配置排序"];
         } else {
-            [self.splitViewController setPreferredDisplayMode:(_fullScreenSpecified ? UISplitViewControllerDisplayModePrimaryHidden : UISplitViewControllerDisplayModeAutomatic)];
-         
-            [Config postNotification:ELTextFieldShouldResignNotification message:0];
-        }
-    //多app共存，本app位置：
-    //悬浮或1/3:
-    } else
-     */
-    if ([self isTwoThirth]) {
-        if ([self isDevicePortait]) {
-            //  self.splitViewController.displayModeButtonItem
-        } else {
-            
+            self.navigationItem.leftBarButtonItem = nil;
         }
     }
-    
-    
-    if (IPAD && [self.splitViewController isFloatingOrThirth]) {
-   
-//        [self overlaySplitStyle];
-    //横屏2/3:
-    } else if ([self.splitViewController isTwoThirth] && ![self isDevicePortait]) {
-//        [self overlaySplitStyle];
-    }
-    
-  
+ 
     //只是几个button的title、位置，无任何意义
     if ([self isFloatingOrThirth]) {
         [_settings setTitle:@"设置"];
         [_nextStepButton setTitle:@"单步 "];
-        [_restartButton setTitle:@"重新开始"]; //重置
         [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -18, 0, 0)];
     } else {
         [_settings setTitle:@" 设置"];
-        [_restartButton setTitle:@"重新开始"];
         [_nextStepButton setTitle:@"单步执行"];
         [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -14, 0, 0)];
     }
+    
+ 
+    if (IPHONE) {
+        if ([self isDevicePortait]) {
+            [self updateBackEmptyPositionCX:-13 CY:-126];
+        } else
+            [self updateBackEmptyPositionCX:-13 CY:-80];
+    } else {
+        
+    }
+    
 }
 
 //MARK: - 执行顺序3
@@ -273,8 +228,8 @@
     [_fullScreenButton setImage:[Config backImage] forState:UIControlStateNormal];
     [_fullScreenButton addTarget:self action:@selector(setFullScreenDisplay:) forControlEvents:UIControlEventTouchUpInside];
     _fullScreenItem = [[UIBarButtonItem alloc] initWithCustomView:_fullScreenButton];
-    if (IPAD)
-        self.navigationItem.leftBarButtonItems = @[self.splitViewController.displayModeButtonItem];
+    //if (IPAD)
+     //   self.navigationItem.leftBarButtonItems = @[self.splitViewController.displayModeButtonItem];
  
     _restartButton = [[UIBarButtonItem alloc] initWithTitle:@"重新开始" style:UIBarButtonItemStylePlain target:self action:@selector(restart:)];
     [_restartButton setTintColor:UIColor.blackColor];
@@ -324,7 +279,7 @@
     _collectionBackView.font = [UIFont systemFontOfSize:28];
     _collectionBackView.textAlignment = NSTextAlignmentCenter;
     [_collectionBackView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.collection).mas_offset(-15);
+        make.centerX.equalTo(self.collection).mas_offset(-13);
         make.centerY.equalTo(self.collection.mas_centerY).mas_offset(-126);
         make.size.mas_equalTo(CGSizeMake(300, 200));
     }];
@@ -339,6 +294,13 @@
 
     [self setTitle:@"动态演示"];
     [self initializeDisplay];
+}
+
+- (void)updateBackEmptyPositionCX:(CGFloat)x CY:(CGFloat)y {
+    [_collectionBackView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.collection).mas_offset(x);
+        make.centerY.equalTo(self.collection.mas_centerY).mas_offset(y);
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -432,12 +394,13 @@
 
 //MARK: - top buttons
 
-
+//注意：实现时，所有initializer都要调一遍
 - (void)restart:(id)sender {
     [self stopTimer:0];
     if (_originDataArr.count <= 1) {
         return;
     }
+    [self initializeSorter];
     [self initializeDisplay];
 
 }

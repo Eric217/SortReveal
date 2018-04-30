@@ -37,11 +37,11 @@
     return ScreenW < ScreenH;
 }
 
-///对于ipad是指除了横屏2/3之外 所有宽小于高的情况，不是物理设备的portrait
+///对于ipad是指除了横屏2/3和大pro的半屏之外 所有宽小于高的情况，不是物理设备的portrait
 - (bool)isPortrait {
     CGFloat sw = ScreenW, vw = self.view.bounds.size.width;
     bool heng2_3 = sw > ScreenH && (vw - sw/2) > Delta && sw > vw;
-    if (heng2_3)
+    if (heng2_3 || (IPADPro && [self isHalfIpad]))
         return 0;
     return vw < self.view.bounds.size.height;
 }
@@ -79,14 +79,19 @@
         return 0;
     if ([self isPortrait])
         return [self isFullScreen];
-    else
+    else {
+        if (IPADPro) {
+            return [self isHalfIpad];
+        }
         return [self isTwoThirth];
+    
+    }
 }
 
 - (bool)canShowBoth {
     if (!IPAD)
         return IPHONE6P;
-    return ![self isPortrait] && [self isFullScreen];
+    return (![self isPortrait] && [self isFullScreen]) || (IPADPro && [self isTwoThirth]);
 }
 
 - (bool)isNoSplit {

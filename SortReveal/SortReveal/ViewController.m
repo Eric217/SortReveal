@@ -15,6 +15,7 @@
 #import "ConfigSortController.h"
 #import "UIViewController+funcs.h"
 #import "ELSortNameCollectionCell.h"
+#import "ConfigSortNavController.h"
 
 
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -46,7 +47,7 @@
     self.view.backgroundColor = UIColor.whiteColor;
     
     //collection view
-    _edgeDistance = [Config v_pad:46 plus:36 p:28 min:20];
+    _edgeDistance = [Config v_pad:46 plus:36 p:33 min:20];
     _verticalSpacing = [Config v_pad:52 plus:33 p:24 min:20];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
@@ -115,20 +116,22 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
      
     UISplitViewController *splitVC = [[UISplitViewController alloc] init];
- 
+    
     ConfigSortController *conf = [[ConfigSortController alloc] initWithSortType:indexPath.item anotherRoot:self];
-    UINavigationController *masterNav = [[UINavigationController alloc] initWithRootViewController:conf];
-    if (!IPAD) {
-        [splitVC setViewControllers:@[masterNav]];
-    } else {
+    ConfigSortNavController *masterNav = [[ConfigSortNavController alloc] initWithRootViewController:conf];
+    
+    
+    if (IPAD || (IPHONE6P && ![self isDevicePortait])) {
         SortingViewController *vc = [[SortingViewController alloc] init];
         UINavigationController *emptyDetailNav = [[UINavigationController alloc] initWithRootViewController:vc];
         [emptyDetailNav setToolbarHidden:0];
         [splitVC setViewControllers:@[masterNav, emptyDetailNav]];
+    } else {
+        [splitVC setViewControllers:@[masterNav]];
     }
-    
-    //if (0)
-      //  splitVC.delegate = conf;
+    if (IPAD)
+        splitVC.delegate = masterNav;
+ 
     [self.view.window setRootViewController:splitVC];
  
 }
@@ -140,7 +143,7 @@
     const CGSize s = self.view.frame.size;
  
     CGFloat w = s.width > s.height ? s.height : s.width;
- 
+
     if (IPAD) {
      
         if ([self isFloatingOrThirth]) {
@@ -153,15 +156,20 @@
             _itemSize = (w-3.6*_edgeDistance)/3;
         }
     } else {
-        _itemSize = (w-3*_edgeDistance)/2;
+//        if (IPhoneX) {
+//            _itemSize = (w-3*_edgeDistance)/2+5;
+//        } else
+            _itemSize = (w-3*_edgeDistance)/2;
     }
  
     [_appTitle mas_updateConstraints:^(MASConstraintMaker *make) {
         CGFloat h;
         if (IPAD)
             h = [self isPortrait] ? 190 : 170;
-        else
-            h = [self isPortrait] ? 90 : 70;
+        else {
+            CGFloat ph = IPhoneX ?  130 : 94;
+            h = [self isPortrait] ? ph : 70;
+        }
         make.height.mas_equalTo(h);
     }];
 }

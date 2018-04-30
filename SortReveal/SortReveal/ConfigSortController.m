@@ -39,53 +39,26 @@
 
 @implementation ConfigSortController
 
-- (UISplitViewControllerDisplayMode)targetDisplayModeForActionInSplitViewController:(UISplitViewController *)svc {
-    
-    return UISplitViewControllerDisplayModeAutomatic;
-}
-
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    
-    //MARK: - split vc style
-    if ([self isTwoThirth]) {
-        if ([self isDevicePortait]) {
-          //  self.splitViewController.displayModeButtonItem
-        } else {
-
-        }
-    }
-    
-    
-    switch (self.splitViewController.displayMode) {
-        case UISplitViewControllerDisplayModePrimaryOverlay:
-            printf("overlay\n");
-            break;
-        case UISplitViewControllerDisplayModeAutomatic:
-            printf("auto\n");
-            break;
-        case UISplitViewControllerDisplayModeAllVisible:
-            printf("all visi\n");
-            break;
-        case UISplitViewControllerDisplayModePrimaryHidden:
-            printf("hide pri\n");
-            break;
-        default:
-            printf("fuck\n");
-            break;
-    }
-    
-    
-    
+ 
     //MARK: - constraints
     if (IPHONE) {
         if ([self isDevicePortait]) {
             [self updateConstraintsStatus:0];
+       
         } else {
-            if ([_inputField isFirstResponder]) {
+            if ([_inputField isFirstResponder] && !IPHONE6P) {
                 [self updateConstraintsStatus:2];
             } else {
                 [self updateConstraintsStatus:1];
+            }
+            if (IPHONE6P) {
+                [_inputField resignFirstResponder];
+                if (_sortingNavVC && self.splitViewController.view.width == self.view.width) {
+                    self.navigationItem.rightBarButtonItem = _resumeShow;
+                } else
+                    self.navigationItem.rightBarButtonItem = nil;
             }
         }
     } else {
@@ -96,37 +69,47 @@
         }
     }
     
-    
-    
-   
  
 }
 ///只有三种状态 - 0: 所有竖直情况正常 1: 手机尺寸横着正常 2: 手机尺寸横着有键盘
 - (void)updateConstraintsStatus:(int)status {
     if (status == 0) {
-        if (IPHONE) {
+        if (IPHONE && !IPHONE6P) {
             _label1.text = label1Text;
             _label2.text = label2Text;
         }
   
-        [self updateOrderBott:[Config v_pad:65 plus:40 p:36 min:32] startBott:[Config v_pad:58 plus:34 p:30 min:24]];
-        [self updateLabelsNameLabelTop:64+[Config v_pad:44 plus:28 p:26 min:24] height:36 label1Top:[Config v_pad:45 plus:36 p:32 min:25] label1H:24 label2H:21];
-        [self updateTextViewLeft:40 top:(IPAD ? 29 : 24) bottom:IPAD ? 29 : 25];
+        [self updateOrderBott:[Config v_pad:65 plus:40 p:36 min:32] startBott:[Config v_pad:58 plus:36 p:30 min:24]];
+        [self updateLabelsNameLabelTop:64+[Config v_pad:44 plus:30 p:26 min:24] height:36 label1Top:[Config v_pad:45 plus:36 p:32 min:25] label1H:24 label2H:21];
+        [self updateTextViewLeft:IPAD ? 50 : 40 top:(IPAD ? 29 : 24) bottom:IPAD ? 29 : 25];
     } else if (status == 1) {
         if (IPHONE) {
-            _label1.text = [label1Text stringByAppendingString:label2Text];
-            _label2.text = @"";
-            [self updateLabelsNameLabelTop:37 height:36 label1Top:1 label1H:24 label2H:0];
-            [self updateOrderBott:-15 startBott:6.5];
-            [self updateTextViewLeft:80 top:-12 bottom:-4];
+            if (IPHONE6P) {
+                [self updateLabelsNameLabelTop:50 height:33 label1Top:3.5 label1H:15 label2H:15];
+                [self updateOrderBott:-13 startBott:7];
+                [self updateTextViewLeft:47 top:4 bottom:-4];
+            } else {
+                _label1.text = [label1Text stringByAppendingString:label2Text];
+                _label2.text = @"";
+                [self updateLabelsNameLabelTop:37 height:36 label1Top:3 label1H:24 label2H:0];
+                [self updateTextViewLeft:95 top:-12 bottom:-4];
+                [self updateOrderBott:-15 startBott:IPhoneX ? 10 : 6.5];
+            }
+         
         } else {
             [self updateLabelsNameLabelTop:70 height:36 label1Top:1 label1H:24 label2H:21];
             [self updateOrderBott:-15 startBott:6.5];
             [self updateTextViewLeft:60 top:7 bottom:-4];
         }
     } else if (status == 2) {
-        [self updateLabelsNameLabelTop:8 height:0 label1Top:8 label1H:0 label2H:0];
-        [self updateTextViewLeft:80 top:8 bottom:-4];
+        
+        if (IPHONE6 || IPhoneX) {
+            [self updateLabelsNameLabelTop:8 height:0 label1Top:34 label1H:24 label2H:0];
+            [self updateTextViewLeft:95 top:-14 bottom:-4];
+        } else {
+            [self updateLabelsNameLabelTop:8 height:0 label1Top:8 label1H:0 label2H:0];
+            [self updateTextViewLeft:80 top:8 bottom:-4];
+        }
     }
 }
 
@@ -178,16 +161,14 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     if (![self isDevicePortait]) {
-        if (IPAD) {
+        if (IPAD || IPHONE6P) {
             if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
                 [self updateConstraintsStatus:1];
             }
         } else {
             [self updateConstraintsStatus:2];
-        }
-    
+        }    
     }
-    // printf("%d fuck\n", a);
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
@@ -206,7 +187,9 @@
 
     //navigation item
     UIBarButtonItem *backItem = [Config customBackBarButtonItemWithTitle:@"返回" target:self action:@selector(dismiss:)];
-    self.navigationItem.leftBarButtonItems = @[backItem];
+    bool oldDevice = [UIDevice currentDevice].systemVersion.doubleValue < 9 || IPHONE4;
+    
+    self.navigationItem.leftBarButtonItems = oldDevice ? @[[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(dismiss:)]] : @[backItem];
     self.navigationItem.title = @"配置排序";
     
     UIButton *butt = [self getButton:@"继续演示" fontSize:18 textColor:UIColor.blackColor action:@selector(resumeDisplay:) image:img];
@@ -214,7 +197,7 @@
     [butt setTitleEdgeInsets:UIEdgeInsetsMake(0, -30, 0, 0)];
     [butt setImageEdgeInsets:UIEdgeInsetsMake(0, 75, 0, 0)];
     [butt setContentEdgeInsets:UIEdgeInsetsMake(0, 10, 0, -10)];
-    _resumeShow = [[UIBarButtonItem alloc] initWithCustomView:butt];
+    _resumeShow = oldDevice ? [[UIBarButtonItem alloc] initWithTitle:@"继续演示" style:UIBarButtonItemStylePlain target:self action:@selector(resumeDisplay:)] : [[UIBarButtonItem alloc] initWithCustomView:butt];
 
     _sortNameLabel = [self getLabelWithTitle:0 fontSize:(IPAD ? 29 : 27)];
     [self.view addSubview:_sortNameLabel];
@@ -391,7 +374,10 @@
         }];
        
     }
- 
+    if ([self.splitViewController canPullHideLeft]) {
+        //TODO: - hide
+
+    }
 }
 
 - (void)selectOrder:(id)sender {
