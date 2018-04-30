@@ -21,12 +21,8 @@
 @property (strong, nonatomic) UIButton *startShow;
 @property (strong, nonatomic) UIBarButtonItem *resumeShow;
 @property (strong, nonatomic) UILabel *label1;
-@property (strong, nonatomic) UIView *way;
-
-@property (nonatomic, strong) MASConstraint *sortNameTop;
-@property (nonatomic, strong) MASConstraint *descLabelTop;
-@property (nonatomic, strong) MASConstraint *startButtonBottom;
-@property (nonatomic, strong) MASConstraint *sortOrderBottom;
+@property (strong, nonatomic) UILabel *label2;
+@property (strong, nonatomic) UIView *selectOrderContainerView;
 
 @property (nonatomic, copy) NSString *sortName;
 @property (strong, nonatomic) UIViewController *anotherRootVC;
@@ -38,18 +34,66 @@
 
 @end
 
+#define label1Text @"输入要演示的排序内容。"
+#define label2Text @"以空格分隔每个元素。"
+
 @implementation ConfigSortController
+
+- (UISplitViewControllerDisplayMode)targetDisplayModeForActionInSplitViewController:(UISplitViewController *)svc {
+    
+    return UISplitViewControllerDisplayModeAutomatic;
+}
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    if (IPHONE) {
-        if (![self isDevicePortait]) {
-            [self updateConstraintsStatus:1];
+    //MARK: - split vc style
+    if ([self isTwoThirth]) {
+        if ([self isDevicePortait]) {
+          //  self.splitViewController.displayModeButtonItem
         } else {
+
+        }
+    }
+    
+    
+    switch (self.splitViewController.displayMode) {
+        case UISplitViewControllerDisplayModePrimaryOverlay:
+            printf("overlay\n");
+            break;
+        case UISplitViewControllerDisplayModeAutomatic:
+            printf("auto\n");
+            break;
+        case UISplitViewControllerDisplayModeAllVisible:
+            printf("all visi\n");
+            break;
+        case UISplitViewControllerDisplayModePrimaryHidden:
+            printf("hide pri\n");
+            break;
+        default:
+            printf("fuck\n");
+            break;
+    }
+    
+    
+    
+    //MARK: - constraints
+    if (IPHONE) {
+        if ([self isDevicePortait]) {
+            [self updateConstraintsStatus:0];
+        } else {
+            if ([_inputField isFirstResponder]) {
+                [self updateConstraintsStatus:2];
+            } else {
+                [self updateConstraintsStatus:1];
+            }
+        }
+    } else {
+        if (![self isDevicePortait] && self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay && [_inputField isFirstResponder])
+            [self updateConstraintsStatus:1];
+        else {
             [self updateConstraintsStatus:0];
         }
-//        _inputField
     }
     
     
@@ -57,7 +101,34 @@
    
  
 }
-
+///只有三种状态 - 0: 所有竖直情况正常 1: 手机尺寸横着正常 2: 手机尺寸横着有键盘
+- (void)updateConstraintsStatus:(int)status {
+    if (status == 0) {
+        if (IPHONE) {
+            _label1.text = label1Text;
+            _label2.text = label2Text;
+        }
+  
+        [self updateOrderBott:[Config v_pad:65 plus:40 p:36 min:32] startBott:[Config v_pad:58 plus:34 p:30 min:24]];
+        [self updateLabelsNameLabelTop:64+[Config v_pad:44 plus:28 p:26 min:24] height:36 label1Top:[Config v_pad:45 plus:36 p:32 min:25] label1H:24 label2H:21];
+        [self updateTextViewLeft:40 top:(IPAD ? 29 : 24) bottom:IPAD ? 29 : 25];
+    } else if (status == 1) {
+        if (IPHONE) {
+            _label1.text = [label1Text stringByAppendingString:label2Text];
+            _label2.text = @"";
+            [self updateLabelsNameLabelTop:37 height:36 label1Top:1 label1H:24 label2H:0];
+            [self updateOrderBott:-15 startBott:6.5];
+            [self updateTextViewLeft:80 top:-12 bottom:-4];
+        } else {
+            [self updateLabelsNameLabelTop:70 height:36 label1Top:1 label1H:24 label2H:21];
+            [self updateOrderBott:-15 startBott:6.5];
+            [self updateTextViewLeft:60 top:7 bottom:-4];
+        }
+    } else if (status == 2) {
+        [self updateLabelsNameLabelTop:8 height:0 label1Top:8 label1H:0 label2H:0];
+        [self updateTextViewLeft:80 top:8 bottom:-4];
+    }
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -67,51 +138,63 @@
         self.navigationItem.rightBarButtonItems = @[];
     }
 }
- 
 
-- (void)updateNameTop:(CGFloat)y1 labelTop:(CGFloat)y2 orderBott:(CGFloat)y3 startBott:(CGFloat)y4 tfup:(CGFloat)tfup tfBott:(CGFloat)tfBott {
+- (void)updateLabelsNameLabelTop:(CGFloat)y1 height:(CGFloat)h0 label1Top:(CGFloat)y2 label1H:(CGFloat)h1 label2H:(CGFloat)h2 {
     [_sortNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(y1);
+        make.height.mas_equalTo(h0);
     }];
-
     [_label1 mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.sortNameLabel.mas_bottom).offset(y2);
+        make.height.mas_equalTo(h1);
     }];
+    [_label2 mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(h2);
+    }];
+}
 
-    [_way mas_updateConstraints:^(MASConstraintMaker *make) {
+- (void)updateOrderBott:(CGFloat)y3 startBott:(CGFloat)y4 {
+ 
+    [_selectOrderContainerView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.startShow.mas_top).inset(y3);
     }];
 
     [_startShow mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).inset(y4);
     }];
+  
+}
+
+///left 40-80
+- (void)updateTextViewLeft:(CGFloat)l1 top:(CGFloat)y1 bottom:(CGFloat)y2 {
     [_inputField mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.label1.mas_bottom).offset(24 + tfup);
-        make.bottom.equalTo(self.way.mas_top).inset(tfBott);
+        make.top.equalTo(self.label1.mas_bottom).offset(24 + y1);
+        make.bottom.equalTo(self.selectOrderContainerView.mas_top).inset(y2);
+        make.left.equalTo(self.view).offset(l1);
+        make.right.equalTo(self.view).inset(l1);
     }];
 }
 
 
-- (void)shouldUpdateTextFieldOffset:(NSNotification *)sender {
-    if (IPHONE && ![self isDevicePortait]) {
- 
-        if (sender.name == UIKeyboardWillShowNotification) {
-            [self updateConstraintsStatus:2];
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    if (![self isDevicePortait]) {
+        if (IPAD) {
+            if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
+                [self updateConstraintsStatus:1];
+            }
         } else {
-            [self updateConstraintsStatus:1];
- 
+            [self updateConstraintsStatus:2];
         }
+    
     }
+    // printf("%d fuck\n", a);
 }
 
-///0: 竖直正常 1: 横着正常 2: 横着有键盘
-- (void)updateConstraintsStatus:(int)status {
-    if (status == 0) {
-        [self updateNameTop:64+[Config v_pad:44 plus:28 p:26 min:24] labelTop:[Config v_pad:45 plus:36 p:32 min:25] orderBott:[Config v_pad:65 plus:40 p:36 min:32] startBott:[Config v_pad:58 plus:34 p:30 min:24] tfup:(IPAD ? 29 : 24) tfBott:IPAD ? 29 : 25];
-    } else if (status == 1) {
-        [self updateNameTop:35 labelTop:4.5 orderBott:-15 startBott:6.5 tfup:11 tfBott:-4];
-    } else if (status == 2) {
-        [self updateNameTop:20 labelTop:9 orderBott:-15 startBott:7 tfup:7 tfBott:-4];
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if (IPHONE && ![self isDevicePortait]) {
+        [self updateConstraintsStatus:1];
+    } else if (IPAD) {
+        [self updateConstraintsStatus:0];
     }
 }
 
@@ -137,10 +220,10 @@
     [self.view addSubview:_sortNameLabel];
     [_sortNameLabel setText:_sortName];
     
-    _label1 = [self getLabelWithTitle:@"输入要演示的排序内容。" fontSize:18];
+    _label1 = [self getLabelWithTitle:label1Text fontSize:18];
     [self.view addSubview:_label1];
-    UILabel *label2 = [self getLabelWithTitle:@"以空格分隔每个元素。" fontSize:18];
-    [self.view addSubview:label2];
+    _label2 = [self getLabelWithTitle:label2Text fontSize:18];
+    [self.view addSubview:_label2];
 
     //start show
     _startShow = [self getButton:@"开始演示" fontSize:23 textColor:UIColor.blackColor action:@selector(startDisplay:) image:img];
@@ -150,15 +233,15 @@
     [self.view addSubview:_startShow];
     
     //sort order
-    _way = [[UIView alloc] init];
-    [_way setBackgroundColor:UIColor.clearColor];
-    [self.view addSubview:_way];
+    _selectOrderContainerView = [[UIView alloc] init];
+    [_selectOrderContainerView setBackgroundColor:UIColor.clearColor];
+    [self.view addSubview:_selectOrderContainerView];
     UILabel *wayDec = [self getLabelWithTitle:@"排序方式" fontSize:20];
-    [_way addSubview:wayDec];
+    [_selectOrderContainerView addSubview:wayDec];
     _selectOrder = [self getButton:@"自动推断" fontSize:20 textColor:systemBlue action:@selector(selectOrder:) image:img];
     [_selectOrder setTitleEdgeInsets:UIEdgeInsetsMake(0, -30, 0, 0)];
     [_selectOrder setImageEdgeInsets:UIEdgeInsetsMake(0, 90, 0, 0)];
-    [_way addSubview:_selectOrder];
+    [_selectOrderContainerView addSubview:_selectOrder];
     
     //input field
     _inputField = [[UITextView alloc] init];
@@ -174,8 +257,11 @@
     [self.view addSubview:_inputField];
     
     [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
-    [Config addObserver:self selector:@selector(shouldUpdateTextFieldOffset:) notiName:UIKeyboardWillShowNotification];
-    [Config addObserver:self selector:@selector(shouldUpdateTextFieldOffset:) notiName:UIKeyboardWillHideNotification];
+    
+    if (![UserDefault stringForKey:kFlowExecWay]) {
+        [UserDefault setObject:SingleStep forKey:kFlowExecWay];
+        [Config saveDouble:1 forKey:kNumericCompare];
+    }
     _sortOrder = SortOrderAutomatic;
     self.view.backgroundColor = UIColor.groupTableViewBackgroundColor;
  
@@ -183,7 +269,7 @@
     [_sortNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
         make.height.mas_equalTo(36);
-        self.sortNameTop = make.top.equalTo(self.view).offset(64+[Config v_pad:44 plus:28 p:26 min:24]);
+        make.top.equalTo(self.view).offset(64+[Config v_pad:44 plus:28 p:26 min:24]);
     }];
     [_startShow mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).inset([Config v_pad:58 plus:34 p:30 min:24]);
@@ -195,25 +281,25 @@
         make.left.right.equalTo(self.view);
         make.top.equalTo(self.sortNameLabel.mas_bottom).offset([Config v_pad:45 plus:36 p:32 min:25]);;
     }];
-    [label2 mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_label2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(21);
         make.left.right.equalTo(self.view);
         make.top.equalTo(self.label1.mas_bottom).offset(3);
     }];
-    [_way mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_selectOrderContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
         make.bottom.equalTo(self.startShow.mas_top).inset([Config v_pad:65 plus:40 p:36 min:32]);
         make.size.mas_equalTo(CGSizeMake(240, 61));
     }];
     [wayDec mas_makeConstraints:^(MASConstraintMaker *make) {
 
-        make.left.equalTo(self.way);
-        make.centerY.equalTo(self.way);
+        make.left.equalTo(self.selectOrderContainerView);
+        make.centerY.equalTo(self.selectOrderContainerView);
         make.size.mas_equalTo(CGSizeMake(126, 55));
     }];
     [_selectOrder mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.way);
-        make.right.equalTo(self.way).inset(14);
+        make.centerY.equalTo(self.selectOrderContainerView);
+        make.right.equalTo(self.selectOrderContainerView).inset(14);
         make.size.mas_equalTo(CGSizeMake(114, 55));
         
     }];
@@ -221,7 +307,7 @@
         make.left.equalTo(self.view).offset(40);
         make.right.equalTo(self.view).inset(40);
         make.top.equalTo(self.label1.mas_bottom).offset(24 + (IPAD ? 29 : 24));
-        make.bottom.equalTo(self.way.mas_top).inset(IPAD ? 29 : 25);
+        make.bottom.equalTo(self.selectOrderContainerView.mas_top).inset(IPAD ? 29 : 25);
     }];
  
 }
@@ -315,6 +401,8 @@
     [self.navigationController pushViewController:selectVC animated:1];
 
 }
+
+
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if (![text isEqual: @""] && [text characterAtIndex:0] == '\n') {

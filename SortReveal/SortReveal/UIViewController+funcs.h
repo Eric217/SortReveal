@@ -38,5 +38,8 @@
     
 - (bool)isNoSplit;
 
+- (void)automaticSplitStyle;
+- (void)overlaySplitStyle;
+- (void)hidePrimarySplitStyle;
 
 @end

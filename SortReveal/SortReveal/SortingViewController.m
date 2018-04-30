@@ -93,15 +93,33 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
+//    switch (self.splitViewController.displayMode) {
+//        case UISplitViewControllerDisplayModePrimaryOverlay:
+//            printf("overlay\n");
+//            break;
+//        case UISplitViewControllerDisplayModeAutomatic:
+//            printf("auto\n");
+//            break;
+//        case UISplitViewControllerDisplayModeAllVisible:
+//            printf("all visi\n");
+//            break;
+//        case UISplitViewControllerDisplayModePrimaryHidden:
+//            printf("hide pri\n");
+//            break;
+//        default:
+//            printf("fuck\n");
+//            break;
+//    }
+    
+    
+    
     CGSize lastItemSize = _itemSize;
 
     CGFloat w = self.view.width;
     CGFloat h = self.view.height;
   
     if (_sortType == SortTypeHeap) {
-        //    if (w > h) {
-        //        w = h;
-        //    } //w
+   
         h = (w - 2*_edgeDistance - 20)/2;
         _itemSize = CGSizeMake(h, h);
     } else {
@@ -116,12 +134,12 @@
     //if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay)
     //    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
     
-    [_backButton setTitle:@"配置排序" forState:UIControlStateNormal];
+    //[_backButton setTitle:@"配置排序" forState:UIControlStateNormal];
 
     //单app全屏时：
     //横屏 both 模式：
     if ([self.splitViewController canShowBoth] && [self isTwoThirth]) {
-        [_backButton setTitle:@"全屏显示" forState:UIControlStateNormal];
+    //    [_backButton setTitle:@"全屏显示" forState:UIControlStateNormal];
         [self automaticSplitStyle];
     } else if ([self isFullScreen]) {
     //竖屏全屏模式：
@@ -135,13 +153,25 @@
         }
     //多app共存，本app位置：
     //悬浮或1/3:
-    } else if ([self.splitViewController isFloatingOrThirth]) {
-        
+    } else
+     */
+    if ([self isTwoThirth]) {
+        if ([self isDevicePortait]) {
+            //  self.splitViewController.displayModeButtonItem
+        } else {
+            
+        }
+    }
+    
+    
+    if (IPAD && [self.splitViewController isFloatingOrThirth]) {
+   
+//        [self overlaySplitStyle];
     //横屏2/3:
     } else if ([self.splitViewController isTwoThirth] && ![self isDevicePortait]) {
-        [self overlaySplitStyle];
+//        [self overlaySplitStyle];
     }
-    */
+    
   
     //只是几个button的title、位置，无任何意义
     if ([self isFloatingOrThirth]) {
@@ -243,7 +273,8 @@
     [_fullScreenButton setImage:[Config backImage] forState:UIControlStateNormal];
     [_fullScreenButton addTarget:self action:@selector(setFullScreenDisplay:) forControlEvents:UIControlEventTouchUpInside];
     _fullScreenItem = [[UIBarButtonItem alloc] initWithCustomView:_fullScreenButton];
-    //self.navigationItem.leftBarButtonItems = @[self.splitViewController.displayModeButtonItem, _customBackItem];
+    if (IPAD)
+        self.navigationItem.leftBarButtonItems = @[self.splitViewController.displayModeButtonItem];
  
     _restartButton = [[UIBarButtonItem alloc] initWithTitle:@"重新开始" style:UIBarButtonItemStylePlain target:self action:@selector(restart:)];
     [_restartButton setTintColor:UIColor.blackColor];
@@ -302,10 +333,7 @@
     if ([UserDefault doubleForKey:kTimeInterval] <= 0) {
         [Config saveDouble:1.2 forKey:kTimeInterval];
     }
-    if (![UserDefault stringForKey:kFlowExecWay]) {
-        [UserDefault setObject:SingleStep forKey:kFlowExecWay];
-        [UserDefault synchronize];
-    }
+
   
     _fullScreenSpecified = 0;
 
@@ -451,13 +479,5 @@
     return 24;
 }
 
-- (void)automaticSplitStyle {
-    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModeAutomatic];
-}
-- (void)overlaySplitStyle {
-    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModePrimaryOverlay];
-}
-- (void)hidePrimarySplitStyle {
-    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModePrimaryHidden];
-}
+
 @end

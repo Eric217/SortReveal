@@ -16,39 +16,13 @@ NSNotificationName const ELTextFieldShouldResignNotification = @"dafwqswqGTR";
 static NSString * docPath = 0;
 static UIImage * _backImage = 0;
 static UIImage * _pushImage = 0;
-static Config *sharedConfig;
-
+ 
 @interface Config()
 
 @end
 
 @implementation Config
-
-+ (void)initializeConfig {
-    [Config shared];
-}
-
-+ (Config *)shared {
-    if (!sharedConfig) {
-        sharedConfig = [[Config alloc] init];
-        [NSNotificationCenter.defaultCenter addObserver:sharedConfig selector:@selector(keyboardShow) name:UIKeyboardWillShowNotification object:0];
-         [NSNotificationCenter.defaultCenter addObserver:sharedConfig selector:@selector(keyBoardHide) name:UIKeyboardWillHideNotification object:0];
-    }
-    return sharedConfig;
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)keyboardShow {
-    _isKeyboardShowing = 1;
-}
-
-- (void)keyBoardHide {
-    _isKeyboardShowing = 0;
-}
-
+ 
 + (void)saveDouble:(double)value forKey:(NSString *)key {
     [NSUserDefaults.standardUserDefaults setDouble:value forKey:key];
     [NSUserDefaults.standardUserDefaults synchronize];

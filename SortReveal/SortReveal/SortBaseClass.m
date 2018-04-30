@@ -25,11 +25,7 @@
 - (bool)compareByChar:(NSString *)a with:(NSString *)b order:(bool)lower {
     int numeric = [NSUserDefaults.standardUserDefaults boolForKey:kNumericCompare] ? 64 : 0;
     int caseInsensitive = [UserDefault boolForKey: kIgnoringCases];
- 
-    
-     NSUInteger r = [a compare:b options:numeric || caseInsensitive];
-    
-//    r = numeric ? [a compare:b options:NSNumericSearch] : [a compare:b];
+    NSUInteger r = [a compare:b options:numeric|caseInsensitive]; //打开位
     return [self yihuo_r:r lower:lower];
 }
 
@@ -45,12 +41,8 @@
 }
 
 - (bool)compareByAutomatic:(NSString *)a with:(NSString *)b order:(bool)lower {
-    HanyuPinyinOutputFormat *outputFormat = [HanyuPinyinOutputFormat commonFormat];
     
-    NSString *a1 = [PinyinHelper toHanyuPinyinStringWithSourceString:a withPinyinFormat:outputFormat bySeperator:@""];
-    NSString *a2 = [PinyinHelper toHanyuPinyinStringWithSourceString:b withPinyinFormat:outputFormat bySeperator:@""];
-    
-    return [self yihuo_r:[a1 compare:a2 options:NSNumericSearch] lower:lower];
+    return [self compareByDict:a with:b order:lower];
 }
 
 - (instancetype)init {

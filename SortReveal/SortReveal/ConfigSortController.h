@@ -10,7 +10,7 @@
 #import "Common.h"
 #import "SortingViewController.h"
 
-@interface ConfigSortController : UIViewController
+@interface ConfigSortController : UIViewController <UISplitViewControllerDelegate>
 
 - (instancetype)initWithSortType:(SortType)type anotherRoot:(UIViewController *)rootvc;
 

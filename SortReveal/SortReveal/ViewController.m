@@ -77,10 +77,7 @@
         make.top.equalTo(self.appTitle.mas_bottom);
         make.width.left.bottom.equalTo(self.view);
     }];
-  
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [Config initializeConfig];
-    }];
+ 
     
 }
 
@@ -129,6 +126,9 @@
         [emptyDetailNav setToolbarHidden:0];
         [splitVC setViewControllers:@[masterNav, emptyDetailNav]];
     }
+    
+    //if (0)
+      //  splitVC.delegate = conf;
     [self.view.window setRootViewController:splitVC];
  
 }

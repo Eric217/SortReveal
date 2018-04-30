@@ -86,11 +86,9 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 #define IPHONE (!IPAD)
 
 //MARK: - common and useful funcs
+///Config provides common tools
 @interface Config: NSObject
-
-@property (assign, readonly) bool isKeyboardShowing;
-
-+ (void)initializeConfig;
+ 
 + (void)saveDouble:(double)value forKey:(NSString *)key;
 + (double)doubleValue:(NSString *)text;
 + (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId;

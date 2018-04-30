@@ -62,6 +62,9 @@
 }
 
 - (bool)isTwoThirth {
+    if (!IPAD) {
+        return 0;
+    }
     CGFloat sw = ScreenW, vw = self.view.bounds.size.width;
     return fabs(sw/2-vw) > Delta && sw > vw;
 }
@@ -89,7 +92,15 @@
 - (bool)isNoSplit {
     return ![self canShowBoth] && ![self canPullHideLeft];
 }
-
+- (void)automaticSplitStyle {
+    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModeAutomatic];
+}
+- (void)overlaySplitStyle {
+    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModePrimaryOverlay];
+}
+- (void)hidePrimarySplitStyle {
+    [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModePrimaryHidden];
+}
 @end
 
 
