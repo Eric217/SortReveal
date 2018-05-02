@@ -153,7 +153,7 @@
 
     if (arrSize != 0) {
         NSArray <NSArray *> *sortData = [self getInitialSortData];
-        [_viewDataDictArr addObject:@{kDataArr: _originDataArr, kPositionArr: sortData[0], kTitleArr: sortData[1]}];
+        [_viewDataDictArr addObject:@{kDataArr: sortData[2], kPositionArr: sortData[0], kTitleArr: sortData[1], kCommingText: sortData[3]}];
         _collectionBackView.text = @"";
     } else {
         _collectionBackView.text = emptyDisplayString;
@@ -162,16 +162,17 @@
 }
 
 //MARK: - 执行顺序3.1
-- (NSArray<NSArray *> *)getInitialSortData {
+///依次为： pos title originArr commingText color
+- (NSArray *)getInitialSortData {
     if (_originDataArr.count <= 1) {
-        return @[@[], @[]];
+        return @[@[], @[], @[], @""];
     } else if (_sortType == SortTypeBubble) {
         return @[@[@"0", @"1", [NSString stringWithFormat:@"%d", (int)(_originDataArr.count)]],
-                 @[@"j", @"j+1", @"i"]];
+                 @[@"j", @"j+1", @"i"], _originDataArr, @""];
     } else if (_sortType == SortTypeSelection) {
-        return @[@[@"0", @"1"], @[@"i", @"j"]];
+        return @[@[@"0", @"1"], @[@"i", @"j"], _originDataArr, @""];
     } else if (_sortType == SortTypeInsertion) {
-        return @[ ];
+        return @[@[@"0"], @[@"j"], @[_originDataArr[0]], _originDataArr[1]];
     } else if (_sortType == SortTypeHeap) {
         return @[ ];
     } else if (_sortType == SortTypeFast) {
@@ -263,7 +264,9 @@
     [_collection registerClass:ELCommonLinearCell.class forCellWithReuseIdentifier:NSStringFromClass(ELCommonLinearCell.class)];
     [_collection registerClass:ELRepeatLinearCell.class forCellWithReuseIdentifier:NSStringFromClass(ELRepeatLinearCell.class)];
     [_collection registerClass:ELGroupedUnitCell.class forCellWithReuseIdentifier:NSStringFromClass(ELGroupedUnitCell.class)];
- 
+    [_collection registerClass:ELInsertionSortCell.class forCellWithReuseIdentifier:NSStringFromClass(ELInsertionSortCell.class)];
+    
+    
     [self.view addSubview:_collection];
     [_collection mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
@@ -289,7 +292,6 @@
         [Config saveDouble:1.2 forKey:kTimeInterval];
     }
 
-  
     _fullScreenSpecified = 0;
 
     [self setTitle:@"动态演示"];
@@ -422,7 +424,7 @@
     } else if (_sortType == SortTypeBubble || _sortType == SortTypeSelection){
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELCommonLinearCell.class) forIndexPath:indexPath];
     } else if (_sortType == SortTypeInsertion) {
-        
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELInsertionSortCell.class) forIndexPath:indexPath];
     } else if (_sortType == SortTypeFast) {
         
     }

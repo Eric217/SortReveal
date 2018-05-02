@@ -82,16 +82,18 @@
         [upArrow drawInRect:CGRectInset(r, 10, 6)];
     }
     
-    textStyle.alignment = NSTextAlignmentRight;
-    attr[NSParagraphStyleAttributeName] = textStyle;
-    NSString *str1 = [NSString stringWithFormat:@"i = %d", arrSize];
-    NSString *str2 = [@"arr[i] = " stringByAppendingString:_nextText];
-    CGSize box = [str2 sizeWithAttributes:attr];
-    r = CGRectMake(w-box.width, 0, box.width, h/2);
-    [str1 drawInRect:r withAttributes:attr];
-    r.origin.y = h/2;
-    [str2 drawInRect:r withAttributes:attr];
- 
+    if (!([_nextText isEqualToString:@""] || !_nextText)) {
+        textStyle.alignment = NSTextAlignmentRight;
+        attr[NSParagraphStyleAttributeName] = textStyle;
+        NSString *str1 = [NSString stringWithFormat:@"i = %d", arrSize];
+        NSString *str2 = [@"arr[i] = " stringByAppendingString:_nextText];
+        CGSize box = [str2 sizeWithAttributes:attr];
+        r = CGRectMake(w-box.width, 0, box.width, h/2);
+        [str1 drawInRect:r withAttributes:attr];
+        r.origin.y = h/2;
+        [str2 drawInRect:r withAttributes:attr];
+    }
+    
     CGContextSetLineWidth(ctx, lineWidth);
     CGContextSetStrokeColorWithColor(ctx, UIColor.blackColor.CGColor);
     CGContextAddPath(ctx, path);

@@ -156,10 +156,7 @@
             _itemSize = (w-3.6*_edgeDistance)/3;
         }
     } else {
-//        if (IPhoneX) {
-//            _itemSize = (w-3*_edgeDistance)/2+5;
-//        } else
-            _itemSize = (w-3*_edgeDistance)/2;
+        _itemSize = (w-3*_edgeDistance)/2;
     }
  
     [_appTitle mas_updateConstraints:^(MASConstraintMaker *make) {

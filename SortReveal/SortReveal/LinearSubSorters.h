@@ -29,7 +29,7 @@
 
 @end
 
-@interface FastSorter: SortBaseClass
+@interface FastSorter: LinearSorter
 
 @end
 

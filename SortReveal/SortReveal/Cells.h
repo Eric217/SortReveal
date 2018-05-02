@@ -10,4 +10,4 @@
 #import "ELCommonLinearCell.h"
 #import "ELRepeatLinearCell.h"
 #import "ELTreeUnitCell.h"
-
+#import "ELInsertionSortCell.h"

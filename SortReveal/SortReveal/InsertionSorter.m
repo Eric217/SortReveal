@@ -10,7 +10,7 @@
 #import "LinearSubSorters.h"
 @interface InsertionSorter ()
 
-@property (assign) bool willSwap;
+//@property (assign) bool willSwap;
 
 @end
 /*
@@ -37,6 +37,8 @@ void insertionSort2(T * arr, int length) {
     }
 }
  */
+
+///对于插入排序，currentI只是象征性的，currentJ+1才是与J比较的对象。
 @implementation InsertionSorter
 
 - (void)move_a:(int)a to:(int)idx {
@@ -45,28 +47,68 @@ void insertionSort2(T * arr, int length) {
 
 - (NSDictionary *)nextTurn:(BOOL *)finished {
     int i = self.currentI, j = self.currentJ; //1
+    int len = (int)(dataArr.count);
+    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr copyItems:1];
     
-    _willSwap = [self compareAtIndex_a:i b:j]; //返回1要交换
-    if (!_willSwap) {
-        [self swap_a:j+1 b:i];
-        self.currentJ++;
-        self.currentI++;
-        //return
-    } else {
-        self.currentJ--;
-        if (self.currentJ < 0) {
-            [self move_a:i to:0];
-            //sawp. ok.
-        } else {
-            //return
+    if (len == 2) {
+        if ([self compareAtIndex_a:0 b:1]) {
+            [self swap_a:0 b:1];
         }
+        *finished = 1;        
+    } else {
+        
+        bool _willSwap = [self compareAtIndex_a:j b:j+1]; //返回1要交换
+        if (!_willSwap) {
+            self.currentI++;
+            self.currentJ = self.currentI-1;
+            if (self.currentI == len) {
+                *finished = 1;
+            }
+            
+            
+            
+            
+        } else {
+            [self swap_a:j b:j+1];
+            self.currentJ--;
+            
+            if (self.currentJ < 0) {
+                self.currentI++;
+                self.currentJ = self.currentI-1;
+                if (self.currentI == len) {
+                    *finished = 1;
+                }
+                
+            }
+            
+        }
+        
+        
+        
     }
- 
     
     
+    NSArray *data = [[NSArray alloc] initWithArray:dataArr copyItems:0]; //7
+    [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGPoint(CGPointMake(i, j))}]; //10
     
+    if (*finished) {//8
+        return @{kDataArr: data};
+    } else {//9
+        //NSString *num0 = [NSString stringWithFormat:@"%d", self.currentI];
+        NSString *num1 = [NSString stringWithFormat:@"%d", self.currentJ];
+        //TODO: - color
+        NSString *comming = historyArr[0][kDataArr][i];
+        return @{kDataArr: data, kPositionArr: @[num1], kTitleArr: @[@"j"], kCommingText: comming};
+    }
     return 0;
 }
+
+- (void)shouldReturnI:(int)i J:(int)j {
+    
+    
+    
+}
+
 
 - (void)initializeWithArray:(NSMutableArray *)array order:(SortOrder)order {
     [super initializeWithArray:array order:order];
