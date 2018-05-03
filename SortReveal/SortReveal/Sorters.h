@@ -6,9 +6,8 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#ifndef Sorters_h
-#define Sorters_h
 #import "LinearSorter.h"
+#import "HeapSorter.h"
 
 @interface BubbleSorter : LinearSorter
 
@@ -25,13 +24,8 @@
 @end
 
 
-@interface HeapSorter: SortBaseClass
-
-@end
-
 @interface FastSorter: LinearSorter
 
 @end
 
 
-#endif /* Sorters_h */

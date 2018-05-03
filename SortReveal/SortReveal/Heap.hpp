@@ -1,39 +1,45 @@
 //
-//  MinHeap.hpp
+//  Heap.hpp
 //  9.3
 //
 //  Created by Eric on 06/01/2018.
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#ifndef MinHeap_hpp
-#define MinHeap_hpp
-#include "xcept.hpp"
- 
+#ifndef Heap_hpp
+#define Heap_hpp
+#include <iostream>
+using namespace std;
+
+class OutOfBounds {};
+class NoMemory {};
+
+
 template <typename T>
-class MinHeap {
+class Heap {
     T * element;
     int maxSize;
     int currentSize;
-    
+ 
 public:
     
-    MinHeap(T * arr, int length, int maxSize = -1);
-    ~MinHeap() { delete [] element; }
+    Heap() {};
+    Heap(T * arr, int length, int maxSize = -1);
+    ~Heap() { delete [] element; }
     
     int size() const { return currentSize; }
-    T min() const { return element[0]; }
+    T top() const { return element[0]; }
     bool empty() const { return !currentSize; }
     bool full() const { return currentSize == maxSize; }
     void deactive() { element = 0; maxSize = currentSize = 0; }
  
-    MinHeap<T> & push(const T &);
-    MinHeap<T> & pop(T &);
-    MinHeap<T> & pop();
+    Heap<T> & push(const T &);
+    Heap<T> & pop(T &);
+    Heap<T> & pop();
 };
 
 template <typename T>
-MinHeap<T>::MinHeap(T * arr, int length, int mxs) {
+Heap<T>::Heap(T * arr, int length, int mxs) {
     element = arr;
     maxSize = (mxs == -1 ? length : mxs);
     currentSize = length;
@@ -56,11 +62,11 @@ MinHeap<T>::MinHeap(T * arr, int length, int mxs) {
 }
 
 template <typename T>
-MinHeap<T> & MinHeap<T>::push(const T & t) {
+Heap<T> & Heap<T>::push(const T & t) {
     if (currentSize == maxSize)
         throw NoMemory();
     int i = ++currentSize; //t从新的叶节点开始 沿着树上升
-    while (i != 1 && element[i/2-1] > t) { //<
+    while (i != 1 && element[i/2-1] > t) { // ，<
         element[i-1] = element[i/2-1];
         i /= 2;
     }
@@ -69,7 +75,7 @@ MinHeap<T> & MinHeap<T>::push(const T & t) {
 }
 
 template <typename T>
-MinHeap<T> & MinHeap<T>::pop(T & receiver) {
+Heap<T> & Heap<T>::pop(T & receiver) {
     if (!currentSize)
         throw OutOfBounds();
     receiver = element[0];
@@ -79,7 +85,7 @@ MinHeap<T> & MinHeap<T>::pop(T & receiver) {
         return *this;
     int i = 1; //下标
     while (i < currentSize) {
-        if (i+1 < currentSize && element[i] > element[i+1])//<
+        if (i+1 < currentSize && element[i] > element[i+1])//， <
             i++;
         if (data < element[i])//>=
             break;
@@ -91,7 +97,7 @@ MinHeap<T> & MinHeap<T>::pop(T & receiver) {
 }
 
 template <typename T>
-MinHeap<T> & MinHeap<T>::pop() {
+Heap<T> & Heap<T>::pop() {
     if (!currentSize)
         throw OutOfBounds();
     T data = element[--currentSize];
@@ -100,7 +106,7 @@ MinHeap<T> & MinHeap<T>::pop() {
         return *this;
     int i = 1; //下标
     while (i < currentSize) {
-        if (i+1 < currentSize && element[i] > element[i+1])//<
+        if (i+1 < currentSize && element[i] > element[i+1])//， <
             i++;
         if (data < element[i])//>=
             break;
@@ -111,4 +117,4 @@ MinHeap<T> & MinHeap<T>::pop() {
     return *this;
 }
 
-#endif /* MinHeap_hpp */
+#endif /* Heap_hpp */

@@ -15,15 +15,15 @@
 @optional
 - (void)initializeWithArray:(NSMutableArray *)array order:(SortOrder)order;
 
-///返回的字典中 含有1. 数组kDataArr 2. 箭头信息 3. 颜色信息kColorArr
+- (void)lastStep;
+
 - (NSDictionary *)nextTurn:(BOOL *)finished;
 - (NSDictionary *)nextRow:(BOOL *)finished;
-
-- (void)lastStep;
+//返回的字典中 含有1. 数组kDataArr 2. 箭头信息 3. 颜色信息kColorArr
 
 @end
 
-@protocol Comparable <NSObject>
+@protocol Comparator <NSObject>
 
 @optional
 - (void)swap_a:(int)i b:(int)j;

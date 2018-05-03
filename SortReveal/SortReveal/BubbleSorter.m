@@ -6,7 +6,7 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "LinearSubSorters.h"
+#import "Sorters.h"
 
 @interface BubbleSorter ()
 

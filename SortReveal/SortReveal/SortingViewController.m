@@ -12,7 +12,7 @@
 #import "UIView+frameProperty.h"
 #import "UIViewController+funcs.h"
 #import "SettingViewController.h"
-#import "LinearSubSorters.h"
+#import "Sorters.h"
 #import "Cells.h"
 
 #define emptyDisplayString @"配置排序\n以开始"
@@ -342,6 +342,7 @@
     if (!(_viewDataDictArr.count)) {
         return;
     }
+    
     BOOL finished = false;
     [self nextSlide:[_sorter nextTurn:&finished] finished:finished];
 }

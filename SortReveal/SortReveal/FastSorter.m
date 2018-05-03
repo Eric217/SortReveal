@@ -6,8 +6,8 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "LinearSubSorters.h"
+
+#import "Sorters.h"
 
 @implementation FastSorter
 

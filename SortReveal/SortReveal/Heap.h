@@ -1,16 +1,13 @@
 //
-//  Sort.m
+//  Heap.h
 //  SortReveal
 //
-//  Created by Eric on 2018/4/16.
+//  Created by Eric on 2018/5/3.
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "LinearSubSorters.h"
 
-@implementation HeapSorter
+@interface Heap : NSObject
 
 @end
-
-

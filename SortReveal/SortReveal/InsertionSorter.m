@@ -6,37 +6,13 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "LinearSubSorters.h"
+#import "Sorters.h"
 @interface InsertionSorter ()
 
 //@property (assign) bool willSwap;
 @property (nonatomic, copy) NSMutableArray *turnArray;
 @end
-/*
-template <typename T>
-void insertForSort(T * arr, const T t, int length) {
-    int i;
-    for (i = length - 1; i >= 0 && arr[i] < t; i--)
-        arr[i+1] = arr[i];
-    arr[i+1] = t;
-}
-template <typename T>
-void insertionSort(T * arr, int length) {
-    for (int i = 1; i < length; i++)
-        insertForSort(arr, arr[i], i);
-}
-template <typename T>
-void insertionSort2(T * arr, int length) {
-    for (int i = 1; i < length; i++) {
-        int j;
-        T t = arr[i];
-        for (j = i - 1; j >= 0 && arr[j] < t; j--)
-            arr[j+1] = arr[j];
-        arr[j+1] = t;
-    }
-}
- */
+ 
 
 ///对于插入排序，currentI只是象征性的，currentJ+1才是与J比较的对象。
 @implementation InsertionSorter
