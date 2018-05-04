@@ -14,11 +14,24 @@
 
 
 @interface ELTreeUnitCell ()
-@property (assign) CGFloat height;
+@property (assign) int height;
+
 
 @end
 
+
 @implementation ELTreeUnitCell
+
+- (void)setDataDict:(NSDictionary *)dataDict {
+    super.dataDict = dataDict;
+    
+    _treeArray = [dataDict valueForKey:kDataArr];
+    _sortedArray = [dataDict valueForKey:kTitleArr];
+    int c = (int)_treeArray.count;
+    _height = (int)(log2(c)+1);
+    
+}
+
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];

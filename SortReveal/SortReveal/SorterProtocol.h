@@ -28,6 +28,7 @@
 @optional
 - (void)swap_a:(int)i b:(int)j;
 - (bool)compareAtIndex_a:(int)a b:(int)b;
+- (bool)compareElement_a:(NSString *)x b:(NSString *)y;
 
 - (bool)compareByNumber:(double)a with:(double)b order:(bool)lower;
 - (bool)compareByChar:(NSString *)a with:(NSString *)b order:(bool)lower;

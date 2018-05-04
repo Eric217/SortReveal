@@ -20,7 +20,7 @@
 		07333231208DA110009E2E38 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07333230208DA110009E2E38 /* SwitchCell.m */; };
 		07545DDC2083575400430681 /* UIImage+operations.m in Sources */ = {isa = PBXBuildFile; fileRef = 07545DDB2083575400430681 /* UIImage+operations.m */; };
 		076C02AA20971B26000395A2 /* ConfigSortNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = 076C02A920971B26000395A2 /* ConfigSortNavController.m */; };
-		077A40982084CA3500D887FB /* HeapSorter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 077A40972084CA3500D887FB /* HeapSorter.mm */; };
+		077A40982084CA3500D887FB /* HeapSorter.m in Sources */ = {isa = PBXBuildFile; fileRef = 077A40972084CA3500D887FB /* HeapSorter.m */; };
 		07828063207C5FDC000D0B4A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828062207C5FDC000D0B4A /* AppDelegate.m */; };
 		07828066207C5FDC000D0B4A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07828065207C5FDC000D0B4A /* ViewController.m */; };
 		07828069207C5FDC000D0B4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07828067207C5FDC000D0B4A /* Main.storyboard */; };
@@ -37,7 +37,6 @@
 		07A83D0B2090274C00C942E7 /* PinyinHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A83D052090274C00C942E7 /* PinyinHelper.m */; };
 		07A83D0C2090274C00C942E7 /* NSString+PinYin4Cocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A83D062090274C00C942E7 /* NSString+PinYin4Cocoa.m */; };
 		07A83D0D2090274C00C942E7 /* unicode_to_hanyu_pinyin.txt in Resources */ = {isa = PBXBuildFile; fileRef = 07A83D072090274C00C942E7 /* unicode_to_hanyu_pinyin.txt */; };
-		07B68D24209B51B4004CF5C1 /* Heap.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B68D23209B51B4004CF5C1 /* Heap.m */; };
 		07BDAE45207D9307009BFD30 /* SortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07BDAE44207D9307009BFD30 /* SortingViewController.m */; };
 		07D3C6302089736400DE7AAF /* ELGroupedUnitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */; };
 		07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E38E05207CF1FF00E3A4BB /* UIView+frameProperty.m */; };
@@ -79,7 +78,7 @@
 		07545DDB2083575400430681 /* UIImage+operations.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+operations.m"; sourceTree = "<group>"; };
 		076C02A820971B26000395A2 /* ConfigSortNavController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigSortNavController.h; sourceTree = "<group>"; };
 		076C02A920971B26000395A2 /* ConfigSortNavController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigSortNavController.m; sourceTree = "<group>"; };
-		077A40972084CA3500D887FB /* HeapSorter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HeapSorter.mm; sourceTree = "<group>"; };
+		077A40972084CA3500D887FB /* HeapSorter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeapSorter.m; sourceTree = "<group>"; };
 		078175602084ADCA00FD043B /* Protocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Protocols.h; sourceTree = "<group>"; };
 		0782805E207C5FDC000D0B4A /* SortReveal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SortReveal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07828061207C5FDC000D0B4A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -114,8 +113,6 @@
 		07B68D1E209B2C69004CF5C1 /* MaxHeap.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MaxHeap.hpp; sourceTree = "<group>"; };
 		07B68D1F209B3FB9004CF5C1 /* HeapSorter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeapSorter.h; sourceTree = "<group>"; };
 		07B68D21209B4912004CF5C1 /* Heap.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Heap.hpp; sourceTree = "<group>"; };
-		07B68D22209B51B4004CF5C1 /* Heap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Heap.h; sourceTree = "<group>"; };
-		07B68D23209B51B4004CF5C1 /* Heap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Heap.m; sourceTree = "<group>"; };
 		07BDAE43207D9307009BFD30 /* SortingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SortingViewController.h; sourceTree = "<group>"; };
 		07BDAE44207D9307009BFD30 /* SortingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SortingViewController.m; sourceTree = "<group>"; };
 		07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELGroupedUnitCell.m; sourceTree = "<group>"; };
@@ -207,8 +204,6 @@
 			isa = PBXGroup;
 			children = (
 				07B68D21209B4912004CF5C1 /* Heap.hpp */,
-				07B68D22209B51B4004CF5C1 /* Heap.h */,
-				07B68D23209B51B4004CF5C1 /* Heap.m */,
 				070EA11B2086568F002B84E2 /* MinHeap.hpp */,
 				07B68D1E209B2C69004CF5C1 /* MaxHeap.hpp */,
 				070EA11A2086568F002B84E2 /* xcept.hpp */,
@@ -411,7 +406,7 @@
 				07FC6DF3209078A600167E51 /* LinearSorter.h */,
 				07245C142086E49300490B4C /* LinearSorter.m */,
 				07B68D1F209B3FB9004CF5C1 /* HeapSorter.h */,
-				077A40972084CA3500D887FB /* HeapSorter.mm */,
+				077A40972084CA3500D887FB /* HeapSorter.m */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -564,7 +559,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07A83D092090274C00C942E7 /* ChineseToPinyinResource.m in Sources */,
-				077A40982084CA3500D887FB /* HeapSorter.mm in Sources */,
+				077A40982084CA3500D887FB /* HeapSorter.m in Sources */,
 				07E38E06207CF1FF00E3A4BB /* UIView+frameProperty.m in Sources */,
 				07D3C6302089736400DE7AAF /* ELGroupedUnitCell.m in Sources */,
 				071D3775208EDB9900E59AA7 /* SelectFlowController.m in Sources */,
@@ -574,7 +569,6 @@
 				07F2333B209196DE00FBF692 /* ELLinearUnitCell.m in Sources */,
 				071D377F208F1FF700E59AA7 /* SelectionSorter.m in Sources */,
 				07A83D082090274C00C942E7 /* HanyuPinyinOutputFormat.m in Sources */,
-				07B68D24209B51B4004CF5C1 /* Heap.m in Sources */,
 				071D3779208EDC8300E59AA7 /* SelectController.m in Sources */,
 				07545DDC2083575400430681 /* UIImage+operations.m in Sources */,
 				07E38E0C207CF63100E3A4BB /* ELSortNameCollectionCell.m in Sources */,

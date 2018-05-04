@@ -7,7 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SorterProtocol.h"
 
 @interface Heap : NSObject
 
+@property (weak) id <Comparator> comparator;
+
++ (Heap *)initializeWithArr:(NSMutableArray *)array size:(int)arrSize;
+- (void)updateMaxSize:(int)size;
+
+
 @end
+

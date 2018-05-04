@@ -152,8 +152,7 @@
     [self initButtonState:arrSize != 1];
 
     if (arrSize != 0) {
-        NSArray <NSArray *> *sortData = [self getInitialSortData];
-        [_viewDataDictArr addObject:@{kDataArr: sortData[2], kPositionArr: sortData[0], kTitleArr: sortData[1], kCommingText: sortData[3]}];
+        [_viewDataDictArr addObject: [self getInitialSortData]];
         _collectionBackView.text = @"";
     } else {
         _collectionBackView.text = emptyDisplayString;
@@ -163,18 +162,24 @@
 
 //MARK: - 执行顺序3.1
 ///依次为： pos title originArr commingText color
-- (NSArray *)getInitialSortData {
-    if (_originDataArr.count <= 1) {
-        return @[@[], @[], @[], @""];
+- (NSDictionary *)getInitialSortData {
+    if (_originDataArr.count == 1) {
+        return @{kDataArr: _originDataArr};
     } else if (_sortType == SortTypeBubble) {
-        return @[@[@"0", @"1", [NSString stringWithFormat:@"%d", (int)(_originDataArr.count)]],
-                 @[@"j", @"j+1", @"i"], _originDataArr, @""];
+        return @{kPositionArr: @[@"0", @"1", [NSString stringWithFormat:@"%d", (int)(_originDataArr.count)]],
+                 kTitleArr: @[@"j", @"j+1", @"i"],
+                 kDataArr: _originDataArr};
     } else if (_sortType == SortTypeSelection) {
-        return @[@[@"0", @"1"], @[@"i", @"j"], _originDataArr, @""];
+        return @{kPositionArr: @[@"0", @"1"],
+                 kTitleArr: @[@"i", @"j"],
+                 kDataArr: _originDataArr};
     } else if (_sortType == SortTypeInsertion) {
-        return @[@[@"0"], @[@"j"], @[_originDataArr[0]], _originDataArr[1]];
+        return @{kPositionArr: @[@"0"],
+                 kTitleArr: @[@"j"],
+                 kDataArr: @[_originDataArr[0]],
+                 kCommingText: _originDataArr[1]};
     } else if (_sortType == SortTypeHeap) {
-        return @[ ];
+        return [((HeapSorter *)_sorter) initializeHeap];
     } else if (_sortType == SortTypeFast) {
         
     }
@@ -431,7 +436,6 @@
     }
     
     cell.dataDict = _viewDataDictArr[indexPath.item];
-    //!!!!不知道为什么 重新开始一次演示的时候总是画不出来。后来发现drawRect没被调用，就让他needs display。 OK！
     [cell setNeedsDisplay];
     return cell;
 }
