@@ -79,7 +79,12 @@
         [self.titlArr[i] drawInRect:r withAttributes:attr];
         r.origin.y = hBlow;
         r.size.height = hTextAbove-hBlow;
-        [upArrow drawInRect:CGRectInset(r, 10, 6)];
+        CGRect rr = CGRectInset(r, 10, 6);
+        if (rr.size.width <= 4) {
+            rr.size.width = 4;
+            rr.origin.x -= 2;
+        }
+        [upArrow drawInRect:rr];
     }
     
     //右侧提示文字

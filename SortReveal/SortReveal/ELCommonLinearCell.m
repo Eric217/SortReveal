@@ -74,9 +74,13 @@
         [self.titlArr[i] drawInRect:r withAttributes:attr];
         r.origin.y = hBlow;
         r.size.height = hTextAbove-hBlow;
-        [upArrow drawInRect:CGRectInset(r, dx, 6)];
-        
- 
+        CGRect rr = CGRectInset(r, dx, 6);
+        if (rr.size.width <= 4) {
+            rr.size.width = 4;
+            rr.origin.x -= 2;
+        }
+        [upArrow drawInRect:rr];
+    
     }
     
     CGContextSetLineWidth(ctx, lineWidth);

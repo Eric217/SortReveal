@@ -28,6 +28,23 @@ static UIImage * _pushImage = 0;
     return (int)(log2(count)+1);
 }
 
+///我们默认bottonH为一个常量 —— 没有必要自己设置值
++ (CGSize)estimatedSizeThatFitsTree:(NSUInteger)nodeCount bottom:(CGFloat)bottomH {
+    if (nodeCount == 0) {
+        return CGSizeZero;
+    }
+    int th = (int)(log2(nodeCount)+1);
+    int lastRow = (int)pow(2, th-1);
+    int w = LineWidth + UnitSize + SepaWidth*(lastRow-1), h;
+    if (th == 2) {
+        h = 1.733*SepaWidth/2+UnderTreeH;
+    } else if (th == 3) {
+        h = w+UnderTreeH-5;
+    } else {
+        h = w;
+    }
+    return CGSizeMake(w, h);
+}
 
 ///need to free points and alter coordinate, level: _height-2 ... 0
 + (CGPoint *)getLocaWithHeight:(int)h startAngle:(CGFloat)a angleReducer:(void(^)(int level, CGFloat *))handler {

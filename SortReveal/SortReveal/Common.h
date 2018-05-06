@@ -97,6 +97,7 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 @interface Config: NSObject
 
 + (int)getTreeHeight:(NSUInteger)count;
++ (CGSize)estimatedSizeThatFitsTree:(NSUInteger)nodeCount bottom:(CGFloat)bottomH;
 + (CGPoint *)getLocaWithHeight:(int)h startAngle:(CGFloat)a angleReducer:(void(^)(int level, CGFloat * angle))handler;
 
 

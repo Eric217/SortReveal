@@ -10,7 +10,8 @@
 
 @interface UIViewController (funcs)
 
-- (void)presentAlertWithConfirmTitle:(NSString *)title message:(NSString *)msg Action:(void (^) (UIAlertAction *))handler;
+- (void)presentAlertWithCancelAndConfirm:(NSString *)title message:(NSString *)msg Action:(void (^) (void))handler;
+- (void)presentTip:(NSString *)title message:(NSString *)msg Action:(void (^) (void))handler;
 
 - (void)pushWithoutBottomBar:(UIViewController *)vc;
 

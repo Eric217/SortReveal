@@ -94,23 +94,20 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    CGSize lastItemSize = _itemSize;
+
     CGFloat w = self.view.width;
     CGFloat h = self.view.height;
   
     if (_sortType == SortTypeHeap) {
-        int th = [Config getTreeHeight:_originDataArr.count];
-        CGFloat sepes = pow(2, th-1) - 1;
-        LineWidth+sepes*SepaWidth+UnitSize;
-        h = (w - 2*_edgeDistance - 20)/2;
+        
+//        int th = [Config getTreeHeight:_originDataArr.count];
+//        CGFloat sepes = pow(2, th-1) - 1;
+//        LineWidth+sepes*SepaWidth+UnitSize;
+//        h = (w - 2*_edgeDistance - 20)/2;
         _itemSize = CGSizeMake(h, h);
     } else
         _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
 
-    if (!(_itemSize.height == lastItemSize.height && _itemSize.width == lastItemSize.width)) {
-     //   [[_collection cellForItemAtIndexPath:[Config idxPath:0]] setNeedsLayout];
-        [_collection reloadData];
-    }
     if (IPAD) {
         
         if ([self canPullHideLeft]) {
@@ -144,6 +141,29 @@
         
     }
     
+}
+
+//由非转屏、改变iPad分屏时导致的layoutSubview里 不能reloadData，需要靠下面这个函数。
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    CGSize lastItemSize = _itemSize;
+    CGFloat w = size.width;
+    
+//    CGFloat h = size.height;
+    
+    if (_sortType == SortTypeHeap) {
+//        int th = [Config getTreeHeight:_originDataArr.count];
+//        CGFloat sepes = pow(2, th-1) - 1;
+//        LineWidth+sepes*SepaWidth+UnitSize;
+//        h = (w - 2*_edgeDistance - 20)/2;
+//        _itemSize = CGSizeMake(h, h);
+    } else
+        _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
+    
+    if (!(_itemSize.width == lastItemSize.width && _itemSize.height == lastItemSize.height)) {
+        [_collection reloadData];
+    }
 }
 
 //MARK: - 执行顺序3

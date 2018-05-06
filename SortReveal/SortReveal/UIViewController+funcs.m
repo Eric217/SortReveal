@@ -11,14 +11,29 @@
 
 @implementation UIViewController (funcs)
 
-- (void)presentAlertWithConfirmTitle:(NSString *)title message:(NSString *)msg Action:(void (^) (UIAlertAction *))handler {
+- (void)presentAlertWithCancelAndConfirm:(NSString *)title message:(NSString *)msg Action:(void (^) (void))handler {
     UIAlertController *alertC = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+ 
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:handler];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _) {
+        handler();
+    }];
     [alertC addAction:cancel];
-    [alertC addAction:ok];
-    [self presentViewController:alertC animated:1 completion:nil];
     
+    [alertC addAction:ok];
+    
+    [self presentViewController:alertC animated:1 completion:nil];
+}
+
+- (void)presentTip:(NSString *)title message:(NSString *)msg Action:(void (^) (void))handler {
+    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
+ 
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _) {
+        handler();
+    }];
+    [alertC addAction:ok];
+    
+    [self presentViewController:alertC animated:1 completion:nil];
 }
 
 - (void)pushWithoutBottomBar:(UIViewController *)vc {

@@ -84,11 +84,15 @@
         
         r.origin.y = hBlow;
         r.size.height = hTextAbove-hBlow;
-        
-        [upArrow drawInRect:CGRectInset(r, 2, 6)];
-        r.origin.x -= 0.5*unitLength;
-        [upArrow drawInRect:CGRectInset(r, 2, 6)];
-        
+    
+        CGRect rr = CGRectInset(r, 2, 6);
+        if (rr.size.width <= 3) {
+            rr.size.width = 3;
+            rr.origin.x -= 1.5;
+        }
+        [upArrow drawInRect:rr];
+        rr.origin.x -= 0.5*unitLength;
+        [upArrow drawInRect:rr];
     }
     
     attr[NSFontAttributeName] = [UIFont systemFontOfSize:17];
@@ -107,8 +111,14 @@
         [self.titlArr[i] drawInRect:r withAttributes:attr];
         r.origin.y = hBlow;
         r.size.height = hTextAbove-hBlow;
-        [upArrow drawInRect:CGRectInset(r, 10, 6)];
         
+        CGRect rr = CGRectInset(r, 10, 6);
+        if (rr.size.width <= 4) {
+            rr.size.width = 4;
+            rr.origin.x -= 2;
+        }
+        [upArrow drawInRect:rr];
+ 
     }
     
     CGContextSetLineWidth(ctx, lineWidth);

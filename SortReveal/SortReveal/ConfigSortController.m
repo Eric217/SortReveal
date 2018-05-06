@@ -160,6 +160,13 @@
 
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
+   
+    if (![textView.text isEqualToString:@""] ) {
+        UITextPosition *end = [textView endOfDocument];
+        UITextPosition *start = [textView positionFromPosition:end offset:-textView.text.length];
+        textView.selectedTextRange = [textView textRangeFromPosition:start toPosition:end];
+    }
+ 
     if (![self isDevicePortait]) {
         if (IPAD || IPHONE6P) {
             if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
@@ -348,22 +355,29 @@
 
 - (void)startDisplay:(id)sender {
  
+    
+    NSMutableArray *inputData = [self inputArr];
+    if (inputData.count > 15) {
+        [self presentTip:@"元素过多" message:@"您的屏幕大小可能不适合15个以上元素演示" Action:^() {
+            [self.inputField becomeFirstResponder];
+        }];
+        return;
+    }
+    
     if (!_sortingNavVC) { //直接正常display开始
-        
-        NSMutableArray *inputData = [self inputArr];
         if (!inputData.count) {
             return;
         }
         //if (SortTypeHeap == _sortType) {
-        //TODO: - 一系列判断 是否输入内容与选择排序方式可行，不可行的话提示。
+        //TODO: - 一系列判断:
+        //是否输入内容与选择排序方式可行，不可行的话提示。
         //}
         UIViewController *svc = [[SortingViewController alloc] initWithArr:inputData sortType:_sortType sortOrder:_sortOrder];
         self.sortingNavVC = [self showDetailVC:svc isNav:0];
     } else {
         [_sortingNavVC.viewControllers[0] stopTimer:0];
         NSString *msg = @"有演示中的排序。要开始新的排序吗";
-        [self presentAlertWithConfirmTitle:@"提醒" message:msg Action:^(UIAlertAction *_) {
-            NSMutableArray *inputData = [self inputArr];
+        [self presentAlertWithCancelAndConfirm:@"提醒" message:msg Action:^() {
             if (!inputData.count) {
                 [self showDetailVC:[[SortingViewController alloc] init] isNav:0];
                 self.sortingNavVC = 0;
@@ -374,9 +388,9 @@
         }];
        
     }
+    
     if ([self.splitViewController canPullHideLeft]) {
         //TODO: - hide
-
     }
 }
 
