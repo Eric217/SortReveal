@@ -22,12 +22,14 @@
     
     _treeArray = [dataDict valueForKey:kDataArr];
     _sortedArray = [dataDict valueForKey:kTitleArr];
-    _height = [self getTreeHeight:_treeArray.count];
+    _height = [Config getTreeHeight:_treeArray.count];
     
 }
 
-- (int)getTreeHeight:(NSUInteger)count {
-    return (int)(log2(count)+1);
+- (void)convertOrdinate:(CGPoint *)points length:(int)size {
+    for (int i = 0; i < size; i++) {
+        points[i].y = self.bounds.size.height - points[i].y;
+    }
 }
 
 //树枝有多长由 SepaWidth Angle 共同决定
@@ -37,7 +39,7 @@
     //--------------SPECIFICATION-----------------
     int nodes = (int)_treeArray.count;
     CGPoint * points = [Config getLocaWithHeight:_height startAngle:M_PI/3 angleReducer:^(int level, CGFloat * angle) {
-        *angle -= 0.064;
+        *angle -=  (M_PI*7/30.0)/(self.height-0.65);
     }];
     [self convertOrdinate:points length:pow(2, _height)-1];
     

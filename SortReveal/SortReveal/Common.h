@@ -36,8 +36,9 @@
 #define kCommingText @"wsgfwsew"
 
 #define UnitSize 44
-#define SepaWidth 1.5*UnitSize
+#define SepaWidth 1.52*UnitSize
 #define LineWidth 2
+#define UnderTreeH 68
 
 #define kSortOrder @"sortType"
 #define kSortType @"sortOrder"
@@ -95,6 +96,7 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 ///Config provides common tools
 @interface Config: NSObject
 
++ (int)getTreeHeight:(NSUInteger)count;
 + (CGPoint *)getLocaWithHeight:(int)h startAngle:(CGFloat)a angleReducer:(void(^)(int level, CGFloat * angle))handler;
 
 

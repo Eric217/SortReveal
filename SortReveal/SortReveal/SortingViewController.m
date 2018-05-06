@@ -99,7 +99,9 @@
     CGFloat h = self.view.height;
   
     if (_sortType == SortTypeHeap) {
-//        _originDataArr
+        int th = [Config getTreeHeight:_originDataArr.count];
+        CGFloat sepes = pow(2, th-1) - 1;
+        LineWidth+sepes*SepaWidth+UnitSize;
         h = (w - 2*_edgeDistance - 20)/2;
         _itemSize = CGSizeMake(h, h);
     } else

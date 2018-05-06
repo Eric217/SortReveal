@@ -18,9 +18,7 @@
     NSMutableArray<NSString *> *dataArr;
     
 }
-//
-//- (NSMutableArray<NSString *> *)dataArr;
-
+ 
 @property (assign) SortOrder sortOrder;
 
 @end

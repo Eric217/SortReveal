@@ -24,6 +24,11 @@ static UIImage * _pushImage = 0;
 
 @implementation Config
 
++ (int)getTreeHeight:(NSUInteger)count {
+    return (int)(log2(count)+1);
+}
+
+
 ///need to free points and alter coordinate, level: _height-2 ... 0
 + (CGPoint *)getLocaWithHeight:(int)h startAngle:(CGFloat)a angleReducer:(void(^)(int level, CGFloat *))handler {
     int arrSize = pow(2, h)-1;
