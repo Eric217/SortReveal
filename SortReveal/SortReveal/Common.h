@@ -27,12 +27,17 @@
 #define kAutomaticOrderASD @"fegrwesadsase"
 #define kIgnoringCases @"imngfadsacxses"
 
+
 //MARK: - display cell data source
 #define kDataArr @"dataArr"
 #define kColorArr @"colorArr"
 #define kPositionArr @"positionsArr"
 #define kTitleArr @"titleArray"
 #define kCommingText @"wsgfwsew"
+
+#define UnitSize 44
+#define SepaWidth 1.5*UnitSize
+#define LineWidth 2
 
 #define kSortOrder @"sortType"
 #define kSortType @"sortOrder"
@@ -89,7 +94,10 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 //MARK: - common and useful funcs
 ///Config provides common tools
 @interface Config: NSObject
- 
+
++ (CGPoint *)getLocaWithHeight:(int)h startAngle:(CGFloat)a angleReducer:(void(^)(int level, CGFloat * angle))handler;
+
+
 + (void)saveDouble:(double)value forKey:(NSString *)key;
 + (double)doubleValue:(NSString *)text;
 + (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId;

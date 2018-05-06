@@ -12,15 +12,20 @@
 #import <UIKit/UIKit.h>
 #import "Common.h"
 
-//BASE
 @interface ELCollectionViewCell: UICollectionViewCell
 
 @property (nonatomic, copy) NSDictionary *dataDict;
 
+
+- (void)pathMoveToPoint:(CGPoint *)point path:(CGMutablePathRef)p;
+
+- (void)pathAddLineToPoint:(CGPoint *)point path:(CGMutablePathRef)p;
+
+- (void)convertOrdinate:(CGPoint *)points length:(int)size;
+
+- (CGRect)getRectWithCenter:(CGPoint *)p;
+
 @end
  
-@interface ELGroupedUnitCell : ELCollectionViewCell
-@end
-
  
 #endif /* ELCollectionVCell_h */

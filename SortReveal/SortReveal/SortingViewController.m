@@ -99,6 +99,7 @@
     CGFloat h = self.view.height;
   
     if (_sortType == SortTypeHeap) {
+//        _originDataArr
         h = (w - 2*_edgeDistance - 20)/2;
         _itemSize = CGSizeMake(h, h);
     } else
@@ -117,6 +118,7 @@
         } else {
             self.navigationItem.leftBarButtonItem = nil;
         }
+        
     }
  
     //只是几个button的title、位置，无任何意义

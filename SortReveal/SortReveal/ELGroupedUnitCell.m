@@ -6,7 +6,7 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "ELCollectionCell.h"
+#import "ELGroupedUnitCell.h"
 
 @implementation ELGroupedUnitCell
 

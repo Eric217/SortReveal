@@ -92,6 +92,7 @@
 		07828070207C5FDD000D0B4A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		07828077207C7641000D0B4A /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		07828078207C765E000D0B4A /* Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
+		07881741209EEAF800ED97AC /* ELGroupedUnitCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELGroupedUnitCell.h; sourceTree = "<group>"; };
 		079089CC2083A9D7008890F8 /* UIViewController+funcs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+funcs.h"; sourceTree = "<group>"; };
 		079089CD2083A9D7008890F8 /* UIViewController+funcs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+funcs.m"; sourceTree = "<group>"; };
 		079089CF2083AFD3008890F8 /* SelectOrderController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectOrderController.h; sourceTree = "<group>"; };
@@ -268,6 +269,24 @@
 			name = support;
 			sourceTree = "<group>";
 		};
+		0788173F209EEA9F00ED97AC /* TreeCell */ = {
+			isa = PBXGroup;
+			children = (
+				07F233342091951F00FBF692 /* ELTreeUnitCell.h */,
+				070EA1162086568F002B84E2 /* ELTreeUnitCell.m */,
+			);
+			name = TreeCell;
+			sourceTree = "<group>";
+		};
+		07881740209EEABF00ED97AC /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				0706F6012086189800A2753D /* ELCollectionCell.h */,
+				07F2333C209197C700FBF692 /* ELCollectionCell.m */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
 		07A75A45208E166A004BA670 /* SettingViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,12 +391,9 @@
 			isa = PBXGroup;
 			children = (
 				07F2333E2091994600FBF692 /* Cells.h */,
-				0706F6012086189800A2753D /* ELCollectionCell.h */,
-				07F2333C209197C700FBF692 /* ELCollectionCell.m */,
+				07881740209EEABF00ED97AC /* Base */,
 				07F23338209196A600FBF692 /* LinearCell */,
-				07F233342091951F00FBF692 /* ELTreeUnitCell.h */,
-				070EA1162086568F002B84E2 /* ELTreeUnitCell.m */,
-				07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */,
+				0788173F209EEA9F00ED97AC /* TreeCell */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -393,6 +409,8 @@
 				07F2332F2091913F00FBF692 /* ELRepeatLinearCell.m */,
 				07F233412091A30C00FBF692 /* ELInsertionSortCell.h */,
 				07F233422091A30C00FBF692 /* ELInsertionSortCell.m */,
+				07881741209EEAF800ED97AC /* ELGroupedUnitCell.h */,
+				07D3C62F2089736400DE7AAF /* ELGroupedUnitCell.m */,
 			);
 			name = LinearCell;
 			sourceTree = "<group>";

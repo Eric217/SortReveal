@@ -19,10 +19,50 @@ static UIImage * _pushImage = 0;
  
 @interface Config()
 
+
 @end
 
 @implementation Config
+
+///need to free points and alter coordinate, level: _height-2 ... 0
++ (CGPoint *)getLocaWithHeight:(int)h startAngle:(CGFloat)a angleReducer:(void(^)(int level, CGFloat *))handler {
+    int arrSize = pow(2, h)-1;
+    CGPoint *points = (CGPoint *)malloc(arrSize*sizeof(CGPoint));
+    
+    //最底层单独确定位置
+    int s = pow(2, h-1) - 1;
+    CGFloat bottom = LineWidth/2;
+    CGFloat left = LineWidth/2;
+    CGFloat angle = a;
+    
+    for (int i = s; i <= 2*s; i++) {
+        points[i] = CGPointMake(left+0.5*UnitSize+(i-s)*SepaWidth, UnitSize*0.5+bottom);
+    }
+    
+    //其余层靠子树确定位置
+    for (int i = h-2; i >= 0; i--) {
+        int s = pow(2, i) - 1;
+        for (int j = s; j <= 2*s; j++) {
+            int point1Idx = 2*j+1;
+            CGFloat x1 = points[point1Idx].x;
+            CGFloat lastLevelBian = points[point1Idx+1].x - x1;
+            CGFloat x2 = x1 + lastLevelBian/2; //X
+            CGFloat y2;
+            if (j == s) {
+                y2 = points[point1Idx].y + lastLevelBian/2*tan(angle);
+                handler(i, &angle);
+            } else
+                y2 = points[j-1].y;
+            points[j] = CGPointMake(x2, y2);
+        }
+        
+    }
  
+    return points;
+}
+
+
+
 + (void)saveDouble:(double)value forKey:(NSString *)key {
     [NSUserDefaults.standardUserDefaults setDouble:value forKey:key];
     [NSUserDefaults.standardUserDefaults synchronize];
