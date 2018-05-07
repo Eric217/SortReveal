@@ -35,7 +35,10 @@
 #define kTitleArr @"titleArray"
 #define kCommingText @"wsgfwsew"
 
-#define UnitSize 44
+#define kHistoryPosition @"grsaereshtbed"
+
+
+#define UnitSizeDefault 44
 #define SepaWidth 1.52*UnitSize
 #define LineWidth 2
 #define UnderTreeH 68
@@ -44,9 +47,8 @@
 #define kSortType @"sortOrder"
 
 //MARK: - noti names
-UIKIT_EXTERN NSNotificationName _Nonnull const ELSplitVCShouldDismissNotification;
-UIKIT_EXTERN NSNotificationName _Nonnull const SortingVCShouldStartDisplayNotification;
 UIKIT_EXTERN NSNotificationName _Nonnull const ELTextFieldShouldResignNotification;
+UIKIT_EXTERN CGFloat UnitSize;
 
 //MARK: - enum and options
 typedef NS_ENUM(NSUInteger, SortType) {
@@ -96,6 +98,8 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 ///Config provides common tools
 @interface Config: NSObject
 
+
++ (void)updateUnitSizeAndFontForView:(CGSize)viewSize;
 + (int)getTreeHeight:(NSUInteger)count;
 + (CGSize)estimatedSizeThatFitsTree:(NSUInteger)nodeCount bottom:(CGFloat)bottomH;
 + (CGPoint *)getLocaWithHeight:(int)h startAngle:(CGFloat)a angleReducer:(void(^)(int level, CGFloat * angle))handler;

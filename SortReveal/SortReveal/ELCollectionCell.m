@@ -24,14 +24,8 @@
     CGPathAddLineToPoint(p, 0, point->x, point->y);
 }
 
-- (CGRect)getRectWithCenter:(CGPoint *)p {
-    return CGRectMake(p->x-UnitSize/2, p->y-UnitSize/2, UnitSize, UnitSize);
-}
-
-- (void)convertOrdinate:(CGPoint *)points length:(int)size{
-    for (int i = 0; i < size; i++) {
-        points[i].y = self.bounds.size.height - points[i].y;
-    }
+- (CGRect)getRectWithCenter:(CGPoint *)p unitSize:(CGFloat)unit {
+    return CGRectMake(p->x-unit/2, p->y-unit/2, unit, unit);
 }
 
 @end

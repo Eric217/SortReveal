@@ -8,11 +8,9 @@
 
 #import "Common.h"
 #import "UIImage+operations.h"
-
-NSNotificationName const ELSplitVCShouldDismissNotification = @"adcasefawes";
-NSNotificationName const SortingVCShouldStartDisplayNotification = @"dadasfeswqa";
-NSNotificationName const ELTextFieldShouldResignNotification = @"dafwqswqGTR";
-
+ 
+NSNotificationName const ELTextFieldShouldResignNotification = @"TFShouldResignNoti";
+CGFloat UnitSize = UnitSizeDefault;
 static NSString * docPath = 0;
 static UIImage * _backImage = 0;
 static UIImage * _pushImage = 0;
@@ -25,29 +23,42 @@ static UIImage * _pushImage = 0;
 @implementation Config
 
 + (int)getTreeHeight:(NSUInteger)count {
+    if (count == 0) {
+        return 0;
+    }
     return (int)(log2(count)+1);
 }
 
-///我们默认bottonH为一个常量 —— 没有必要自己设置值
++ (void)updateUnitSizeAndFontForView:(CGSize)viewSize {
+    
+}
+
+///我们默认bottonH为一个常量 —— 没有必要自己设置值。关于树的位置有两种方案，一是convertOrdinate时调整，一个是确定的tree size，从左下角画。
 + (CGSize)estimatedSizeThatFitsTree:(NSUInteger)nodeCount bottom:(CGFloat)bottomH {
     if (nodeCount == 0) {
         return CGSizeZero;
     }
     int th = (int)(log2(nodeCount)+1);
     int lastRow = (int)pow(2, th-1);
-    int w = LineWidth + UnitSize + SepaWidth*(lastRow-1), h;
+    int w = LineWidth + UnitSize + SepaWidth*(lastRow-1), h = 0;
     if (th == 2) {
-        h = 1.733*SepaWidth/2+UnderTreeH;
+        h = UnitSize + 1.796*SepaWidth/2+UnderTreeH;
+        w *= 1.3;
     } else if (th == 3) {
-        h = w+UnderTreeH-5;
-    } else {
+        h = w+UnderTreeH-24;
+    } else if (th == 1) {
         h = w;
+    } else if (th == 4) {
+        h = 0.75*w;
     }
     return CGSizeMake(w, h);
 }
 
 ///need to free points and alter coordinate, level: _height-2 ... 0
 + (CGPoint *)getLocaWithHeight:(int)h startAngle:(CGFloat)a angleReducer:(void(^)(int level, CGFloat *))handler {
+    if (h == 0) {
+        return 0;
+    }
     int arrSize = pow(2, h)-1;
     CGPoint *points = (CGPoint *)malloc(arrSize*sizeof(CGPoint));
     

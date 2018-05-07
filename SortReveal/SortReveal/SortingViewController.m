@@ -94,17 +94,23 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-
+    //只是几个button的title、位置，无任何意义
+    if ([self isFloatingOrThirth]) {
+        [_settings setTitle:@"设置"];
+        [_nextStepButton setTitle:@"单步 "];
+        [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -18, 0, 0)];
+    } else {
+        [_settings setTitle:@" 设置"];
+        [_nextStepButton setTitle:@"单步执行"];
+        [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -14, 0, 0)];
+    }
+    
     CGFloat w = self.view.width;
-    CGFloat h = self.view.height;
+    //CGFloat h = self.view.height;
   
     if (_sortType == SortTypeHeap) {
-        
-//        int th = [Config getTreeHeight:_originDataArr.count];
-//        CGFloat sepes = pow(2, th-1) - 1;
-//        LineWidth+sepes*SepaWidth+UnitSize;
-//        h = (w - 2*_edgeDistance - 20)/2;
-        _itemSize = CGSizeMake(h, h);
+        [Config updateUnitSizeAndFontForView:self.view.bounds.size];
+        _itemSize = [Config estimatedSizeThatFitsTree:_originDataArr.count bottom:UnderTreeH];
     } else
         _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
 
@@ -120,16 +126,7 @@
         
     }
  
-    //只是几个button的title、位置，无任何意义
-    if ([self isFloatingOrThirth]) {
-        [_settings setTitle:@"设置"];
-        [_nextStepButton setTitle:@"单步 "];
-        [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -18, 0, 0)];
-    } else {
-        [_settings setTitle:@" 设置"];
-        [_nextStepButton setTitle:@"单步执行"];
-        [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -14, 0, 0)];
-    }
+ 
     
  
     if (IPHONE) {
@@ -149,15 +146,10 @@
     
     CGSize lastItemSize = _itemSize;
     CGFloat w = size.width;
-    
-//    CGFloat h = size.height;
-    
     if (_sortType == SortTypeHeap) {
-//        int th = [Config getTreeHeight:_originDataArr.count];
-//        CGFloat sepes = pow(2, th-1) - 1;
-//        LineWidth+sepes*SepaWidth+UnitSize;
-//        h = (w - 2*_edgeDistance - 20)/2;
-//        _itemSize = CGSizeMake(h, h);
+        //TODO: - 修改 UnitSize 及字体，及 didLayoutSub 里初始化的 UnitSize
+        [Config updateUnitSizeAndFontForView:size];
+        _itemSize = [Config estimatedSizeThatFitsTree:_originDataArr.count bottom:UnderTreeH];
     } else
         _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
     
@@ -391,6 +383,7 @@
         [_collection insertItemsAtIndexPaths:@[idx]];
         [_collection scrollToItemAtIndexPath:idx atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:1];
         [_lastStepButton setEnabled:1];
+        
     }
     if (finished) {
         [self setEnabled:0];
@@ -465,11 +458,20 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (_sortType == SortTypeHeap) {
+        NSUInteger nodeCount = ((NSArray *)(_viewDataDictArr[indexPath.item][kDataArr])).count;
+        if (nodeCount >= 2) {
+            _itemSize.height = [Config estimatedSizeThatFitsTree:nodeCount bottom:UnderTreeH].height;
+        }
+    }
     return _itemSize;
 }
 
 ///行间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    if (_sortType == SortTypeHeap) {
+        return 10;
+    }
     return 24;
 }
 

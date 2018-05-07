@@ -16,14 +16,11 @@
 
 @property (nonatomic, copy) NSDictionary *dataDict;
 
-
 - (void)pathMoveToPoint:(CGPoint *)point path:(CGMutablePathRef)p;
 
 - (void)pathAddLineToPoint:(CGPoint *)point path:(CGMutablePathRef)p;
 
-- (void)convertOrdinate:(CGPoint *)points length:(int)size;
-
-- (CGRect)getRectWithCenter:(CGPoint *)p;
+- (CGRect)getRectWithCenter:(CGPoint *)p unitSize:(CGFloat)unit;
 
 @end
  

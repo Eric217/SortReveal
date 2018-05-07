@@ -21,8 +21,7 @@
     CGFloat offset = w/2 - arrSize * hBlow/2;
     offset = offset < 0 ? 0 : offset;
     CGFloat unitLength = (w-offset*2)/arrSize;
-    CGFloat lineWidth = 2;
-    
+ 
     NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     textStyle.lineBreakMode = NSLineBreakByWordWrapping;
     textStyle.alignment = NSTextAlignmentCenter;//水平居中
@@ -32,18 +31,18 @@
     
     CGMutablePathRef path = CGPathCreateMutable();
     
-    CGFloat leftP = offset == 0 ? lineWidth/2 : offset;
-    CGFloat rightP = offset == 0 ? lineWidth/2 : 0;
+    CGFloat leftP = offset == 0 ? LineWidth/2 : offset;
+    CGFloat rightP = offset == 0 ? LineWidth/2 : 0;
     
     //左
     CGPathMoveToPoint(path, 0, leftP, 0);
     CGPathAddLineToPoint(path, 0, leftP, hBlow);
     //下
-    CGPathMoveToPoint(path, 0, offset-lineWidth/2, hBlow);
-    CGPathAddLineToPoint(path, 0, w-offset+lineWidth/2, hBlow);
+    CGPathMoveToPoint(path, 0, offset-LineWidth/2, hBlow);
+    CGPathAddLineToPoint(path, 0, w-offset+LineWidth/2, hBlow);
     //上
-    CGPathMoveToPoint(path, 0, offset, lineWidth/2);
-    CGPathAddLineToPoint(path, 0, w-offset, lineWidth/2);
+    CGPathMoveToPoint(path, 0, offset, LineWidth/2);
+    CGPathAddLineToPoint(path, 0, w-offset, LineWidth/2);
     
     //框内字与右
     for (int i = 0; i < arrSize; i++) {
@@ -83,7 +82,7 @@
     
     }
     
-    CGContextSetLineWidth(ctx, lineWidth);
+    CGContextSetLineWidth(ctx, LineWidth);
     CGContextSetStrokeColorWithColor(ctx, UIColor.blackColor.CGColor);
     CGContextAddPath(ctx, path);
     CGContextStrokePath(ctx);

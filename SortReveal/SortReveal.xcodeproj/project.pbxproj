@@ -191,12 +191,10 @@
 		07245C162086E4AF00490B4C /* Sorter */ = {
 			isa = PBXGroup;
 			children = (
-				07FC6DED209073BC00167E51 /* Base */,
 				07245C182086E61100490B4C /* Sorters.h */,
-				070032812086C8BD00A15D7E /* BubbleSorter.m */,
-				071D377E208F1FF700E59AA7 /* SelectionSorter.m */,
-				072E88A020878AC80044B478 /* InsertionSorter.m */,
-				07F2333F20919D4900FBF692 /* FastSorter.m */,
+				07FC6DED209073BC00167E51 /* Base */,
+				0730044620A0973E003ABAD8 /* LinearSorter */,
+				0730044720A0974B003ABAD8 /* TreeSorter */,
 			);
 			name = Sorter;
 			sourceTree = "<group>";
@@ -221,6 +219,28 @@
 				071D3776208EDC4300E59AA7 /* SelectController */,
 			);
 			name = Sort;
+			sourceTree = "<group>";
+		};
+		0730044620A0973E003ABAD8 /* LinearSorter */ = {
+			isa = PBXGroup;
+			children = (
+				07FC6DF3209078A600167E51 /* LinearSorter.h */,
+				07245C142086E49300490B4C /* LinearSorter.m */,
+				070032812086C8BD00A15D7E /* BubbleSorter.m */,
+				071D377E208F1FF700E59AA7 /* SelectionSorter.m */,
+				072E88A020878AC80044B478 /* InsertionSorter.m */,
+				07F2333F20919D4900FBF692 /* FastSorter.m */,
+			);
+			name = LinearSorter;
+			sourceTree = "<group>";
+		};
+		0730044720A0974B003ABAD8 /* TreeSorter */ = {
+			isa = PBXGroup;
+			children = (
+				07B68D1F209B3FB9004CF5C1 /* HeapSorter.h */,
+				077A40972084CA3500D887FB /* HeapSorter.m */,
+			);
+			name = TreeSorter;
 			sourceTree = "<group>";
 		};
 		07828055207C5FDC000D0B4A = {
@@ -421,10 +441,6 @@
 				07FC6DF6209090F900167E51 /* SorterProtocol.h */,
 				070032802086C8BD00A15D7E /* SortBaseClass.h */,
 				07FC6DEE2090784B00167E51 /* SortBaseClass.m */,
-				07FC6DF3209078A600167E51 /* LinearSorter.h */,
-				07245C142086E49300490B4C /* LinearSorter.m */,
-				07B68D1F209B3FB9004CF5C1 /* HeapSorter.h */,
-				077A40972084CA3500D887FB /* HeapSorter.m */,
 			);
 			name = Base;
 			sourceTree = "<group>";

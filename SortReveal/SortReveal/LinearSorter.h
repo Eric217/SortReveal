@@ -8,8 +8,6 @@
 
 #import "SortBaseClass.h"
 
-#define kHistoryPosition @"grsaereshtbed"
-
 ///线性排序的基类，继承自Base
 @interface LinearSorter : SortBaseClass
 

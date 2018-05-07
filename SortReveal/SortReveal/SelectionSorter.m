@@ -35,7 +35,7 @@
  
         if (needSwap) {//6
             [self swap_a:i b:j];
-        } else if (!(*finished) && [NSUserDefaults.standardUserDefaults boolForKey:kSkipNullStep]) {//6.1
+        } else if (!(*finished) && [UserDefault boolForKey:kSkipNullStep]) {//6.1
             return [self nextTurn:finished];
         }
     }
