@@ -83,7 +83,6 @@
     CGFloat sw = ScreenW, vw = self.view.bounds.size.width;
     return fabs(sw/2-vw) > Delta && sw > vw;
 }
-
  
 - (bool)isFullScreen {
     return ScreenW == self.view.bounds.size.width;
@@ -112,6 +111,22 @@
 - (bool)isNoSplit {
     return ![self canShowBoth] && ![self canPullHideLeft];
 }
+
+- (ScreenMode)screenMode {
+//    if ([self isFloatingOrThirth]) {
+//        return ScreenModeFloatingOrThirth;
+//    } else if ([self isHalfIpad]) {
+//        return ScreenModeHalfIpad;
+//    } else if ([self canPullHideLeft]) {
+//        return ScreenModeCanPullHideLeft;
+//    } else if ([self canShowBoth]) {
+//        return ScreenModeCanShowBoth;
+//    }
+    
+    
+    return 0;
+}
+
 - (void)automaticSplitStyle {
     [self.splitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModeAutomatic];
 }

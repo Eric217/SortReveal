@@ -10,7 +10,10 @@
 #import "UIImage+operations.h"
  
 NSNotificationName const ELTextFieldShouldResignNotification = @"TFShouldResignNoti";
+
 CGFloat UnitSize = UnitSizeDefault;
+CGFloat TreeFont = TreeFontDefault;
+
 static NSString * docPath = 0;
 static UIImage * _backImage = 0;
 static UIImage * _pushImage = 0;
@@ -29,8 +32,16 @@ static UIImage * _pushImage = 0;
     return (int)(log2(count)+1);
 }
 
-+ (void)updateUnitSizeAndFontForView:(CGSize)viewSize {
++ (void)updateUnitSizeAndFontFor:(ScreenMode)screen withTreeSize:(NSUInteger)nodeCount {
     
+    
+//    if (nodeCount > 7) {
+//        UnitSize = UnitSizeDefault * 0.6;
+//        TreeFont = TreeFontDefault *0.8;
+//    } else {
+//        UnitSize = UnitSizeDefault;
+//        TreeFont = TreeFontDefault;
+//    }
 }
 
 ///我们默认bottonH为一个常量 —— 没有必要自己设置值。关于树的位置有两种方案，一是convertOrdinate时调整，一个是确定的tree size，从左下角画。

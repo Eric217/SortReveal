@@ -109,7 +109,7 @@
     //CGFloat h = self.view.height;
   
     if (_sortType == SortTypeHeap) {
-        [Config updateUnitSizeAndFontForView:self.view.bounds.size];
+        [Config updateUnitSizeAndFontFor:[self screenMode] withTreeSize:_originDataArr.count];
         _itemSize = [Config estimatedSizeThatFitsTree:_originDataArr.count bottom:UnderTreeH];
     } else
         _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
@@ -126,9 +126,7 @@
         
     }
  
- 
-    
- 
+  
     if (IPHONE) {
         if ([self isDevicePortait]) {
             [self updateBackEmptyPositionCX:-13 CY:-126];
@@ -148,7 +146,7 @@
     CGFloat w = size.width;
     if (_sortType == SortTypeHeap) {
         //TODO: - 修改 UnitSize 及字体，及 didLayoutSub 里初始化的 UnitSize
-        [Config updateUnitSizeAndFontForView:size];
+        [Config updateUnitSizeAndFontFor:[self screenMode] withTreeSize:_originDataArr.count];
         _itemSize = [Config estimatedSizeThatFitsTree:_originDataArr.count bottom:UnderTreeH];
     } else
         _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
@@ -159,7 +157,7 @@
 }
 
 //MARK: - 执行顺序3
-/// 展示开始的唯一入口，注意！！！也会被restart调用！！！
+/// 展示开始的唯一入口，注意！！！也会被restart调用！！！(此函数调用之前必须调用过initializeSorter！)
 - (void)initializeDisplay {
   
     _viewDataDictArr = [[NSMutableArray alloc] init];
@@ -168,38 +166,13 @@
     [self initButtonState:arrSize != 1];
 
     if (arrSize != 0) {
-        [_viewDataDictArr addObject: [self getInitialSortData]];
+       
+        [_viewDataDictArr addObject:[_sorter initialSortData]];
         _collectionBackView.text = @"";
     } else {
         _collectionBackView.text = emptyDisplayString;
     }
     [_collection reloadData];
-}
-
-//MARK: - 执行顺序3.1
-///依次为： pos title originArr commingText color
-- (NSDictionary *)getInitialSortData {
-    if (_originDataArr.count == 1) {
-        return @{kDataArr: _originDataArr};
-    } else if (_sortType == SortTypeBubble) {
-        return @{kPositionArr: @[@"0", @"1", [NSString stringWithFormat:@"%d", (int)(_originDataArr.count)]],
-                 kTitleArr: @[@"j", @"j+1", @"i"],
-                 kDataArr: _originDataArr};
-    } else if (_sortType == SortTypeSelection) {
-        return @{kPositionArr: @[@"0", @"1"],
-                 kTitleArr: @[@"i", @"j"],
-                 kDataArr: _originDataArr};
-    } else if (_sortType == SortTypeInsertion) {
-        return @{kPositionArr: @[@"0"],
-                 kTitleArr: @[@"j"],
-                 kDataArr: @[_originDataArr[0]],
-                 kCommingText: _originDataArr[1]};
-    } else if (_sortType == SortTypeHeap) {
-        return [((HeapSorter *)_sorter) initializeHeap];
-    } else if (_sortType == SortTypeFast) {
-        
-    }
-    return 0;
 }
 
 //MARK: - 执行顺序1.1
@@ -217,7 +190,6 @@
         _sorter = [[FastSorter alloc] init];
     }
     [_sorter initializeWithArray:_originDataArr order:_sortOrder]; //inside deep
-    
 }
 
 

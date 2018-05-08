@@ -114,6 +114,16 @@
     
 }
 
+- (NSDictionary *)initialSortData {
+    if (dataArr.count == 1) {
+        return @{kDataArr: dataArr.copy};
+    }
+    return @{kPositionArr: @[@"0", @"1", [NSString stringWithFormat:@"%d", (int)(dataArr.count)]],
+             kTitleArr: @[@"j", @"j+1", @"i"],
+             kDataArr: dataArr.copy};
+    
+}
+
 
 @end
 

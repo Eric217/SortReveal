@@ -10,8 +10,6 @@
 
 @interface HeapSorter: SortBaseClass
 
-- (NSDictionary *)initializeHeap;
-
 @end
 
  

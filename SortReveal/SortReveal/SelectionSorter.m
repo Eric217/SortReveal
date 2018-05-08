@@ -105,6 +105,14 @@
     self.currentJ = 1;
 }
 
+- (NSDictionary *)initialSortData {
+    if (dataArr.count == 1) {
+        return @{kDataArr: dataArr.copy};
+    }
+    return @{kPositionArr: @[@"0", @"1"],
+             kTitleArr: @[@"i", @"j"],
+             kDataArr: dataArr.copy};
+}
 
 @end
 

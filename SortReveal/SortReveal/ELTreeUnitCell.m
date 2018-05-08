@@ -50,7 +50,8 @@
 //树枝有多长由 SepaWidth Angle 共同决定
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    
+    bool temp = UnitSize == UnitSizeDefault;
+
     //SPECIFICATION
     int nodes = (int)_treeArray.count;
     CGPoint * points = [Config getLocaWithHeight:_height startAngle:M_PI/3 angleReducer:^(int level, CGFloat * angle) {
@@ -62,7 +63,7 @@
     NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
     textStyle.lineBreakMode = NSLineBreakByWordWrapping;
     textStyle.alignment = NSTextAlignmentCenter;//水平居中,但是竖直不居中...
-    NSMutableDictionary *attr =  [@{NSFontAttributeName: [UIFont systemFontOfSize:24], NSParagraphStyleAttributeName: textStyle} mutableCopy];
+    NSMutableDictionary *attr =  [@{NSFontAttributeName: [UIFont systemFontOfSize:TreeFont], NSParagraphStyleAttributeName: textStyle} mutableCopy];
     
     //DRAW LINE
     CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -96,7 +97,7 @@
         CGPathAddLineToPoint(path, 0, w-offset, h0);
         //框内字与右
         for (int i = 0; i < arrSize; i++) {
-            CGRect r = CGRectMake(offset+i*unitLength, h0+4.5, unitLength, hh);//4.5是文字偏移量
+            CGRect r = CGRectMake(offset+i*unitLength, h0+(temp ? 4.5 : -1.5), unitLength, hh);//4.5是文字偏移量
             CGPathMoveToPoint(path, 0, unitLength+r.origin.x, h0);
             CGPathAddLineToPoint(path, 0, unitLength+r.origin.x, h0+hh);
             [_sortedArray[i] drawInRect:r withAttributes:attr];
@@ -112,7 +113,7 @@
     //DRAW ARC
     for (int i = 0; i < nodes; i++) {
         CGRect r = [self getRectWithCenter:points+i unitSize:UnitSize];
-        [_treeArray[i] drawInRect:CGRectInset(r, 0, 6) withAttributes:attr];
+        [_treeArray[i] drawInRect:CGRectInset(r, 0, temp ? 6 : 0) withAttributes:attr];
         CGContextStrokeEllipseInRect(ctx, r);
     }
     if (points)

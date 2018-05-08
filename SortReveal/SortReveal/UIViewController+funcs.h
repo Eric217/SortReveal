@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Common.h"
 
 @interface UIViewController (funcs)
 
@@ -38,6 +39,8 @@
 - (bool)canShowBoth;
     
 - (bool)isNoSplit;
+
+- (ScreenMode)screenMode;
 
 - (void)automaticSplitStyle;
 - (void)overlaySplitStyle;

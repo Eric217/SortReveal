@@ -39,16 +39,19 @@
 
 
 #define UnitSizeDefault 44
+#define TreeFontDefault 24
 #define SepaWidth 1.52*UnitSize
 #define LineWidth 2
-#define UnderTreeH 68
+#define UnderTreeH 68*UnitSize/UnitSizeDefault
 
 #define kSortOrder @"sortType"
 #define kSortType @"sortOrder"
 
 //MARK: - noti names
 UIKIT_EXTERN NSNotificationName _Nonnull const ELTextFieldShouldResignNotification;
+
 UIKIT_EXTERN CGFloat UnitSize;
+UIKIT_EXTERN CGFloat TreeFont;
 
 //MARK: - enum and options
 typedef NS_ENUM(NSUInteger, SortType) {
@@ -68,6 +71,17 @@ typedef NS_ENUM(NSUInteger, SortOrder) {
     SortOrderDictioA = 20,
     SortOrderDictioD = 21,
     SortOrderAutomatic = 30,
+};
+
+typedef NS_ENUM(NSUInteger, ScreenMode) {
+
+    ScreenModeFloatingOrThirth = 0,
+//    ScreenModeHalfIpad,
+//    ScreenModeTwoThirth,
+//    ScreenModeFullScreen,
+//    ScreenModeCanPullHideLeft,
+//    ScreenModeCanShowBoth,
+//    ScreenModeNoSplit,
 };
 
 typedef NS_ENUM(NSUInteger, ExecuteWay) {
@@ -99,7 +113,7 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 @interface Config: NSObject
 
 
-+ (void)updateUnitSizeAndFontForView:(CGSize)viewSize;
++ (void)updateUnitSizeAndFontFor:(ScreenMode)screen withTreeSize:(NSUInteger)nodeCount;
 + (int)getTreeHeight:(NSUInteger)count;
 + (CGSize)estimatedSizeThatFitsTree:(NSUInteger)nodeCount bottom:(CGFloat)bottomH;
 + (CGPoint *)getLocaWithHeight:(int)h startAngle:(CGFloat)a angleReducer:(void(^)(int level, CGFloat * angle))handler;

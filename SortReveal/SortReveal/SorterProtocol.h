@@ -11,14 +11,15 @@
 
 ///想排序 必须遵循的接口
 @protocol Sorter <NSObject>
-
 @optional
+
 - (void)initializeWithArray:(NSMutableArray *)array order:(SortOrder)order;
 
 - (void)lastStep;
 
 - (NSDictionary *)nextTurn:(BOOL *)finished;
 - (NSDictionary *)nextRow:(BOOL *)finished;
+- (NSDictionary *)initialSortData;
 //返回的字典中 含有1. 数组kDataArr 2. 箭头信息 3. 颜色信息kColorArr
 
 @end
