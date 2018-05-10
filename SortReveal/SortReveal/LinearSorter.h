@@ -1,5 +1,5 @@
 //
-//  LinearSorter+a.h
+//  LinearSorter.h
 //  SortReveal
 //
 //  Created by Eric on 2018/4/25.

@@ -1,5 +1,4 @@
 //
-//  s.m
 //  SortReveal
 //
 //  Created by Eric on 2018/4/26.

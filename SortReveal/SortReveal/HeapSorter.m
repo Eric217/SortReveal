@@ -1,5 +1,4 @@
 //
-//  Sort.m
 //  SortReveal
 //
 //  Created by Eric on 2018/4/16.
@@ -7,7 +6,6 @@
 //
  
 #import "HeapSorter.h"
-//#import "Heap.hpp"
 
 @interface HeapSorter ()
 
