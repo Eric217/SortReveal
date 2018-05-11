@@ -44,7 +44,7 @@
 @property (assign) CGFloat edgeDistance;
 @property (assign) CGSize itemSize;
 
-@property (assign) bool fullScreenSpecified;
+//@property (assign) bool fullScreenSpecified;
 
 @end
 
@@ -74,19 +74,19 @@
 ///点击展示界面上的fullscreen按钮
 - (void)setFullScreenDisplay:(id)sender {
     
-    if ([_fullScreenButton.titleLabel.text isEqualToString:@"全屏显示"]) {
-        _fullScreenSpecified = 1;
-        [self hidePrimarySplitStyle];
-    } else if ([self isFullScreen]) {
-        if ([self isDevicePortait]) {
-            [self overlaySplitStyle];
-        } else {
-            [self automaticSplitStyle];
-            _fullScreenSpecified = 0;
-        }
-    } else if (1) {
-        
-    }
+//    if ([_fullScreenButton.titleLabel.text isEqualToString:@"全屏显示"]) {
+//        _fullScreenSpecified = 1;
+//        [self hidePrimarySplitStyle];
+//    } else if ([self isFullScreen]) {
+//        if ([self isDevicePortait]) {
+//            [self overlaySplitStyle];
+//        } else {
+//            [self automaticSplitStyle];
+//            _fullScreenSpecified = 0;
+//        }
+//    } else if (1) {
+//
+//    }
     
 }
 
@@ -187,7 +187,7 @@
     } else if (_sortType == SortTypeHeap) {
         _sorter = [[HeapSorter alloc] init];
     } else if (_sortType == SortTypeFast) {
-        _sorter = [[FastSorter alloc] init];
+        _sorter = [[QuickSorter alloc] init];
     }
     [_sorter initializeWithArray:_originDataArr order:_sortOrder]; //inside deep
 }
@@ -282,10 +282,10 @@
  
     //user defaults
     if ([UserDefault doubleForKey:kTimeInterval] <= 0) {
-        [Config saveDouble:1.2 forKey:kTimeInterval];
+        [Config saveDouble:0.8 forKey:kTimeInterval];
     }
 
-    _fullScreenSpecified = 0;
+//    _fullScreenSpecified = 0;
 
     [self setTitle:@"动态演示"];
     [self initializeDisplay];

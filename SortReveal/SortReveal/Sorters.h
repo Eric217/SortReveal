@@ -24,7 +24,7 @@
 @end
 
 
-@interface FastSorter: LinearSorter
+@interface QuickSorter: LinearSorter
 
 @end
 

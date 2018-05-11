@@ -1,5 +1,4 @@
 //
-//  BubbleSorter.h
 //  SortReveal
 //
 //  Created by Eric on 2018/4/18.

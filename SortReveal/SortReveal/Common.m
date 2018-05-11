@@ -46,9 +46,8 @@ static UIImage * _pushImage = 0;
 
 ///我们默认bottonH为一个常量 —— 没有必要自己设置值。关于树的位置有两种方案，一是convertOrdinate时调整，一个是确定的tree size，从左下角画。
 + (CGSize)estimatedSizeThatFitsTree:(NSUInteger)nodeCount bottom:(CGFloat)bottomH {
-    if (nodeCount == 0) {
+    if (nodeCount == 0)
         return CGSizeZero;
-    }
     int th = (int)(log2(nodeCount)+1);
     int lastRow = (int)pow(2, th-1);
     int w = LineWidth + UnitSize + SepaWidth*(lastRow-1), h = 0;
