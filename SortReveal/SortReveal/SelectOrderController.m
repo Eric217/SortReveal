@@ -67,9 +67,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(UITableViewCell.class)];
     [[cell textLabel] setText:_array[indexPath.section][indexPath.row]];
-    if (indexPath.section == _array.count-1) {
-        [[cell textLabel] setTextColor:systemBlue];
-    }
+      
+    [[cell textLabel] setTextColor:indexPath.section == _array.count-1 ? systemBlue : UIColor.blackColor];
+   
     return cell;
 }
 
