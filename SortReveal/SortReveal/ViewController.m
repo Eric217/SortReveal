@@ -44,6 +44,7 @@
         [Config writeArrayToFile:SortNameFile data:arr];
     }
     _titleArr = arr.mutableCopy;
+//    _titleArr = [[NSMutableArray alloc] initWithArray:@[@"冒泡排序", @"选择排序", @"插入排序", @"堆排序", @"快速排序"]];
     self.view.backgroundColor = UIColor.whiteColor;
     
     //collection view
@@ -86,17 +87,13 @@
     return 0;
 }
 
-- (void)dismiss {
-    [self.view.window setRootViewController:self];
-}
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return _titleArr.count+1;
+    return _titleArr.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ELSortNameCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELSortNameCollectionCell.class) forIndexPath:indexPath];
-    NSString *content = indexPath.item == _titleArr.count ? @"添加" : _titleArr[indexPath.item];
+    NSString *content = _titleArr[indexPath.item];
     
     [cell fillContents:content];
     
@@ -132,8 +129,8 @@
     if (IPAD)
         splitVC.delegate = masterNav;
  
-    [self.view.window setRootViewController:splitVC];
- 
+    //[self.view.window setRootViewController:splitVC];
+    [self presentViewController:splitVC animated:0 completion:nil];
 }
 
 //比collection view的代理方法先执行

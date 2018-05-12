@@ -25,6 +25,7 @@
 @property (strong, nonatomic) UIView *selectOrderContainerView;
 
 @property (nonatomic, copy) NSString *sortName;
+///没啥用，先存着
 @property (strong, nonatomic) UIViewController *anotherRootVC;
 
 @property (strong, nonatomic) UINavigationController *sortingNavVC;
@@ -433,7 +434,8 @@
 
 
 - (void)dismiss:(id)sender {
-    [self.view.window setRootViewController:_anotherRootVC];
+    [self.splitViewController dismissViewControllerAnimated:0 completion:nil];
+//    [self.view.window setRootViewController:_anotherRootVC];
 }
 
 ///NSArray, 0: order number 1: name
