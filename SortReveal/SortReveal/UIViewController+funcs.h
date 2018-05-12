@@ -11,6 +11,8 @@
 
 @interface UIViewController (funcs)
 
++ (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId;
+
 - (void)presentAlertWithCancelAndConfirm:(NSString *)title message:(NSString *)msg Action:(void (^) (void))handler;
 - (void)presentTip:(NSString *)title message:(NSString *)msg Action:(void (^) (void))handler;
 

@@ -10,6 +10,20 @@
 
 @implementation UIImage (operations)
 
++ (UIImage *)pushImage {
+    if (!_pushImage) {
+        _pushImage = [UIImage imageNamed:@"pushImage"];
+    }
+    return _pushImage;
+}
+
++ (UIImage *)backImage {
+    if (!_backImage) {
+        _backImage = [UIImage imageNamed:@"backImage"];
+    }
+    return _backImage;
+}
+
 - (UIImage *)imageWithColor:(UIColor *)color
 {
     UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);

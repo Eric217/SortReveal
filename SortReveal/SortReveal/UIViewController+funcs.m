@@ -11,6 +11,10 @@
 
 @implementation UIViewController (funcs)
 
++ (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId {
+    return [[UIStoryboard storyboardWithName:sbName bundle:0] instantiateViewControllerWithIdentifier:sbId];
+}
+
 - (void)presentAlertWithCancelAndConfirm:(NSString *)title message:(NSString *)msg Action:(void (^) (void))handler {
     UIAlertController *alertC = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
  

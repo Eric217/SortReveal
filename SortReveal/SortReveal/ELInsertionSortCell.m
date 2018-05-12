@@ -94,7 +94,7 @@
         NSString *str1 = [NSString stringWithFormat:@"i = %d", arrSize];
         NSString *str2 = [@"arr[i] = " stringByAppendingString:_nextText];
         CGSize box = [str2 sizeWithAttributes:attr];
-        r = CGRectMake(w-box.width, h*0.09, box.width, h*0.266);
+        r = CGRectMake(w-box.width, h*0.0, box.width, h*0.266);
         [str1 drawInRect:r withAttributes:attr];
         r.origin.y += h*0.228;
         [str2 drawInRect:r withAttributes:attr];

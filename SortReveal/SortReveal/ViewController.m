@@ -15,7 +15,6 @@
 #import "ConfigSortController.h"
 #import "UIViewController+funcs.h"
 #import "ELSortNameCollectionCell.h"
-#import "ConfigSortNavController.h"
 
 
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -115,7 +114,7 @@
     UISplitViewController *splitVC = [[UISplitViewController alloc] init];
     
     ConfigSortController *conf = [[ConfigSortController alloc] initWithSortType:indexPath.item anotherRoot:self];
-    ConfigSortNavController *masterNav = [[ConfigSortNavController alloc] initWithRootViewController:conf];
+    UINavigationController *masterNav = [[UINavigationController alloc] initWithRootViewController:conf];
     
     
     if (IPAD || (IPHONE6P && ![self isDevicePortait])) {
@@ -127,10 +126,9 @@
         [splitVC setViewControllers:@[masterNav]];
     }
     if (IPAD)
-        splitVC.delegate = masterNav;
- 
-    //[self.view.window setRootViewController:splitVC];
-    [self presentViewController:splitVC animated:0 completion:nil];
+        splitVC.delegate = conf;
+    //splitVC.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+    [self.view.window setRootViewController:splitVC];
 }
 
 //比collection view的代理方法先执行

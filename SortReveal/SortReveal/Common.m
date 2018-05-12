@@ -7,17 +7,14 @@
 //
 
 #import "Common.h"
-#import "UIImage+operations.h"
- 
+
 NSNotificationName const ELTextFieldShouldResignNotification = @"TFShouldResignNoti";
 
 CGFloat UnitSize = UnitSizeDefault;
 CGFloat TreeFont = TreeFontDefault;
 
 static NSString * docPath = 0;
-static UIImage * _backImage = 0;
-static UIImage * _pushImage = 0;
- 
+
 @interface Config()
 
 
@@ -25,6 +22,7 @@ static UIImage * _pushImage = 0;
 
 @implementation Config
 
+ 
 + (int)getTreeHeight:(NSUInteger)count {
     if (count == 0) {
         return 0;
@@ -105,6 +103,10 @@ static UIImage * _pushImage = 0;
 }
 
 
++ (CGSize)sizeForText:(NSString *)str attr:(NSDictionary *)attr maxSize:(CGSize)max orFontS:(CGFloat)fs {
+    CGRect rect = [str boundingRectWithSize:max options:NSStringDrawingUsesLineFragmentOrigin attributes:attr ? attr : @{NSFontAttributeName: [UIFont systemFontOfSize:fs]} context:0];
+    return rect.size;
+}
 
 + (void)saveDouble:(double)value forKey:(NSString *)key {
     [NSUserDefaults.standardUserDefaults setDouble:value forKey:key];
@@ -118,10 +120,6 @@ static UIImage * _pushImage = 0;
         result = 0;
     }
     return result;
-}
-
-+ (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId {
-    return [[UIStoryboard storyboardWithName:sbName bundle:0] instantiateViewControllerWithIdentifier:sbId];
 }
 
 + (void)addObserver:(id)target selector:(SEL)func notiName:(NSNotificationName)name {
@@ -145,19 +143,7 @@ static UIImage * _pushImage = 0;
 }
 
 
-+ (UIImage *)pushImage {
-    if (!_pushImage) {
-        _pushImage = [UIImage imageNamed:@"pushImage"];
-    }
-    return _pushImage;
-}
 
-+ (UIImage *)backImage {
-    if (!_backImage) {
-        _backImage = [UIImage imageNamed:@"backImage"];
-    }
-    return _backImage;
-}
 
 
 + (NSString *)documentPath {
@@ -194,15 +180,4 @@ static UIImage * _pushImage = 0;
     }
 }
 
-+ (UIBarButtonItem *)customBackBarButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)selec {
-    UIButton *_backButton = [[UIButton alloc] init];
-    [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -12, 0, 20)];
-    [_backButton setTitle:title forState:UIControlStateNormal];
-    [_backButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    [_backButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
-    [_backButton setImage:[Config backImage] forState:UIControlStateNormal];
-    [_backButton addTarget:target action:selec forControlEvents:UIControlEventTouchUpInside];
-    return [[UIBarButtonItem alloc] initWithCustomView:_backButton];
- 
-}
 @end

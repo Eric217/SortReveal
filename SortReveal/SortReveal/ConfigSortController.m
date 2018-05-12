@@ -9,6 +9,7 @@
 #import "ConfigSortController.h"
 #import "SelectOrderController.h"
 #import "Protocols.h"
+#import "UIImage+operations.h"
 #import "UIView+frameProperty.h"
 #import "UIViewController+funcs.h"
 #import <Masonry/Masonry.h>
@@ -121,6 +122,7 @@
     } else {
         self.navigationItem.rightBarButtonItems = @[];
     }
+    [self.navigationController.navigationBar setTintColor:UIColor.blackColor];
 }
 
 - (void)updateLabelsNameLabelTop:(CGFloat)y1 height:(CGFloat)h0 label1Top:(CGFloat)y2 label1H:(CGFloat)h1 label2H:(CGFloat)h2 {
@@ -136,8 +138,7 @@
         make.height.mas_equalTo(h2);
     }];
 }
-
-- (void)updateOrderBott:(CGFloat)y3 startBott:(CGFloat)y4 {
+ - (void)updateOrderBott:(CGFloat)y3 startBott:(CGFloat)y4 {
  
     [_selectOrderContainerView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.startShow.mas_top).inset(y3);
@@ -158,16 +159,18 @@
         make.right.equalTo(self.view).inset(l1);
     }];
 }
-
-
-- (void)textViewDidBeginEditing:(UITextView *)textView {
+ 
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
    
     if (![textView.text isEqualToString:@""] ) {
-        UITextPosition *end = [textView endOfDocument];
-        UITextPosition *start = [textView positionFromPosition:end offset:-textView.text.length];
-        textView.selectedTextRange = [textView textRangeFromPosition:start toPosition:end];
+        DISPATCH_AT_ONCE(^{
+            UITextPosition *end = [textView endOfDocument];
+            UITextPosition *start = [textView beginningOfDocument];
+            textView.selectedTextRange = [textView textRangeFromPosition:start toPosition:end];
+        });
+        
     }
- 
+  
     if (![self isDevicePortait]) {
         if (IPAD || IPHONE6P) {
             if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
@@ -177,6 +180,7 @@
             [self updateConstraintsStatus:2];
         }    
     }
+    return 1;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
@@ -185,16 +189,26 @@
     } else if (IPAD) {
         [self updateConstraintsStatus:0];
     }
+   
+}
+- (void)collapseSecondaryViewController:(UIViewController *)secondaryViewController forSplitViewController:(UISplitViewController *)splitViewController {
+    [self.navigationController pushViewController:secondaryViewController animated:1];
+}
+
+
+- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
+    
+    return 0;
 }
 
 //MARK: - 第二步
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    UIImage *img = [Config pushImage];
+   
+    UIImage *img = [UIImage pushImage];
 
     //navigation item
-    UIBarButtonItem *backItem = [Config customBackBarButtonItemWithTitle:@"返回" target:self action:@selector(dismiss:)];
+    UIBarButtonItem *backItem = [self customBackBarButtonItemWithTitle:@"返回" target:self action:@selector(dismiss:)];
     bool oldDevice = [UIDevice currentDevice].systemVersion.doubleValue < 9 || IPHONE4;
     
     self.navigationItem.leftBarButtonItems = oldDevice ? @[[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(dismiss:)]] : @[backItem];
@@ -356,7 +370,6 @@
 
 - (void)startDisplay:(id)sender {
  
-    
     NSMutableArray *inputData = [self inputArr];
     if (inputData.count > 15) {
         [self presentTip:@"元素过多" message:@"您的屏幕大小可能不适合15个以上元素演示" Action:^() {
@@ -369,12 +382,13 @@
         if (!inputData.count) {
             return;
         }
-        //if (SortTypeHeap == _sortType) {
-        //TODO: - 一系列判断:
-        //是否输入内容与选择排序方式可行，不可行的话提示。
-        //}
-        UIViewController *svc = [[SortingViewController alloc] initWithArr:inputData sortType:_sortType sortOrder:_sortOrder];
-        self.sortingNavVC = [self showDetailVC:svc isNav:0];
+        NSArray *errorMsg = [self guard];
+        if (errorMsg) {
+            
+        } else {
+            UIViewController *svc = [[SortingViewController alloc] initWithArr:inputData sortType:_sortType sortOrder:_sortOrder];
+            self.sortingNavVC = [self showDetailVC:svc isNav:0];
+        }
     } else {
         [_sortingNavVC.viewControllers[0] stopTimer:0];
         NSString *msg = @"有演示中的排序。要开始新的排序吗";
@@ -390,9 +404,16 @@
        
     }
     
-    if ([self.splitViewController canPullHideLeft]) {
-        //TODO: - hide
-    }
+    //    TODO: - hide
+    //    if ([self.splitViewController canPullHideLeft]) {}
+}
+
+- (NSArray *)guard {
+    //if (SortTypeHeap == _sortType) {
+    //TODO: - 一系列判断:
+    //是否输入内容与选择排序方式可行，不可行的话提示。
+    //}
+    return 0;
 }
 
 - (void)selectOrder:(id)sender {
@@ -434,8 +455,8 @@
 
 
 - (void)dismiss:(id)sender {
-    [self.splitViewController dismissViewControllerAnimated:0 completion:nil];
-//    [self.view.window setRootViewController:_anotherRootVC];
+    //[self.splitViewController dismissViewControllerAnimated:0 completion:nil];
+    [self.view.window setRootViewController:_anotherRootVC];
 }
 
 ///NSArray, 0: order number 1: name
@@ -450,5 +471,16 @@
     [Config removeObserver:self];
 }
 
+- (UIBarButtonItem *)customBackBarButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)selec {
+    UIButton *_backButton = [[UIButton alloc] init];
+    [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -12, 0, 20)];
+    [_backButton setTitle:title forState:UIControlStateNormal];
+    [_backButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    [_backButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
+    [_backButton setImage:[UIImage backImage] forState:UIControlStateNormal];
+    [_backButton addTarget:target action:selec forControlEvents:UIControlEventTouchUpInside];
+    return [[UIBarButtonItem alloc] initWithCustomView:_backButton];
+    
+}
 
 @end

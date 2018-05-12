@@ -11,6 +11,7 @@
 #import "UIView+funcs.h"
 #import "UIView+frameProperty.h"
 #import "UIViewController+funcs.h"
+#import "UIImage+operations.h"
 #import "SettingViewController.h"
 #import "Sorters.h"
 #import "Cells.h"
@@ -119,7 +120,7 @@
         if ([self canPullHideLeft]) {
             self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
             [self.navigationItem.leftBarButtonItem setTintColor:UIColor.blackColor];
-            //[self.navigationItem.leftBarButtonItem setTitle:@"配置排序"];
+
         } else {
             self.navigationItem.leftBarButtonItem = nil;
         }
@@ -219,7 +220,7 @@
     [_fullScreenButton setTitle:@"配置排序" forState:UIControlStateNormal];
     [_fullScreenButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     [_fullScreenButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
-    [_fullScreenButton setImage:[Config backImage] forState:UIControlStateNormal];
+    [_fullScreenButton setImage:[UIImage backImage] forState:UIControlStateNormal];
     [_fullScreenButton addTarget:self action:@selector(setFullScreenDisplay:) forControlEvents:UIControlEventTouchUpInside];
     _fullScreenItem = [[UIBarButtonItem alloc] initWithCustomView:_fullScreenButton];
     //if (IPAD)
@@ -243,7 +244,7 @@
     
     
     //collection view
-    _edgeDistance = [Config v_pad:30 plus:15 p:10 min:10];
+    _edgeDistance = [Config v_pad:10 plus:5 p:5 min:3];
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
     _collection = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];

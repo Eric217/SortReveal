@@ -10,8 +10,7 @@
 #define Common_h
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnullability-completeness"
-
-#include <UIKit/UIKit.h>
+#import <UIKit/UIKit.h>
 
 //MARK: - Project Specified
 //MARK: - localized files and properties
@@ -108,27 +107,25 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 #define IPAD (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
 #define IPHONE (!IPAD)
 
+//MARK: - funcs
+#define DISPATCH_AT_ONCE(block) dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ block(); })
+
 //MARK: - common and useful funcs
 ///Config provides common tools
 @interface Config: NSObject
-
-
+ 
 + (void)updateUnitSizeAndFontFor:(ScreenMode)screen withTreeSize:(NSUInteger)nodeCount;
 + (int)getTreeHeight:(NSUInteger)count;
 + (CGSize)estimatedSizeThatFitsTree:(NSUInteger)nodeCount bottom:(CGFloat)bottomH;
 + (CGPoint *)getLocaWithHeight:(int)h startAngle:(CGFloat)a angleReducer:(void(^)(int level, CGFloat * angle))handler;
-
++ (CGSize)sizeForText:(NSString *)str attr:(NSDictionary *)attr maxSize:(CGSize)max orFontS:(CGFloat)fs;
 
 + (void)saveDouble:(double)value forKey:(NSString *)key;
 + (double)doubleValue:(NSString *)text;
-+ (UIViewController *)viewControllerFromSBName:(NSString *)sbName id:(NSString *)sbId;
 
 + (void)addObserver:(id)target selector:(SEL)func notiName:(NSNotificationName)name;
 + (void)postNotification:(NSNotificationName)name message:(nullable NSDictionary *)info;
 + (void)removeObserver:(id)obj;
-
-+ (UIImage *)pushImage;
-+ (UIImage *)backImage;
 
 + (NSIndexPath *)idxPath:(NSInteger)item;
 + (NSIndexPath *)idxPathS:(NSInteger)section item:(NSInteger)item;
@@ -138,7 +135,6 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
 + (void)writeArrayToFile:(NSString *)file data:(NSArray *)arr;
 
 + (CGFloat)v_pad:(CGFloat)ipad plus:(CGFloat)b p:(CGFloat)s min:(CGFloat)ss;
-+ (UIBarButtonItem *)customBackBarButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)selec;
 
 @end
 
