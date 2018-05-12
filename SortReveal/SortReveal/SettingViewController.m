@@ -143,8 +143,12 @@
  
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cellid"];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.detailTextLabel.text = [UserDefault stringForKey:kFlowExecWay];
- 
+            int exew = [UserDefault stringForKey:kFlowExecWay].intValue;
+            if (exew == ExecuteWayStep) {
+                cell.detailTextLabel.text = SingleStep;
+            } else {
+                cell.detailTextLabel.text = GroupStep;
+            }
             tableCell = cell;
         }
     } else if (indexPath.section == 2) {
@@ -222,9 +226,15 @@
 
 - (void)transferData:(id)data {
     UITableViewCell *cell = [_table cellForRowAtIndexPath:[Config idxPathS:1 item:1]];
+    NSString *r;
+    if (((NSString *)data).intValue == ExecuteWayStep) {
+        r = SingleStep;
+    } else {
+        r = GroupStep;
+    }
     
-    if (cell.detailTextLabel.text != data) {
-        cell.detailTextLabel.text = data;
+    if (cell.detailTextLabel.text != r) {
+        cell.detailTextLabel.text = r;
         [NSUserDefaults.standardUserDefaults setObject:data forKey:kFlowExecWay];
         [NSUserDefaults.standardUserDefaults synchronize];
     }

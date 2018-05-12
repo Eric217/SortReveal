@@ -37,16 +37,20 @@
  
     [self.table registerClass:UITableViewCell.class forCellReuseIdentifier:NSStringFromClass(UITableViewCell.class)];
     [self.table setRowHeight:50];
- 
-    _dataArr = @[SingleStep, GroupStep];
-    
+    _dataArr = @[[NSString stringWithFormat:@"%d", (uint)ExecuteWayStep], [NSString stringWithFormat:@"%d", (uint)ExecuteWayGroup]];
+  
 }
 
 
 //MARK: - table view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(UITableViewCell.class)];
-    NSString *txt = _dataArr[indexPath.row];
+    NSString *txt;
+    if (_dataArr[indexPath.row].intValue == ExecuteWayStep) {
+        txt = SingleStep;
+    } else {
+        txt = GroupStep;
+    }
     [[cell textLabel] setText:txt];
 
     if ([self.currentSelection isEqualToString:txt]) {
@@ -68,8 +72,6 @@
     [[self navigationController] popViewControllerAnimated:1];
     [self.delegate transferData:_dataArr[indexPath.row]];
 }
-
-
 
 //
 //- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

@@ -126,7 +126,7 @@ static NSString * docPath = 0;
     [[NSNotificationCenter defaultCenter] addObserver:target selector:func name:name object:nil];
 }
 
-+ (void)postNotification:(NSNotificationName)name message:(nullable NSDictionary *)info {
++ (void)postNotification:(NSNotificationName)name message:(NSDictionary *)info {
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:nil userInfo:info];
 }
 

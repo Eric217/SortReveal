@@ -12,6 +12,8 @@
 #import "UIImage+operations.h"
 #import "UIView+frameProperty.h"
 #import "UIViewController+funcs.h"
+#import "UIButton+init.h"
+#import "UILabel+init.h"
 #import <Masonry/Masonry.h>
 
 @interface ConfigSortController () <UITextViewDelegate, SimpleTransfer>
@@ -41,10 +43,20 @@
 
 @implementation ConfigSortController
 
+//MARK: - Life Circle
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.splitViewController.view.width == self.view.width && _sortingNavVC) {
+        self.navigationItem.rightBarButtonItems = @[_resumeShow];
+    } else {
+        self.navigationItem.rightBarButtonItems = @[];
+    }
+    [self.navigationController.navigationBar setTintColor:UIColor.blackColor];
+}
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
  
-    //MARK: - constraints
     if (IPHONE) {
         if ([self isDevicePortait]) {
             [self updateConstraintsStatus:0];
@@ -73,166 +85,38 @@
     
  
 }
-///只有三种状态 - 0: 所有竖直情况正常 1: 手机尺寸横着正常 2: 手机尺寸横着有键盘
-- (void)updateConstraintsStatus:(int)status {
-    if (status == 0) {
-        if (IPHONE && !IPHONE6P) {
-            _label1.text = label1Text;
-            _label2.text = label2Text;
-        }
-  
-        [self updateOrderBott:[Config v_pad:65 plus:40 p:36 min:32] startBott:[Config v_pad:58 plus:36 p:30 min:24]];
-        [self updateLabelsNameLabelTop:64+[Config v_pad:44 plus:30 p:26 min:24] height:36 label1Top:[Config v_pad:45 plus:36 p:32 min:25] label1H:24 label2H:21];
-        [self updateTextViewLeft:IPAD ? 50 : 40 top:(IPAD ? 29 : 24) bottom:IPAD ? 29 : 25];
-    } else if (status == 1) {
-        if (IPHONE) {
-            if (IPHONE6P) {
-                [self updateLabelsNameLabelTop:50 height:33 label1Top:3.5 label1H:15 label2H:15];
-                [self updateOrderBott:-13 startBott:7];
-                [self updateTextViewLeft:47 top:4 bottom:-4];
-            } else {
-                _label1.text = [label1Text stringByAppendingString:label2Text];
-                _label2.text = @"";
-                [self updateLabelsNameLabelTop:37 height:36 label1Top:3 label1H:24 label2H:0];
-                [self updateTextViewLeft:95 top:-12 bottom:-4];
-                [self updateOrderBott:-15 startBott:IPhoneX ? 10 : 6.5];
-            }
-         
-        } else {
-            [self updateLabelsNameLabelTop:70 height:36 label1Top:1 label1H:24 label2H:21];
-            [self updateOrderBott:-15 startBott:6.5];
-            [self updateTextViewLeft:60 top:7 bottom:-4];
-        }
-    } else if (status == 2) {
-        
-        if (IPHONE6 || IPhoneX) {
-            [self updateLabelsNameLabelTop:8 height:0 label1Top:34 label1H:24 label2H:0];
-            [self updateTextViewLeft:95 top:-14 bottom:-4];
-        } else {
-            [self updateLabelsNameLabelTop:8 height:0 label1Top:8 label1H:0 label2H:0];
-            [self updateTextViewLeft:80 top:8 bottom:-4];
-        }
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if (self.splitViewController.view.width == self.view.width && _sortingNavVC) {
-        self.navigationItem.rightBarButtonItems = @[_resumeShow];
-    } else {
-        self.navigationItem.rightBarButtonItems = @[];
-    }
-    [self.navigationController.navigationBar setTintColor:UIColor.blackColor];
-}
-
-- (void)updateLabelsNameLabelTop:(CGFloat)y1 height:(CGFloat)h0 label1Top:(CGFloat)y2 label1H:(CGFloat)h1 label2H:(CGFloat)h2 {
-    [_sortNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(y1);
-        make.height.mas_equalTo(h0);
-    }];
-    [_label1 mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.sortNameLabel.mas_bottom).offset(y2);
-        make.height.mas_equalTo(h1);
-    }];
-    [_label2 mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(h2);
-    }];
-}
- - (void)updateOrderBott:(CGFloat)y3 startBott:(CGFloat)y4 {
  
-    [_selectOrderContainerView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.startShow.mas_top).inset(y3);
-    }];
-
-    [_startShow mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).inset(y4);
-    }];
-  
-}
-
-///left 40-80
-- (void)updateTextViewLeft:(CGFloat)l1 top:(CGFloat)y1 bottom:(CGFloat)y2 {
-    [_inputField mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.label1.mas_bottom).offset(24 + y1);
-        make.bottom.equalTo(self.selectOrderContainerView.mas_top).inset(y2);
-        make.left.equalTo(self.view).offset(l1);
-        make.right.equalTo(self.view).inset(l1);
-    }];
-}
- 
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
-   
-    if (![textView.text isEqualToString:@""] ) {
-        DISPATCH_AT_ONCE(^{
-            UITextPosition *end = [textView endOfDocument];
-            UITextPosition *start = [textView beginningOfDocument];
-            textView.selectedTextRange = [textView textRangeFromPosition:start toPosition:end];
-        });
-        
-    }
-  
-    if (![self isDevicePortait]) {
-        if (IPAD || IPHONE6P) {
-            if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
-                [self updateConstraintsStatus:1];
-            }
-        } else {
-            [self updateConstraintsStatus:2];
-        }    
-    }
-    return 1;
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView {
-    if (IPHONE && ![self isDevicePortait]) {
-        [self updateConstraintsStatus:1];
-    } else if (IPAD) {
-        [self updateConstraintsStatus:0];
-    }
-   
-}
-- (void)collapseSecondaryViewController:(UIViewController *)secondaryViewController forSplitViewController:(UISplitViewController *)splitViewController {
-    [self.navigationController pushViewController:secondaryViewController animated:1];
-}
-
-
-- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
-    
-    return 0;
-}
-
-//MARK: - 第二步
 - (void)viewDidLoad {
     [super viewDidLoad];
    
     UIImage *img = [UIImage pushImage];
 
-    //navigation item
-    UIBarButtonItem *backItem = [self customBackBarButtonItemWithTitle:@"返回" target:self action:@selector(dismiss:)];
-    bool oldDevice = [UIDevice currentDevice].systemVersion.doubleValue < 9 || IPHONE4;
-    
-    self.navigationItem.leftBarButtonItems = oldDevice ? @[[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(dismiss:)]] : @[backItem];
+    //navigation item title
     self.navigationItem.title = @"配置排序";
-    
-    UIButton *butt = [self getButton:@"继续演示" fontSize:18 textColor:UIColor.blackColor action:@selector(resumeDisplay:) image:img];
-    //[butt setFrame:CGRectMake(0, 6, 92, 32)];
+
+    //left back item
+    UIBarButtonItem *backItem = [UIButton customBackBarButtonItemWithTitle:@"返回" target:self action:@selector(dismiss:)];
+    bool oldDevice = [UIDevice currentDevice].systemVersion.doubleValue < 9 || IPHONE4;
+    self.navigationItem.leftBarButtonItems = oldDevice ? @[[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(dismiss:)]] : @[backItem];
+
+    //right resume item
+    UIButton *butt = [UIButton buttonWithTitle:@"继续演示" fontSize:18 textColor:UIColor.blackColor target:self action:@selector(resumeDisplay:) image:img];
     [butt setTitleEdgeInsets:UIEdgeInsetsMake(0, -30, 0, 0)];
     [butt setImageEdgeInsets:UIEdgeInsetsMake(0, 75, 0, 0)];
     [butt setContentEdgeInsets:UIEdgeInsetsMake(0, 10, 0, -10)];
     _resumeShow = oldDevice ? [[UIBarButtonItem alloc] initWithTitle:@"继续演示" style:UIBarButtonItemStylePlain target:self action:@selector(resumeDisplay:)] : [[UIBarButtonItem alloc] initWithCustomView:butt];
 
-    _sortNameLabel = [self getLabelWithTitle:0 fontSize:(IPAD ? 29 : 27)];
+    //three labels
+    _sortNameLabel = [UILabel labelWithCentredTitle:0 fontSize:(IPAD ? 29 : 27)];
+    _label1 = [UILabel labelWithCentredTitle:label1Text fontSize:18];
+    _label2 = [UILabel labelWithCentredTitle:label2Text fontSize:18];
     [self.view addSubview:_sortNameLabel];
-    [_sortNameLabel setText:_sortName];
-    
-    _label1 = [self getLabelWithTitle:label1Text fontSize:18];
     [self.view addSubview:_label1];
-    _label2 = [self getLabelWithTitle:label2Text fontSize:18];
     [self.view addSubview:_label2];
+    [_sortNameLabel setText:_sortName];
 
     //start show
-    _startShow = [self getButton:@"开始演示" fontSize:23 textColor:UIColor.blackColor action:@selector(startDisplay:) image:img];
-
+    _startShow = [UIButton buttonWithTitle:@"开始演示" fontSize:23 textColor:UIColor.blackColor target:self action:@selector(startDisplay:) image:img];
     [_startShow setTitleEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 0)];
     [_startShow setImageEdgeInsets:UIEdgeInsetsMake(0, 125, 0, 0)];
     [self.view addSubview:_startShow];
@@ -241,9 +125,9 @@
     _selectOrderContainerView = [[UIView alloc] init];
     [_selectOrderContainerView setBackgroundColor:UIColor.clearColor];
     [self.view addSubview:_selectOrderContainerView];
-    UILabel *wayDec = [self getLabelWithTitle:@"排序方式" fontSize:20];
+    UILabel *wayDec = [UILabel labelWithCentredTitle:@"排序方式" fontSize:20];
     [_selectOrderContainerView addSubview:wayDec];
-    _selectOrder = [self getButton:@"自动推断" fontSize:20 textColor:systemBlue action:@selector(selectOrder:) image:img];
+    _selectOrder = [UIButton buttonWithTitle:@"自动推断" fontSize:20 textColor:systemBlue target:self action:@selector(selectOrder:) image:img];
     [_selectOrder setTitleEdgeInsets:UIEdgeInsetsMake(0, -30, 0, 0)];
     [_selectOrder setImageEdgeInsets:UIEdgeInsetsMake(0, 90, 0, 0)];
     [_selectOrderContainerView addSubview:_selectOrder];
@@ -255,22 +139,11 @@
     _inputField.clipsToBounds = 1;
     [_inputField setAutocorrectionType:UITextAutocorrectionTypeNo];
     [_inputField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-    
     _inputField.returnKeyType = UIReturnKeyDone;
     [_inputField setContentInset:UIEdgeInsetsMake(0, 8, 0, 8.5)];
     _inputField.delegate = self;
     [self.view addSubview:_inputField];
     
-    [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
-    
-    if (![UserDefault stringForKey:kFlowExecWay]) {
-        [UserDefault setObject:SingleStep forKey:kFlowExecWay];
-        [Config saveDouble:1 forKey:kNumericCompare];
-    }
-    _sortOrder = SortOrderAutomatic;
-    self.view.backgroundColor = UIColor.groupTableViewBackgroundColor;
- 
-    //layout
     [_sortNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
         make.height.mas_equalTo(36);
@@ -314,56 +187,113 @@
         make.top.equalTo(self.label1.mas_bottom).offset(24 + (IPAD ? 29 : 24));
         make.bottom.equalTo(self.selectOrderContainerView.mas_top).inset(IPAD ? 29 : 25);
     }];
- 
-}
-
-- (UIButton *)getButton:(NSString *)title fontSize:(CGFloat)fs textColor:(nullable UIColor *)color action:(nullable SEL)act image:(nullable UIImage *)image {
-    UIButton *butt = [[UIButton alloc] init];
-    [butt setTitle:title forState:UIControlStateNormal];
-    if (fs)
-        [butt.titleLabel setFont:[UIFont systemFontOfSize:fs]];
-    if (color)
-        [butt setTitleColor:color forState:UIControlStateNormal];
-    [butt addTarget:self action:act forControlEvents:UIControlEventTouchUpInside];
-    if (image)
-        [butt setImage:image forState:UIControlStateNormal];
-    return butt;
-}
-
-- (UILabel *)getLabelWithTitle:(nullable NSString *)title fontSize:(CGFloat)fontSize {
-    UILabel *l = [[UILabel alloc] init];
-    [l setText:title];
-    [l setFont:[UIFont systemFontOfSize:fontSize]];
-    [l setTextAlignment:NSTextAlignmentCenter];
-    return l;
-}
-
-- (void)resignResponder {
-    [_inputField resignFirstResponder];
-}
-
-- (NSMutableArray *)inputArr {
-    NSMutableArray *inputData = [[_inputField.text componentsSeparatedByString:@" "] mutableCopy];
-    if ([inputData containsObject:@""]) {
-        [inputData removeObject:@""];
+    
+    //other initializers
+    [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
+    if (![UserDefault stringForKey:kFlowExecWay]) {
+        [UserDefault setObject:@"0" forKey:kFlowExecWay];
+        [Config saveDouble:1 forKey:kNumericCompare];
     }
-    return inputData;
+    _sortOrder = SortOrderAutomatic;
+    self.view.backgroundColor = UIColor.groupTableViewBackgroundColor;
 }
 
-///展示detailVC，detailVC业务上一定是NavVC，但为了方便，这里vc如果是普通vc，则包装成navVC，最后返回detailNav
-- (UINavigationController *)showDetailVC:(UIViewController *)vc isNav:(BOOL)isNavVC {
-    UINavigationController *n;
-    if (isNavVC) {
-        n = (UINavigationController *)vc;
-    } else {
-        n = [[UINavigationController alloc] initWithRootViewController:vc];
+//MARK: - Update Constraints
+///只有三种状态 - 0: 所有竖直情况正常 1: 手机尺寸横着正常 2: 手机尺寸横着有键盘
+- (void)updateConstraintsStatus:(int)status {
+    if (status == 0) {
+        if (IPHONE && !IPHONE6P) {
+            _label1.text = label1Text;
+            _label2.text = label2Text;
+        }
+        
+        [self updateOrderBott:[Config v_pad:65 plus:40 p:36 min:32] startBott:[Config v_pad:58 plus:36 p:30 min:24]];
+        [self updateLabelsNameLabelTop:64+[Config v_pad:44 plus:30 p:26 min:24] height:36 label1Top:[Config v_pad:45 plus:36 p:32 min:25] label1H:24 label2H:21];
+        [self updateTextViewLeft:IPAD ? 50 : 40 top:(IPAD ? 29 : 24) bottom:IPAD ? 29 : 25];
+    } else if (status == 1) {
+        if (IPHONE) {
+            if (IPHONE6P) {
+                [self updateLabelsNameLabelTop:50 height:33 label1Top:3.5 label1H:15 label2H:15];
+                [self updateOrderBott:-13 startBott:7];
+                [self updateTextViewLeft:47 top:4 bottom:-4];
+            } else {
+                _label1.text = [label1Text stringByAppendingString:label2Text];
+                _label2.text = @"";
+                [self updateLabelsNameLabelTop:37 height:36 label1Top:3 label1H:24 label2H:0];
+                [self updateTextViewLeft:95 top:-12 bottom:-4];
+                [self updateOrderBott:-15 startBott:IPhoneX ? 10 : 6.5];
+            }
+            
+        } else {
+            [self updateLabelsNameLabelTop:70 height:36 label1Top:1 label1H:24 label2H:21];
+            [self updateOrderBott:-15 startBott:6.5];
+            [self updateTextViewLeft:60 top:7 bottom:-4];
+        }
+    } else if (status == 2) {
+        
+        if (IPHONE6 || IPhoneX) {
+            [self updateLabelsNameLabelTop:8 height:0 label1Top:34 label1H:24 label2H:0];
+            [self updateTextViewLeft:95 top:-14 bottom:-4];
+        } else {
+            [self updateLabelsNameLabelTop:8 height:0 label1Top:8 label1H:0 label2H:0];
+            [self updateTextViewLeft:80 top:8 bottom:-4];
+        }
     }
-    [n setToolbarHidden:0];
-    [_inputField resignFirstResponder];
-    [self.splitViewController showDetailViewController:n sender:0];
-    return n;
 }
 
+- (void)updateLabelsNameLabelTop:(CGFloat)y1 height:(CGFloat)h0 label1Top:(CGFloat)y2 label1H:(CGFloat)h1 label2H:(CGFloat)h2 {
+    [_sortNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(y1);
+        make.height.mas_equalTo(h0);
+    }];
+    [_label1 mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.sortNameLabel.mas_bottom).offset(y2);
+        make.height.mas_equalTo(h1);
+    }];
+    [_label2 mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(h2);
+    }];
+}
+
+- (void)updateOrderBott:(CGFloat)y3 startBott:(CGFloat)y4 {
+    [_selectOrderContainerView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.startShow.mas_top).inset(y3);
+    }];
+    
+    [_startShow mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view).inset(y4);
+    }];
+    
+}
+
+///left 40-80
+- (void)updateTextViewLeft:(CGFloat)l1 top:(CGFloat)y1 bottom:(CGFloat)y2 {
+    [_inputField mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.label1.mas_bottom).offset(24 + y1);
+        make.bottom.equalTo(self.selectOrderContainerView.mas_top).inset(y2);
+        make.left.equalTo(self.view).offset(l1);
+        make.right.equalTo(self.view).inset(l1);
+    }];
+}
+
+
+//MARK: - 点击各个控件事件
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [[self view] endEditing:1];
+}
+
+- (void)dismiss:(id)sender {
+    
+    //[self.splitViewController dismissViewControllerAnimated:0 completion:nil];
+    [self.view.window setRootViewController:_anotherRootVC];
+}
+- (void)selectOrder:(id)sender {
+    [_inputField endEditing:1];
+    SelectOrderController *selectVC = [[SelectOrderController alloc] init];
+    selectVC.delegate = self;
+    [self.navigationController pushViewController:selectVC animated:1];
+}
 - (void)resumeDisplay:(id)sender {
     [self showDetailVC:_sortingNavVC isNav:1];
 }
@@ -379,9 +309,9 @@
     }
     
     if (!_sortingNavVC) { //直接正常display开始
-        if (!inputData.count) {
+        if (!inputData.count)
             return;
-        }
+        
         NSArray *errorMsg = [self guard];
         if (errorMsg) {
             
@@ -408,6 +338,7 @@
     //    if ([self.splitViewController canPullHideLeft]) {}
 }
 
+//MARK: - 业务衍生函数
 - (NSArray *)guard {
     //if (SortTypeHeap == _sortType) {
     //TODO: - 一系列判断:
@@ -415,17 +346,64 @@
     //}
     return 0;
 }
+- (void)resignResponder {
+    [_inputField resignFirstResponder];
+}
 
-- (void)selectOrder:(id)sender {
-    [_inputField endEditing:1];
-    SelectOrderController *selectVC = [[SelectOrderController alloc] init];
-    selectVC.delegate = self;
-    [self.navigationController pushViewController:selectVC animated:1];
+- (NSMutableArray *)inputArr {
+    NSMutableArray *inputData = [[_inputField.text componentsSeparatedByString:@" "] mutableCopy];
+    if ([inputData containsObject:@""]) {
+        [inputData removeObject:@""];
+    }
+    return inputData;
+}
 
+///展示detailVC，detailVC业务上一定是NavVC，但为了方便，这里vc如果是普通vc，则包装成navVC，最后返回detailNav
+- (UINavigationController *)showDetailVC:(UIViewController *)vc isNav:(BOOL)isNavVC {
+    UINavigationController *n;
+    if (isNavVC) {
+        n = (UINavigationController *)vc;
+    } else {
+        n = [[UINavigationController alloc] initWithRootViewController:vc];
+    }
+    [n setToolbarHidden:0];
+    [_inputField resignFirstResponder];
+    [self.splitViewController showDetailViewController:n sender:0];
+    return n;
 }
 
 
-
+//MARK: - UITextViewDelegate
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    
+    if (![textView.text isEqualToString:@""] ) {
+        DISPATCH_AT_ONCE(^{
+            UITextPosition *end = [textView endOfDocument];
+            UITextPosition *start = [textView beginningOfDocument];
+            textView.selectedTextRange = [textView textRangeFromPosition:start toPosition:end];
+        });
+        
+    }
+    
+    if (![self isDevicePortait]) {
+        if (IPAD || IPHONE6P) {
+            if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
+                [self updateConstraintsStatus:1];
+            }
+        } else {
+            [self updateConstraintsStatus:2];
+        }
+    }
+    return 1;
+}
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if (IPHONE && ![self isDevicePortait]) {
+        [self updateConstraintsStatus:1];
+    } else if (IPAD) {
+        [self updateConstraintsStatus:0];
+    }
+    
+}
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if (![text isEqual: @""] && [text characterAtIndex:0] == '\n') {
         [textView endEditing:1];
@@ -434,8 +412,16 @@
     return 1;
 }
 
+//MARK: - UISplitViewDelegate
+- (void)collapseSecondaryViewController:(UIViewController *)secondaryViewController forSplitViewController:(UISplitViewController *)splitViewController {
+    [self.navigationController pushViewController:secondaryViewController animated:1];
+}
 
-//MARK: - 第一步初始化基本数据
+- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
+    return 0;
+}
+
+//MARK: - 构造、析构
 - (instancetype)initWithSortType:(SortType)type anotherRoot:(UIViewController *)rootvc {
     self = [super init];
     if (self) {
@@ -446,19 +432,11 @@
     }
     return self;
 }
-
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    
-    [[self view] endEditing:1];
+- (void)dealloc {
+    [Config removeObserver:self];
 }
-
-
-- (void)dismiss:(id)sender {
-    //[self.splitViewController dismissViewControllerAnimated:0 completion:nil];
-    [self.view.window setRootViewController:_anotherRootVC];
-}
-
+ 
+//MARK: - SimpleTransferDelegate
 ///NSArray, 0: order number 1: name
 - (void)transferData:(id)data {
     NSArray *a = data;
@@ -466,21 +444,7 @@
     [_selectOrder setTitle:a[1] forState:UIControlStateNormal];
 }
 
-- (void)dealloc
-{
-    [Config removeObserver:self];
-}
 
-- (UIBarButtonItem *)customBackBarButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)selec {
-    UIButton *_backButton = [[UIButton alloc] init];
-    [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -12, 0, 20)];
-    [_backButton setTitle:title forState:UIControlStateNormal];
-    [_backButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    [_backButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
-    [_backButton setImage:[UIImage backImage] forState:UIControlStateNormal];
-    [_backButton addTarget:target action:selec forControlEvents:UIControlEventTouchUpInside];
-    return [[UIBarButtonItem alloc] initWithCustomView:_backButton];
-    
-}
+
 
 @end

@@ -69,17 +69,17 @@
     int titleCount = (int)(self.titlArr.count);
     
     attr[NSFontAttributeName] = [UIFont systemFontOfSize:17];
-    CGRect r = CGRectMake(0, 0, unitLength, 0);
+    CGRect r = CGRectMake(0, 0, unitLength, 0), rr;
     
     for (int i = 0; i < titleCount; i++) {
         int p = ((NSString *)(self.posiArr[i])).intValue;
-        r.origin.x = offset + (p+0.5)*(unitLength);
+        r.origin.x = (offset == 0 ? -4 : offset) + (p+0.5)*(unitLength);
         r.origin.y = hTextAbove;
         r.size.height = h-hTextAbove;
         [self.titlArr[i] drawInRect:r withAttributes:attr];
         r.origin.y = hBlow;
         r.size.height = hTextAbove-hBlow;
-        CGRect rr = CGRectInset(r, 10, 6);
+        rr = CGRectInset(r, 10, 6);
         if (rr.size.width <= 4) {
             rr.size.width = 4;
             rr.origin.x -= 2;
@@ -93,11 +93,36 @@
         attr[NSParagraphStyleAttributeName] = textStyle;
         NSString *str1 = [NSString stringWithFormat:@"i = %d", arrSize];
         NSString *str2 = [@"arr[i] = " stringByAppendingString:_nextText];
+        
         CGSize box = [str2 sizeWithAttributes:attr];
-        r = CGRectMake(w-box.width, h*0.0, box.width, h*0.266);
-        [str1 drawInRect:r withAttributes:attr];
-        r.origin.y += h*0.228;
-        [str2 drawInRect:r withAttributes:attr];
+        if (box.width < offset) {
+            r = CGRectMake(w-box.width, 0, box.width, h*0.266);
+            [str1 drawInRect:r withAttributes:attr];
+            r.origin.y += h*0.228;
+            [str2 drawInRect:r withAttributes:attr];
+        } else {
+//            str2 = [[str1 stringByAppendingString:@" "] stringByAppendingString:str2];
+//            box = [str2 sizeWithAttributes:attr];
+            if (w - rr.origin.x-rr.size.width > box.width) {
+                r = CGRectMake(w-box.width, hBlow, box.width, h*0.266);
+                [str1 drawInRect:r withAttributes:attr];
+                r.origin.y += h*0.228;
+                [str2 drawInRect:r withAttributes:attr];
+            } else {
+                textStyle.alignment = NSTextAlignmentLeft;
+                attr[NSParagraphStyleAttributeName] = textStyle;
+                
+                r = CGRectMake(2, hBlow, box.width, h*0.266);
+                [str1 drawInRect:r withAttributes:attr];
+                r.origin.y += h*0.228;
+                r.origin.x -= 2;
+                [str2 drawInRect:r withAttributes:attr];
+                
+            }
+            
+            
+            
+        }
     }
     
     CGContextSetLineWidth(ctx, lineWidth);

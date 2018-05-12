@@ -18,46 +18,46 @@
 
 #define emptyDisplayString @"配置排序\n以开始"
 
-//TODO: - save arrays in db
-
 @interface SortingViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
-@property (strong, nonatomic) UIBarButtonItem *settings;
-
+//Collection and empty view
 @property (strong, nonatomic) UICollectionView *collection;
-@property (strong, nonatomic) UIBarButtonItem *fullScreenItem;
-@property (strong, nonatomic) UIButton *fullScreenButton;
+@property (strong, nonatomic) UILabel *collectionEmptyView;
+
+//Right 2
+@property (strong, nonatomic) UIBarButtonItem *settings;
+@property (strong, nonatomic) UIBarButtonItem *restartButton;
+//Bottom 4
 @property (strong, nonatomic) UIBarButtonItem *nextStepButton;
-@property (strong, nonatomic) UIBarButtonItem *lastStepButton;
 @property (strong, nonatomic) UIBarButtonItem *nextRowButton;
 @property (strong, nonatomic) UIBarButtonItem *flowRunButton;
-@property (strong, nonatomic) UIBarButtonItem *restartButton;
-@property (strong, nonatomic) UILabel *collectionBackView;
+@property (strong, nonatomic) UIBarButtonItem *lastStepButton;
 
-@property (nonatomic, copy) NSMutableArray *originDataArr;
+//To do -- full screen
+@property (strong, nonatomic) UIBarButtonItem *fullScreenItem;
+@property (strong, nonatomic) UIButton *fullScreenButton;
+
+//Data
+@property (nonatomic, copy) NSMutableArray<NSString *> *originDataArr;
 @property (nonatomic, copy) NSMutableArray<NSDictionary *> *viewDataDictArr;
+
 @property (weak, nonatomic) NSTimer *timer;
 
 @property (nonatomic, strong) id <Sorter> sorter;
-@property (assign) SortType sortType;
+
 @property (assign) SortOrder sortOrder;
+@property (assign) SortType sortType;
 
 @property (assign) CGFloat edgeDistance;
 @property (assign) CGSize itemSize;
-
-//@property (assign) bool fullScreenSpecified;
 
 @end
 
 @implementation SortingViewController
 
- 
-//两种情况 一是init时 全空， 一是正常数据
-//MARK: - 执行顺序1
-//MARK: - WARNING: -  restart
-//restart时候，这里初始化的几个属性也要相应reset
-/// init后最基本的三个数据和sorter有了
+//MARK: - 构造 - WARNING: - restart need init
 - (instancetype)initWithArr:(NSMutableArray *)arr sortType:(SortType)type sortOrder:(SortOrder)order {
+    //MARK: - 执行顺序1
     self = [super init];
     if (self) {
         //除了视图的部分：
@@ -71,150 +71,15 @@
     }
     return self;
 }
-
-///点击展示界面上的fullscreen按钮
-- (void)setFullScreenDisplay:(id)sender {
-    
-//    if ([_fullScreenButton.titleLabel.text isEqualToString:@"全屏显示"]) {
-//        _fullScreenSpecified = 1;
-//        [self hidePrimarySplitStyle];
-//    } else if ([self isFullScreen]) {
-//        if ([self isDevicePortait]) {
-//            [self overlaySplitStyle];
-//        } else {
-//            [self automaticSplitStyle];
-//            _fullScreenSpecified = 0;
-//        }
-//    } else if (1) {
-//
-//    }
-    
-}
-
-//MARK: - 执行顺序4
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    //只是几个button的title、位置，无任何意义
-    if ([self isFloatingOrThirth]) {
-        [_settings setTitle:@"设置"];
-        [_nextStepButton setTitle:@"单步 "];
-        [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -18, 0, 0)];
-    } else {
-        [_settings setTitle:@" 设置"];
-        [_nextStepButton setTitle:@"单步执行"];
-        [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -14, 0, 0)];
-    }
-    
-    CGFloat w = self.view.width;
-    //CGFloat h = self.view.height;
-  
-    if (_sortType == SortTypeHeap) {
-        [Config updateUnitSizeAndFontFor:[self screenMode] withTreeSize:_originDataArr.count];
-        _itemSize = [Config estimatedSizeThatFitsTree:_originDataArr.count bottom:UnderTreeH];
-    } else
-        _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
-
-    if (IPAD) {
-        
-        if ([self canPullHideLeft]) {
-            self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-            [self.navigationItem.leftBarButtonItem setTintColor:UIColor.blackColor];
-
-        } else {
-            self.navigationItem.leftBarButtonItem = nil;
-        }
-        
-    }
- 
-  
-    if (IPHONE) {
-        if ([self isDevicePortait]) {
-            [self updateBackEmptyPositionCX:-13 CY:-126];
-        } else
-            [self updateBackEmptyPositionCX:-13 CY:-80];
-    } else {
-        
-    }
-    
-}
-
-//由非转屏、改变iPad分屏时导致的layoutSubview里 不能reloadData，需要靠下面这个函数。
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    
-    CGSize lastItemSize = _itemSize;
-    CGFloat w = size.width;
-    if (_sortType == SortTypeHeap) {
-        //TODO: - 修改 UnitSize 及字体，及 didLayoutSub 里初始化的 UnitSize
-        [Config updateUnitSizeAndFontFor:[self screenMode] withTreeSize:_originDataArr.count];
-        _itemSize = [Config estimatedSizeThatFitsTree:_originDataArr.count bottom:UnderTreeH];
-    } else
-        _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
-    
-    if (!(_itemSize.width == lastItemSize.width && _itemSize.height == lastItemSize.height)) {
-        [_collection reloadData];
-    }
-}
-
-//MARK: - 执行顺序3
-/// 展示开始的唯一入口，注意！！！也会被restart调用！！！(此函数调用之前必须调用过initializeSorter！)
-- (void)initializeDisplay {
-  
-    _viewDataDictArr = [[NSMutableArray alloc] init];
-    int arrSize = ((int)(_originDataArr.count));
-    
-    [self initButtonState:arrSize != 1];
-
-    if (arrSize != 0) {
-       
-        [_viewDataDictArr addObject:[_sorter initialSortData]];
-        _collectionBackView.text = @"";
-    } else {
-        _collectionBackView.text = emptyDisplayString;
-    }
-    [_collection reloadData];
-}
-
-//MARK: - 执行顺序1.1
-///由initializeWithArr调用，对sorter配置
-- (void)initializeSorter {
-    if (_sortType == SortTypeBubble) {
-        _sorter = [[BubbleSorter alloc] init];
-    } else if (_sortType == SortTypeInsertion) {
-        _sorter = [[InsertionSorter alloc] init];
-    } else if (_sortType == SortTypeSelection) {
-        _sorter = [[SelectionSorter alloc] init];
-    } else if (_sortType == SortTypeHeap) {
-        _sorter = [[HeapSorter alloc] init];
-    } else if (_sortType == SortTypeFast) {
-        _sorter = [[QuickSorter alloc] init];
-    }
-    [_sorter initializeWithArray:_originDataArr order:_sortOrder]; //inside deep
-}
-
-
-- (void)initButtonState:(BOOL)state {
-    [_lastStepButton setEnabled:0];
-    [self stopTimer:0];
-    [self setEnabled:state];
-}
-
 - (void)dealloc {
     [Config removeObserver:self];
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    [Config postNotification:ELTextFieldShouldResignNotification message:0];
-}
+//MARK: - Life Circle
 
-
-//MARK: - View and Collection View
-
-//MARK: - 执行顺序2
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    //MARK: - 执行顺序2
     //buttons
     _fullScreenButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 6, 92, 32)];
     [_fullScreenButton setTitle:@"配置排序" forState:UIControlStateNormal];
@@ -224,8 +89,8 @@
     [_fullScreenButton addTarget:self action:@selector(setFullScreenDisplay:) forControlEvents:UIControlEventTouchUpInside];
     _fullScreenItem = [[UIBarButtonItem alloc] initWithCustomView:_fullScreenButton];
     //if (IPAD)
-     //   self.navigationItem.leftBarButtonItems = @[self.splitViewController.displayModeButtonItem];
- 
+    //   self.navigationItem.leftBarButtonItems = @[self.splitViewController.displayModeButtonItem];
+    
     _restartButton = [[UIBarButtonItem alloc] initWithTitle:@"重新开始" style:UIBarButtonItemStylePlain target:self action:@selector(restart:)];
     [_restartButton setTintColor:UIColor.blackColor];
     _settings = [[UIBarButtonItem alloc] initWithTitle:@" 设置" style:UIBarButtonItemStylePlain target:self action:@selector(openSettings:)];
@@ -267,36 +132,74 @@
         make.size.equalTo(self.view);
     }];
     
-    _collectionBackView = [[UILabel alloc] init];
-    [_collection insertSubview:_collectionBackView atIndex:0];
+    _collectionEmptyView = [[UILabel alloc] init];
+    [_collection insertSubview:_collectionEmptyView atIndex:0];
     UIColor *tc = [UIColor.grayColor colorWithAlphaComponent:0.78];
-    [_collectionBackView setTextColor:tc];
-    _collectionBackView.text = emptyDisplayString;
-    _collectionBackView.numberOfLines = 2;
-    _collectionBackView.font = [UIFont systemFontOfSize:28];
-    _collectionBackView.textAlignment = NSTextAlignmentCenter;
-    [_collectionBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_collectionEmptyView setTextColor:tc];
+    _collectionEmptyView.text = emptyDisplayString;
+    _collectionEmptyView.numberOfLines = 2;
+    _collectionEmptyView.font = [UIFont systemFontOfSize:28];
+    _collectionEmptyView.textAlignment = NSTextAlignmentCenter;
+    [_collectionEmptyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.collection).mas_offset(-13);
         make.centerY.equalTo(self.collection.mas_centerY).mas_offset(-126);
         make.size.mas_equalTo(CGSizeMake(300, 200));
     }];
- 
+    
     //user defaults
     if ([UserDefault doubleForKey:kTimeInterval] <= 0) {
         [Config saveDouble:0.8 forKey:kTimeInterval];
     }
-
-//    _fullScreenSpecified = 0;
-
+    
     [self setTitle:@"动态演示"];
     [self initializeDisplay];
 }
 
-- (void)updateBackEmptyPositionCX:(CGFloat)x CY:(CGFloat)y {
-    [_collectionBackView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.collection).mas_offset(x);
-        make.centerY.equalTo(self.collection.mas_centerY).mas_offset(y);
-    }];
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    //MARK: - 执行顺序4
+    //只是几个button的title、位置，无任何意义
+    if ([self isFloatingOrThirth]) {
+        [_settings setTitle:@"设置"];
+        [_nextStepButton setTitle:@"单步 "];
+        [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -18, 0, 0)];
+    } else {
+        [_settings setTitle:@" 设置"];
+        [_nextStepButton setTitle:@"单步执行"];
+        [_fullScreenButton setContentEdgeInsets:UIEdgeInsetsMake(0, -14, 0, 0)];
+    }
+    
+    CGFloat w = self.view.width;
+    //CGFloat h = self.view.height;
+    
+    if (_sortType == SortTypeHeap) {
+        [Config updateUnitSizeAndFontFor:[self screenMode] withTreeSize:_originDataArr.count];
+        _itemSize = [Config estimatedSizeThatFitsTree:_originDataArr.count bottom:UnderTreeH];
+    } else
+        _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
+    
+    if (IPAD) {
+        
+        if ([self canPullHideLeft]) {
+            self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+            [self.navigationItem.leftBarButtonItem setTintColor:UIColor.blackColor];
+            
+        } else {
+            self.navigationItem.leftBarButtonItem = nil;
+        }
+        
+    }
+    
+    
+    if (IPHONE) {
+        if ([self isDevicePortait]) {
+            [self updateBackEmptyPositionCX:-13 CY:-126];
+        } else
+            [self updateBackEmptyPositionCX:-13 CY:-80];
+    } else {
+        
+    }
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -304,13 +207,43 @@
     [self stopTimer:0];
 }
 
-- (void)setEnabled:(bool)b {
-    [_nextRowButton setEnabled:b];
-    [_nextStepButton setEnabled:b];
-    [_flowRunButton setEnabled:b];
+//MARK: - 点击各个控件事件或其他触发事件
+//由非转屏、改变iPad分屏时导致的layoutSubview里 不能reloadData，需要靠下面这个函数。
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    CGSize lastItemSize = _itemSize;
+    CGFloat w = size.width;
+    if (_sortType == SortTypeHeap) {
+        //TODO: - 修改 UnitSize 及字体，及 didLayoutSub 里初始化的 UnitSize
+        [Config updateUnitSizeAndFontFor:[self screenMode] withTreeSize:_originDataArr.count];
+        _itemSize = [Config estimatedSizeThatFitsTree:_originDataArr.count bottom:UnderTreeH];
+    } else
+        _itemSize = CGSizeMake(w - 2*_edgeDistance, 100);
+    
+    if (!(_itemSize.width == lastItemSize.width && _itemSize.height == lastItemSize.height)) {
+        [_collection reloadData];
+    }
+}
+///点击展示界面上的fullscreen按钮
+- (void)setFullScreenDisplay:(id)sender {
+    
+//    if ([_fullScreenButton.titleLabel.text isEqualToString:@"全屏显示"]) {
+//        _fullScreenSpecified = 1;
+//        [self hidePrimarySplitStyle];
+//    } else if ([self isFullScreen]) {
+//        if ([self isDevicePortait]) {
+//            [self overlaySplitStyle];
+//        } else {
+//            [self automaticSplitStyle];
+//            _fullScreenSpecified = 0;
+//        }
+//    } else if (1) {
+//
+//    }
+    
 }
 
-//MARK: - 4 bottom control buttons
 - (void)lastStep:(id)sender {
     if (_timer.isValid) {
         [self stopTimer:0];
@@ -349,6 +282,94 @@
     [self nextSlide:[_sorter nextRow:&finished] finished:finished];
 }
 
+- (void)play:(id)sender {
+    if (!(_viewDataDictArr.count))
+        return;
+    if (_timer.isValid) {
+        [self stopTimer:sender];
+    } else {
+        [_flowRunButton setTitle:@"暂停演示"];
+        int exec = [NSUserDefaults.standardUserDefaults stringForKey:kFlowExecWay].intValue;
+        SEL func;
+        if (exec == ExecuteWayStep) {
+            func = @selector(nextStep:);
+        } else {
+            func = @selector(nextRow:);
+        }
+        _timer = [NSTimer scheduledTimerWithTimeInterval:[NSUserDefaults.standardUserDefaults doubleForKey:kTimeInterval]  target:self selector:func userInfo:0 repeats:1];
+        [_timer fire];
+
+    }
+}
+
+///实现时，所有initializer都要调一遍
+- (void)restart:(id)sender {
+    [self stopTimer:0];
+    if (_originDataArr.count <= 1) {
+        return;
+    }
+    [self initializeSorter];
+    [self initializeDisplay];
+}
+
+- (void)openSettings:(id)sender {
+    [self pushWithoutBottomBar:[[SettingViewController alloc] init]];
+}
+
+//MARK: - 业务衍生函数
+- (void)initButtonState:(BOOL)state {
+    [_lastStepButton setEnabled:0];
+    [self stopTimer:0];
+    [self setEnabled:state];
+}
+
+- (void)setEnabled:(bool)b {
+    [_nextRowButton setEnabled:b];
+    [_nextStepButton setEnabled:b];
+    [_flowRunButton setEnabled:b];
+}
+- (void)stopTimer:(id)sender {
+    [_timer invalidate];
+    [_flowRunButton setTitle:@"顺序执行"];
+}
+
+
+/// 展示开始的唯一入口，注意！！！也会被restart调用！！！(此函数调用之前必须调用过initializeSorter！)
+- (void)initializeDisplay {
+    //MARK: - 执行顺序3
+    _viewDataDictArr = [[NSMutableArray alloc] init];
+    int arrSize = ((int)(_originDataArr.count));
+    
+    [self initButtonState:arrSize != 1];
+    
+    if (arrSize != 0) {
+        
+        [_viewDataDictArr addObject:[_sorter initialSortData]];
+        _collectionEmptyView.text = @"";
+    } else {
+        _collectionEmptyView.text = emptyDisplayString;
+    }
+    [_collection reloadData];
+}
+
+
+///由initializeWithArr调用，对sorter配置
+- (void)initializeSorter {
+    //MARK: - 执行顺序1.1
+    if (_sortType == SortTypeBubble) {
+        _sorter = [[BubbleSorter alloc] init];
+    } else if (_sortType == SortTypeInsertion) {
+        _sorter = [[InsertionSorter alloc] init];
+    } else if (_sortType == SortTypeSelection) {
+        _sorter = [[SelectionSorter alloc] init];
+    } else if (_sortType == SortTypeHeap) {
+        _sorter = [[HeapSorter alloc] init];
+    } else if (_sortType == SortTypeFast) {
+        _sorter = [[QuickSorter alloc] init];
+    }
+    [_sorter initializeWithArray:_originDataArr order:_sortOrder]; //inside deep
+}
+
 - (void)nextSlide:(NSDictionary *)dict finished:(BOOL)finished {
     if (dict) {
         [_viewDataDictArr addObject:dict];
@@ -364,51 +385,20 @@
     }
 }
 
-
-- (void)play:(id)sender {
-    if (!(_viewDataDictArr.count))
-        return;
-    if (_timer.isValid) {
-        [self stopTimer:sender];
-    } else {
-        [_flowRunButton setTitle:@"暂停演示"];
-        NSString *exeway = [NSUserDefaults.standardUserDefaults stringForKey:kFlowExecWay];
-        SEL func;
-        if ([exeway isEqualToString:SingleStep]) {
-            func = @selector(nextStep:);
-        } else {
-            func = @selector(nextRow:);
-        }
-        _timer = [NSTimer scheduledTimerWithTimeInterval:[NSUserDefaults.standardUserDefaults doubleForKey:kTimeInterval]  target:self selector:func userInfo:0 repeats:1];
-        [_timer fire];
-
-    }
+- (void)updateBackEmptyPositionCX:(CGFloat)x CY:(CGFloat)y {
+    [_collectionEmptyView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.collection).mas_offset(x);
+        make.centerY.equalTo(self.collection.mas_centerY).mas_offset(y);
+    }];
 }
 
-- (void)stopTimer:(id)sender {
-    [_timer invalidate];
-    [_flowRunButton setTitle:@"顺序执行"];
+//MARK: - UICollectionViewDelegate & DataSource
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [Config postNotification:ELTextFieldShouldResignNotification message:0];
 }
 
-//MARK: - top buttons
-
-//注意：实现时，所有initializer都要调一遍
-- (void)restart:(id)sender {
-    [self stopTimer:0];
-    if (_originDataArr.count <= 1) {
-        return;
-    }
-    [self initializeSorter];
-    [self initializeDisplay];
-
-}
-
-- (void)openSettings:(id)sender {
-    [self pushWithoutBottomBar:[[SettingViewController alloc] init]];
-}
-
-//MARK: - 执行顺序5
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    //MARK: - 执行顺序5
     return _viewDataDictArr.count;
 }
 

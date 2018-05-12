@@ -56,18 +56,19 @@
     UIImage *upArrow = [UIImage imageNamed:@"upArrow"];
     int titleCount = (int)(self.titlArr.count);
  
-    attr[NSFontAttributeName] = [UIFont systemFontOfSize:17];
-    CGRect r = CGRectMake(0, 0, unitLength, 0);
+    attr[NSFontAttributeName] = [UIFont systemFontOfSize:16];
+    CGFloat widthOverFlow = unitLength*0.074;
+    CGRect r = CGRectMake(0, 0, unitLength+widthOverFlow, 0);
     
     for (int i = 0; i < titleCount; i++) {
         int p = ((NSString *)(self.posiArr[i])).intValue;
-        r.origin.x = offset + p*(unitLength);
+        r.origin.x = offset + p*(unitLength) - widthOverFlow/2;
         r.origin.y = hTextAbove;
         r.size.height = h-hTextAbove;
         CGFloat dx = 10;
-        if (i == 2 && offset == 0 && r.origin.x > w-3) { //冒泡排序 满格 3是模糊的适配值
+        if (i == 2 && offset == 0 && r.origin.x > w-3-widthOverFlow/2) { //冒泡排序 满格 3是模糊的适配值
             r.size.width = 0.35*unitLength;
-            r.origin.x -= r.size.width - 3; //3是模糊的适配值
+            r.origin.x -= r.size.width - 1 - widthOverFlow/2; //1是模糊的适配值
             dx = 0;
         }
         [self.titlArr[i] drawInRect:r withAttributes:attr];

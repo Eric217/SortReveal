@@ -5,7 +5,6 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "SorterProtocol.h"
 
 ///实现Sorter协议、Comparator协议，有各种顺序比较的功能
