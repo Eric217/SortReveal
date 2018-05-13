@@ -13,7 +13,7 @@
 - (NSDictionary *)nextTurn:(BOOL *)finished {
     int i = self.currentI, j = self.currentJ; //1
     int len = (int)(dataArr.count);
-    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr copyItems:1];
+    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
     if (len == 2) { //1.1
         if ([self compareAtIndex_a:0 b:1]) {
             [self swap_a:0 b:1];
@@ -40,7 +40,7 @@
         }
     }
     
-    NSArray *data = [[NSArray alloc] initWithArray:dataArr copyItems:0]; //7
+    NSArray *data = [[NSArray alloc] initWithArray:dataArr]; //7
     [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGPoint(CGPointMake(i, j))}]; //10
     
     if (*finished) {//8
@@ -55,7 +55,7 @@
 
 - (NSDictionary *)nextRow:(BOOL *)finished {
     int j = self.currentJ, i = self.currentI; //1
-    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr copyItems:1];
+    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
     int len = (int)(dataArr.count);
 
     bool swapped = 0; //1.1
@@ -77,7 +77,7 @@
     }
     
     [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGPoint(CGPointMake(i, j))}];
-    NSArray *data = [[NSArray alloc] initWithArray:dataArr copyItems:0]; //
+    NSArray *data = [[NSArray alloc] initWithArray:dataArr]; //
     if (*finished) {
         return @{kDataArr: data};
     } else {

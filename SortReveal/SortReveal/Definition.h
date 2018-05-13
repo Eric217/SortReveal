@@ -102,5 +102,12 @@ typedef NS_ENUM(NSUInteger, ExecuteWay) {
     ExecuteWayGroup = 1,
 };
 
+struct ELPoint {
+    int i;
+    int j;
+   
+};
+typedef struct CG_BOXABLE ELPoint ELPoint;
+
 
 #endif /* Definition_h */

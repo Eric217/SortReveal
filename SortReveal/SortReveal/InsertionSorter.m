@@ -21,7 +21,7 @@
     
     int i = self.currentI, j = self.currentJ; //1
     int len = (int)(dataArr.count);
-    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr copyItems:1];
+    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
 
     int m;
     NSString *t = dataArr[j+1];
@@ -52,7 +52,7 @@
 
 - (void)nextLine:(int)len finish:(BOOL *)finished whichArray:(NSArray *)which {
     self.currentI++;
-    NSArray *turnArrayUnit = [[NSArray alloc] initWithArray:which copyItems:1];
+    NSArray *turnArrayUnit = [[NSArray alloc] initWithArray:which];
     [_turnArray addObject:turnArrayUnit];
     self.currentJ = self.currentI-1;
     if (self.currentI == len) {
@@ -63,7 +63,7 @@
 - (NSDictionary *)nextTurn:(BOOL *)finished {
     int i = self.currentI, j = self.currentJ; //1
     int len = (int)(dataArr.count);
-    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr copyItems:1];
+    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
 
     if (len == 2) {
         if ([self compareAtIndex_a:0 b:1])
@@ -119,7 +119,7 @@
 
 - (void)initializeWithArray:(NSMutableArray *)array order:(SortOrder)order {
     self.sortOrder = order;
-    dataArr = [[NSMutableArray alloc] initWithArray:array copyItems:1];
+    dataArr = [[NSMutableArray alloc] initWithArray:array];
     _turnArray = [[NSMutableArray alloc] init];
     self.currentI = 1;
     self.currentJ = 0; // = i - 1

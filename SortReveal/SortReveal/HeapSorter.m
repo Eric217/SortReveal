@@ -19,7 +19,7 @@
 
 - (NSDictionary *)nextTurn:(BOOL *)finished {
     
-    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr copyItems:1];
+    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
     int currNode = _currentNode;
     
     if (_currentNode == -1) { //需要pop
@@ -70,7 +70,7 @@
 
 
 - (NSDictionary *)nextRow:(BOOL *)finished {
-    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr copyItems:1];
+    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
     int currNode = _currentNode;
     if (_currentNode != -1) {
         NSString *saved = dataArr[_currentNode];

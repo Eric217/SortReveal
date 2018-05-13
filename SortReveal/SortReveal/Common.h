@@ -13,7 +13,7 @@
 
 
 //MARK: - noti names
-UIKIT_EXTERN NSNotificationName _Nonnull const ELTextFieldShouldResignNotification;
+UIKIT_EXTERN NSNotificationName const ELTextFieldShouldResignNotification;
 
 UIKIT_EXTERN CGFloat UnitSize;
 UIKIT_EXTERN CGFloat TreeFont;

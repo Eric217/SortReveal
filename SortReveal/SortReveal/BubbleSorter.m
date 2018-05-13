@@ -18,7 +18,7 @@
 
 - (NSDictionary *)nextTurn:(BOOL *)finished { //整体思路先把 *.* 去掉，只看 *
     int i = self.currentI, j = self.currentJ; //1
-    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr copyItems:1];
+    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
     if (dataArr.count == 2) { //1.1
         if ([self compareAtIndex_a:0 b:1]) {
             [self swap_a:0 b:1];
@@ -46,7 +46,7 @@
     }
     
     //尽管会使sortingvc的view data全是同一片数组的引用，但不影响😄
-    NSArray *data = [[NSArray alloc] initWithArray:dataArr copyItems:0]; //7
+    NSArray *data = [[NSArray alloc] initWithArray:dataArr]; //7
     [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGPoint(CGPointMake(i, j))}]; //10
     
     if (*finished) {//8
@@ -64,7 +64,7 @@
 
 - (NSDictionary *)nextRow:(BOOL *)finished {
     int j = self.currentJ, i = self.currentI; //1
-    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr copyItems:1];
+    NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
     bool swapped = 0; //1.1
     
     for (int m = j; m < i - 1; m++) { //2
@@ -85,7 +85,7 @@
     }
     
     [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGPoint(CGPointMake(i, j))}];
-    NSArray *data = [[NSArray alloc] initWithArray:dataArr copyItems:0]; //
+    NSArray *data = [[NSArray alloc] initWithArray:dataArr]; //
     if (*finished) {
         return @{kDataArr: data};
     } else {
@@ -115,10 +115,11 @@
 }
 
 - (NSDictionary *)initialSortData {
-    if (dataArr.count == 1) {
+    int c = (int)dataArr.count;
+    if (c == 1) {
         return @{kDataArr: dataArr.copy};
     }
-    return @{kPositionArr: @[@"0", @"1", [NSString stringWithFormat:@"%d", (int)(dataArr.count)]],
+    return @{kPositionArr: @[@"0", @"1", [NSString stringWithFormat:@"%d", c]],
              kTitleArr: @[@"j", @"j+1", @"i"],
              kDataArr: dataArr.copy};
     

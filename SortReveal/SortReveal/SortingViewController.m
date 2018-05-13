@@ -412,7 +412,7 @@
     } else if (_sortType == SortTypeInsertion) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELInsertionSortCell.class) forIndexPath:indexPath];
     } else if (_sortType == SortTypeFast) {
-        
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELRepeatLinearCell.class) forIndexPath:indexPath];
     }
     
     cell.dataDict = _viewDataDictArr[indexPath.item];

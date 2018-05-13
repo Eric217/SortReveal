@@ -88,10 +88,10 @@
     return self;
 }
 
-///必须copyItems.不然修改了originDataArr内容，无法正确restart
+///必须是新构造的array，再retain一次原元素（不用copy items）
 - (void)initializeWithArray:(NSMutableArray *)array order:(SortOrder)order {
     self.sortOrder = order;
-    dataArr = [[NSMutableArray alloc] initWithArray:array copyItems:1];
+    dataArr = [[NSMutableArray alloc] initWithArray:array];
 }
 
 @end
