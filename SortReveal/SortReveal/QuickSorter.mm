@@ -16,7 +16,6 @@
 
 @property (assign) int justGrouped;  //!< 不用记录到 history
 
-@property (nonatomic, copy) NSMutableArray<NSMutableArray *> *stackArray;
 @property (nonatomic, copy) NSMutableArray<NSString *> *scopeStack;
 
 @end
@@ -61,8 +60,7 @@
         }
     }
     
-    [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(histV)}]; //10
-    [_stackArray addObject:toBeSavedStack];
+    [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(histV), kStackArr: toBeSavedStack}]; //10
     
     return [self shouldReturn:finished];
     
@@ -110,8 +108,7 @@
         self.currentJ++;
         return [self nextTurn:finished lastValues:values];
     }
-    [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(values)}]; //10
-    [_stackArray addObject:toBeSavedStack];
+    [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(values), kStackArr: toBeSavedStack}];
     
     return [self shouldReturn:finished];
 }
@@ -171,8 +168,7 @@
         
     }
     
-    [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(histV)}]; //10
-    [_stackArray addObject:toBeSavedStack];
+    [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(histV), kStackArr: toBeSavedStack}]; //10
     
     return [self shouldReturn:finished];
      
@@ -194,13 +190,13 @@
     NSDictionary *d = [historyArr lastObject];
     CGRect r = CGRectFromString(d[kHistoryPosition]);
     dataArr = d[kDataArr];
+    _scopeStack = d[kStackArr];
     [historyArr removeLastObject];
+    
     self.currentI = r.origin.x;
     self.currentJ = r.origin.y;
     self.whileI   = r.size.width;
     self.shouldSwap = r.size.height;
-    _scopeStack = _stackArray.lastObject;
-    [_stackArray removeLastObject];
 }
 
 - (NSString *)pivot {
@@ -216,8 +212,7 @@
     _justGrouped = 0;
     _scopeStack = [[NSMutableArray alloc] init];
     [_scopeStack addObject:NSStringFromCGPoint(CGPointMake(0, self.currentJ))];
-    _stackArray = [[NSMutableArray alloc] init];
-    [_stackArray addObject:_scopeStack];
+   
 }
 
 - (NSDictionary *)nextTurn:(BOOL *)finished lastValues:(ELVec4)values {
@@ -252,13 +247,9 @@
     }
     
     [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(values), kStackArr: toBeSavedStack}]; //10
-    [_stackArray addObject:toBeSavedStack];
 
     return [self shouldReturn:finished];
 }
-
-
-
 
 @end
 

@@ -83,8 +83,7 @@
 
 - (instancetype)init {
     self = [super init];
-    if (self && !historyArr)
-        historyArr = [[NSMutableArray alloc] init];
+    historyArr = [NSMutableArray new];
     return self;
 }
 

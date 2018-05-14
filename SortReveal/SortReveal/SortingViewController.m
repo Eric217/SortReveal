@@ -345,7 +345,6 @@
     [self initButtonState:arrSize != 1];
     
     if (arrSize != 0) {
-        
         [_viewDataDictArr addObject:[_sorter initialSortData]];
         _collectionEmptyView.text = @"";
     } else {
