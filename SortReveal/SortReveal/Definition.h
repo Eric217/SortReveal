@@ -21,6 +21,7 @@
 #define kTimeInterval @"dawfewaf"
 #define kFlowExecWay @"gresweqwqa"
 #define kNumericCompare @"NumericComeufgdsa"
+#define kPreferredHeap @"prefereedheeeap"
 #define kAutomaticOrderASD @"fegrwesadsase"
 #define kIgnoringCases @"imngfadsacxses"
 

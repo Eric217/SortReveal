@@ -55,9 +55,9 @@
     [_table registerClass:UITableViewHeaderFooterView.class forHeaderFooterViewReuseIdentifier:@"headerid"];
     [_table setRowHeight:50];
     
-    _array = @[@[@"跳过没有发生交换的步骤", @"如果当前步骤不会发生交换，则跳过并执行下一步"], //1+1
+    _array = @[@[@"跳过没有发生交换的步骤", @"如果当前步骤不会发生交换，则跳过并执行下一步(部分排序中有效)"], //1+1
                @[@"顺序执行时间间隔", @"顺序执行时单步或单组跳过", @"顺序执行设置"], //2+1
-               @[@"智能比较字母与数字", @"字符或字典排序时，使 Foo2 < Foo7 < Foo25"], //1+1
+               @[@"智能比较字母与数字", @"使用最小堆演示堆排序", @"字符或字典排序时，使 Foo2 < Foo7 < Foo25"], //2+1
                @[@"自动推断排序方式时升序", @"忽略字母大小写", @""], //2+1
              ];
     [Config postNotification:ELTextFieldShouldResignNotification message:0];
@@ -77,6 +77,10 @@
 
 - (void)didChangeNumericCompare:(UISwitch *)sender {
     [Config saveDouble:sender.isOn forKey:kNumericCompare];
+}
+
+- (void)didChangePreferredHeap:(UISwitch *)sender {
+    [Config saveDouble:sender.isOn forKey:kPreferredHeap];
 }
 
 - (void)didChangeAutomaticOrder:(UISwitch *)sender {
@@ -145,7 +149,8 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             int exew = [UserDefault stringForKey:kFlowExecWay].intValue;
             if (exew == ExecuteWayStep) {
-                cell.detailTextLabel.text = SingleStep;
+                
+                cell.detailTextLabel.text =  SingleStep;
             } else {
                 cell.detailTextLabel.text = GroupStep;
             }
@@ -153,7 +158,9 @@
         }
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
-            tableCell = [self switchCellWithAction:@selector(didChangeNumericCompare:) isOn:[NSUserDefaults.standardUserDefaults boolForKey:kNumericCompare]];
+            tableCell = [self switchCellWithAction:@selector(didChangeNumericCompare:) isOn:[UserDefault boolForKey:kNumericCompare]];
+        } else if (indexPath.row == 1) {
+            tableCell = [self switchCellWithAction:@selector(didChangePreferredHeap:) isOn:[UserDefault boolForKey:kPreferredHeap]];
         }
     } else if (indexPath.section == 3) {
         if (indexPath.row == 0) {
@@ -179,7 +186,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return 54;
+        return 66;
     }
     return 33;
 }

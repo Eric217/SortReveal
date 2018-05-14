@@ -58,7 +58,6 @@
 		0706F5FE2085E48B00A2753D /* UIView+funcs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+funcs.h"; sourceTree = "<group>"; };
 		0706F5FF2085E48B00A2753D /* UIView+funcs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+funcs.m"; sourceTree = "<group>"; };
 		0706F6012086189800A2753D /* ELCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELCollectionCell.h; sourceTree = "<group>"; };
-		070A01DC20A8485C009D465A /* LinkedStack.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LinkedStack.hpp; sourceTree = "<group>"; };
 		070EA1162086568F002B84E2 /* ELTreeUnitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELTreeUnitCell.m; sourceTree = "<group>"; };
 		071D3773208EDB9900E59AA7 /* SelectFlowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectFlowController.h; sourceTree = "<group>"; };
 		071D3774208EDB9900E59AA7 /* SelectFlowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectFlowController.m; sourceTree = "<group>"; };
@@ -231,7 +230,6 @@
 		0730044720A0974B003ABAD8 /* TreeSorter */ = {
 			isa = PBXGroup;
 			children = (
-				070A01DC20A8485C009D465A /* LinkedStack.hpp */,
 				07B68D1F209B3FB9004CF5C1 /* HeapSorter.h */,
 				077A40972084CA3500D887FB /* HeapSorter.m */,
 			);
