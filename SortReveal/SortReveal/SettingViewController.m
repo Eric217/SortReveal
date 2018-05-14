@@ -80,7 +80,7 @@
 }
 
 - (void)didChangePreferredHeap:(UISwitch *)sender {
-    [Config saveDouble:sender.isOn forKey:kPreferredHeap];
+    [Config saveDouble:sender.isOn forKey:kPreferMinHeap];
 }
 
 - (void)didChangeAutomaticOrder:(UISwitch *)sender {
@@ -160,7 +160,7 @@
         if (indexPath.row == 0) {
             tableCell = [self switchCellWithAction:@selector(didChangeNumericCompare:) isOn:[UserDefault boolForKey:kNumericCompare]];
         } else if (indexPath.row == 1) {
-            tableCell = [self switchCellWithAction:@selector(didChangePreferredHeap:) isOn:[UserDefault boolForKey:kPreferredHeap]];
+            tableCell = [self switchCellWithAction:@selector(didChangePreferredHeap:) isOn:[UserDefault boolForKey:kPreferMinHeap]];
         }
     } else if (indexPath.section == 3) {
         if (indexPath.row == 0) {

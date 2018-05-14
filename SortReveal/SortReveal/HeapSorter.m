@@ -176,6 +176,14 @@
 }
 
 
+- (bool)compareElement_a:(NSString *)x b:(NSString *)y {
+    bool b = [super compareElement_a:x b:y];
+    if (!(self.sortOrder % 10)) {
+        return [UserDefault boolForKey:kPreferMinHeap] ? !b : b;
+    }
+    return b;
+}
+
 @end
 
 

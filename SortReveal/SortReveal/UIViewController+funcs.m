@@ -66,7 +66,7 @@
 }
 
 - (bool)isFloatingOrThirth {
-    if (!IPAD) {
+    if (IPHONE) {
         return [self isPortrait];
     } else {
         return (ScreenW/2 - self.view.bounds.size.width) > Delta;
@@ -74,14 +74,14 @@
 }
 
 - (bool)isHalfIpad {
-    if (!IPAD) {
+    if (IPHONE) {
         return 0;
     }
     return fabs(ScreenW/2 - self.view.bounds.size.width) < Delta;
 }
 
 - (bool)isTwoThirth {
-    if (!IPAD) {
+    if (IPHONE) {
         return 0;
     }
     CGFloat sw = ScreenW, vw = self.view.bounds.size.width;
@@ -93,7 +93,7 @@
 }
 
 - (bool)canPullHideLeft {
-    if (!IPAD)
+    if (IPHONE)
         return 0;
     if ([self isPortrait])
         return [self isFullScreen];
@@ -107,7 +107,7 @@
 }
 
 - (bool)canShowBoth {
-    if (!IPAD)
+    if (IPHONE)
         return IPHONE6P;
     return (![self isPortrait] && [self isFullScreen]) || (IPADPro && [self isTwoThirth]);
 }
@@ -126,8 +126,7 @@
 //    } else if ([self canShowBoth]) {
 //        return ScreenModeCanShowBoth;
 //    }
-    
-    
+     
     return 0;
 }
 

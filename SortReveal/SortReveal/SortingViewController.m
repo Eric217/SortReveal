@@ -257,7 +257,6 @@
     [_viewDataDictArr removeLastObject];
     NSIndexPath *idx = [Config idxPath:len-1];
     [_collection deleteItemsAtIndexPaths:@[idx]];
-    [_collection scrollToItemAtIndexPath:[idx indexPathByRemovingLastIndex]  atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:1];
     [self setEnabled:1];
     if (len < 3) {
         [_lastStepButton setEnabled:0];
