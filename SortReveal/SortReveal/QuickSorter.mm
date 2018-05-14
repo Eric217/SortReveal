@@ -26,70 +26,39 @@
 - (NSDictionary *)nextRow:(BOOL *)finished {
     
     ELVec4 histV = CGRectMake(self.currentI, self.currentJ, _whileI, _shouldSwap);
-    //int len = (int)(dataArr.count);
+   
     NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
     NSMutableArray *toBeSavedStack = [[NSMutableArray alloc] initWithArray:_scopeStack];
     
     if (_whileI) {
         
         if (_shouldSwap) {
-            if (self.currentJ <= self.currentI) {
-                NSString *t = [self pivot];
-                CGPoint p = CGPointFromString(_scopeStack.lastObject);
-                dataArr[int(p.x)] = dataArr[self.currentJ];
-                dataArr[self.currentJ] = t;
-                [_scopeStack removeLastObject];
-                if (self.currentJ+1 < p.y-1)
-                    [_scopeStack addObject:NSStringFromCGPoint(CGPointMake(self.currentJ+1, p.y))];
-                if (p.x < self.currentJ-1)
-                    [_scopeStack addObject:NSStringFromCGPoint(CGPointMake(p.x, self.currentJ))];
-                if (_scopeStack.count == 0) {
-                    *finished = 1;
-                } else {
-                    p = CGPointFromString(_scopeStack.lastObject);
-                    _justGrouped = self.currentJ;
-                    self.currentI = int(p.x);
-                    self.currentJ = int(p.y);
-                }
-                
-            } else {
-                [self swap_a:self.currentJ b:self.currentI];
-            }
-            _shouldSwap = 0;
+            [self shouldSwap:finished];
         } else {
             int stackTopJ = [self stackTop].y;
-            
             do {
                 self.currentI++;
-                
             } while (self.currentI != stackTopJ && [self compareElement_a:[self pivot] b:dataArr[self.currentI]]);
             
             _whileI = 0;
             if (self.currentI == stackTopJ) {
                 self.currentI--;
                 return [self nextRow:finished lastValues:histV];
-            } 
-            
+            }
         }
     
     } else { //While J
         int stackBottomI = [self stackTop].x-1;
-        
         do {
             self.currentJ--;
-            
         } while (self.currentJ != stackBottomI && ![self compareElement_a:[self pivot] b:dataArr[self.currentJ]]);
         
+        _whileI = 1;
+        _shouldSwap = 1;
         if (self.currentJ == stackBottomI) {
             self.currentJ++;
-            _whileI = 1;
-            _shouldSwap = 1;
             return [self nextTurn:finished lastValues:histV];
-        } else {
-            _whileI = 1;
-            _shouldSwap = 1;
         }
-        
     }
     
     [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(histV)}]; //10
@@ -113,35 +82,55 @@
     
 }
 
+- (void)shouldSwap:(BOOL *)finished {
+    if (self.currentJ <= self.currentI) {
+        NSString *t = [self pivot];
+        CGPoint p = CGPointFromString(_scopeStack.lastObject);
+        dataArr[int(p.x)] = dataArr[self.currentJ];
+        dataArr[self.currentJ] = t;
+        [_scopeStack removeLastObject];
+        if (self.currentJ+1 < p.y-1)
+            [_scopeStack addObject:NSStringFromCGPoint(CGPointMake(self.currentJ+1, p.y))];
+        if (p.x < self.currentJ-1)
+            [_scopeStack addObject:NSStringFromCGPoint(CGPointMake(p.x, self.currentJ))];
+        if (_scopeStack.count == 0) {
+            *finished = 1;
+        } else {
+            p = CGPointFromString(_scopeStack.lastObject);
+            _justGrouped = self.currentJ;
+            self.currentI = int(p.x);
+            self.currentJ = int(p.y);
+        }
+        
+    } else {
+        [self swap_a:self.currentJ b:self.currentI];
+    }
+    _shouldSwap = 0;
+}
+
 - (NSDictionary *)nextRow:(BOOL *)finished lastValues:(CGRect)values {
     
     NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
     NSMutableArray *toBeSavedStack = [[NSMutableArray alloc] initWithArray:_scopeStack];
     
-    
-    if (1) { //While J
-        int stackBottomI = [self stackTop].x-1;
+    int stackBottomI = [self stackTop].x-1;
+    do {
+        self.currentJ--;
         
-        do {
-            self.currentJ--;
-            
-        } while (self.currentJ != stackBottomI && ![self compareElement_a:[self pivot] b:dataArr[self.currentJ]]);
-        
-        if (self.currentJ == stackBottomI) {
-            self.currentJ++;
-            _whileI = 1;
-            _shouldSwap = 1;
-            return [self nextTurn:finished lastValues:values];
-        } else {
-            _whileI = 1;
-            _shouldSwap = 1;
-        }
-        
+    } while (self.currentJ != stackBottomI && ![self compareElement_a:[self pivot] b:dataArr[self.currentJ]]);
+    _whileI = 1;
+    _shouldSwap = 1;
+    if (self.currentJ == stackBottomI) {
+        self.currentJ++;
+        return [self nextTurn:finished lastValues:values];
     }
-    
     [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(values)}]; //10
     [_stackArray addObject:toBeSavedStack];
     
+    return [self shouldReturn:finished];
+}
+
+- (NSDictionary *)shouldReturn:(BOOL *)finished {
     NSArray *data = dataArr.copy;
     if (*finished) {
         return @{kDataArr: data};
@@ -157,7 +146,6 @@
             return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"], kColorArr: @[colors]};
         return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"]};
     }
-    
 }
 
 - (NSDictionary *)nextTurn:(BOOL *)finished {
@@ -170,29 +158,7 @@
     if (_whileI) {
         
         if (_shouldSwap) {
-            if (self.currentJ <= self.currentI) {
-                NSString *t = [self pivot];
-                CGPoint p = CGPointFromString(_scopeStack.lastObject);
-                dataArr[int(p.x)] = dataArr[self.currentJ];
-                dataArr[self.currentJ] = t;
-                [_scopeStack removeLastObject];
-                if (self.currentJ+1 < p.y-1)
-                    [_scopeStack addObject:NSStringFromCGPoint(CGPointMake(self.currentJ+1, p.y))];
-                if (p.x < self.currentJ-1)
-                    [_scopeStack addObject:NSStringFromCGPoint(CGPointMake(p.x, self.currentJ))];
-                if (_scopeStack.count == 0) {
-                    *finished = 1;
-                } else {
-                    p = CGPointFromString(_scopeStack.lastObject);
-                    _justGrouped = self.currentJ;
-                    self.currentI = int(p.x);
-                    self.currentJ = int(p.y);
-                }
-                
-            } else {
-                [self swap_a:self.currentJ b:self.currentI];
-            }
-            _shouldSwap = 0;
+            [self shouldSwap:finished];
         } else {
             ++self.currentI;
             if (self.currentI == [self stackTop].y) {
@@ -237,8 +203,7 @@
             return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"], kColorArr: @[colors]};
         return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"]};
     }
-    
-    
+     
 }
 
 - (CGPoint)stackTop {

@@ -28,6 +28,7 @@
 
 //MARK: - display cell data source
 #define kDataArr @"dataArr"
+#define kStackArr @"stacjearr"
 #define kColorArr @"colorArr"
 #define kPositionArr @"positionsArr"
 #define kTitleArr @"titleArray"
