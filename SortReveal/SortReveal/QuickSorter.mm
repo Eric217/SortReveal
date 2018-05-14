@@ -64,21 +64,7 @@
     [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(histV)}]; //10
     [_stackArray addObject:toBeSavedStack];
     
-    NSArray *data = dataArr.copy;
-    if (*finished) {
-        return @{kDataArr: data};
-    } else {
-        NSString *num0 = [NSString stringWithFormat:@"%d", self.currentI];
-        NSString *num1 = [NSString stringWithFormat:@"%d", self.currentJ];
-        NSString *colors;
-        if (_justGrouped) {
-            colors = [NSString stringWithFormat:@"%d", _justGrouped];
-            _justGrouped = 0;
-        }
-        if (colors)
-            return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"], kColorArr: @[colors]};
-        return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"]};
-    }
+    return [self shouldReturn:finished];
     
 }
 
@@ -188,21 +174,7 @@
     [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(histV)}]; //10
     [_stackArray addObject:toBeSavedStack];
     
-    NSArray *data = dataArr.copy;
-    if (*finished) {
-        return @{kDataArr: data};
-    } else {
-        NSString *num0 = [NSString stringWithFormat:@"%d", self.currentI];
-        NSString *num1 = [NSString stringWithFormat:@"%d", self.currentJ];
-        NSString *colors;
-        if (_justGrouped) {
-            colors = [NSString stringWithFormat:@"%d", _justGrouped];
-            _justGrouped = 0;
-        }
-        if (colors)
-            return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"], kColorArr: @[colors]};
-        return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"]};
-    }
+    return [self shouldReturn:finished];
      
 }
 
@@ -249,37 +221,13 @@
 }
 
 - (NSDictionary *)nextTurn:(BOOL *)finished lastValues:(ELVec4)values {
-    
-    
     NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
     NSMutableArray *toBeSavedStack = [[NSMutableArray alloc] initWithArray:_scopeStack];
 
     if (_whileI) {
         
         if (_shouldSwap) {
-            if (self.currentJ <= self.currentI) {
-                NSString *t = [self pivot];
-                CGPoint p = CGPointFromString(_scopeStack.lastObject);
-                dataArr[int(p.x)] = dataArr[self.currentJ];
-                dataArr[self.currentJ] = t;
-                [_scopeStack removeLastObject];
-                if (self.currentJ+1 < p.y-1)
-                    [_scopeStack addObject:NSStringFromCGPoint(CGPointMake(self.currentJ+1, p.y))];
-                if (p.x < self.currentJ-1)
-                    [_scopeStack addObject:NSStringFromCGPoint(CGPointMake(p.x, self.currentJ))];
-                if (_scopeStack.count == 0) {
-                    *finished = 1;
-                } else {
-                    p = CGPointFromString(_scopeStack.lastObject);
-                    _justGrouped = self.currentJ;
-                    self.currentI = int(p.x);
-                    self.currentJ = int(p.y);
-                }
-                
-            } else {
-                [self swap_a:self.currentJ b:self.currentI];
-            }
-            _shouldSwap = 0;
+            [self shouldSwap:finished];
         } else {
             ++self.currentI;
             if (self.currentI == [self stackTop].y) { //not exec.
@@ -291,8 +239,7 @@
             }
         }
         
-    } else { //While J
-        
+    } else {
         --self.currentJ;
         if (self.currentJ == [self stackTop].x-1) { //not exec.
             self.currentJ++;_whileI = 1;_shouldSwap = 1;
@@ -302,28 +249,12 @@
             _whileI = 1;
             _shouldSwap = 1;
         }
-        
     }
     
-    [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(values)}]; //10
+    [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGRect(values), kStackArr: toBeSavedStack}]; //10
     [_stackArray addObject:toBeSavedStack];
 
-    NSArray *data = dataArr.copy;
-    if (*finished) {
-        return @{kDataArr: data};
-    } else {
-        NSString *num0 = [NSString stringWithFormat:@"%d", self.currentI];
-        NSString *num1 = [NSString stringWithFormat:@"%d", self.currentJ];
-        NSString *colors;
-        if (_justGrouped) {
-            colors = [NSString stringWithFormat:@"%d", _justGrouped];
-            _justGrouped = 0;
-        }
-        if (colors)
-            return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"], kColorArr: @[colors]};
-        return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"]};
-    }
-    
+    return [self shouldReturn:finished];
 }
 
 
