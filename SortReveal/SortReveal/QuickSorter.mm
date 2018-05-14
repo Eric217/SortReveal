@@ -19,22 +19,16 @@
 @property (assign) LinkedStack<ELPoint> scopeStack;
 
 @end
-
-
+ 
 @implementation QuickSorter
 
 - (NSDictionary *)nextTurn:(BOOL *)finished {
- 
-    int i = self.currentI, j = self.currentJ; //1
-    int len = (int)(dataArr.count);
+    
+    int i = self.currentI, j = self.currentJ;
+    //int len = (int)(dataArr.count);
     NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
     
-    if (len == 2) { //1.1
-        if ([self compareAtIndex_a:0 b:1]) {
-            [self swap_a:0 b:1];
-        }
-        *finished = 1;
-    } else if (_whileI) {
+    if (_whileI) {
         
         if (_shouldSwap) {
             if (self.currentJ <= self.currentI) {
@@ -47,7 +41,6 @@
                     _scopeStack.push({self.currentJ+1, p.j});
                 if (p.i < self.currentJ-1)
                     _scopeStack.push({p.i, self.currentJ});
-                
                 if (_scopeStack.empty()) {
                     *finished = 1;
                 } else {
@@ -56,7 +49,6 @@
                     self.currentI = p.i;
                     self.currentJ = p.j;
                 }
-                
                 
             } else {
                 [self swap_a:self.currentJ b:self.currentI];
@@ -87,7 +79,7 @@
     }
     
     [historyArr addObject:@{kDataArr: toBeSavedArray, kHistoryPosition: NSStringFromCGPoint(CGPointMake(i, j))}]; //10
-
+    
     NSArray *data = dataArr.copy;
     if (*finished) {
         return @{kDataArr: data};
@@ -104,7 +96,7 @@
         }
         return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"]};
     }
- 
+    
 }
 
 - (NSDictionary *)nextRow:(BOOL *)finished {
@@ -119,15 +111,12 @@
     return @{kDataArr: dataArr.copy, kTitleArr: @[@"i", @"j"],
              kPositionArr: @[@"0", [NSString stringWithFormat:@"%d", c]]};
 }
- 
+
 - (void)lastStep {
     
 }
 
 - (NSString *)pivot {
-//    if (historyArr.count > 0) {
-//        return historyArr[0][kDataArr][_scopeStack.Top().i];
-//    }
     return dataArr[_scopeStack.Top().i];
 }
 
@@ -140,8 +129,8 @@
     _justGrouped = 0;
     _scopeStack = LinkedStack<ELPoint>();
     _scopeStack.push({0 , self.currentJ});
-  
 }
 
 
 @end
+
