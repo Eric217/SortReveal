@@ -13,6 +13,7 @@
 #import "UIViewController+funcs.h"
 #import "UIImage+operations.h"
 #import "SettingViewController.h"
+#import "UIButton+init.h"
 #import "Sorters.h"
 #import "Cells.h"
 
@@ -87,7 +88,9 @@
     [_fullScreenButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
     [_fullScreenButton setImage:[UIImage backImage] forState:UIControlStateNormal];
     [_fullScreenButton addTarget:self action:@selector(setFullScreenDisplay:) forControlEvents:UIControlEventTouchUpInside];
+    _fullScreenButton = [UIButton customBackBarButtonItemWithTitle:@"全屏演示" target:self action:@selector(setFullScreenDisplay:)];
     _fullScreenItem = [[UIBarButtonItem alloc] initWithCustomView:_fullScreenButton];
+    
     //if (IPAD)
     //   self.navigationItem.leftBarButtonItems = @[self.splitViewController.displayModeButtonItem];
     

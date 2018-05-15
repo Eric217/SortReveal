@@ -11,15 +11,14 @@
 
 @implementation UIButton (init)
 
-+ (UIBarButtonItem *)customBackBarButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)selec {
++ (UIButton *)customBackBarButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)selec {
     UIButton *_backButton = [[UIButton alloc] init];
     [_backButton setContentEdgeInsets:UIEdgeInsetsMake(0, -12, 0, 20)];
     [_backButton setTitle:title forState:UIControlStateNormal];
     [_backButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    [_backButton.titleLabel setFont:[UIFont systemFontOfSize:18]];
     [_backButton setImage:[UIImage backImage] forState:UIControlStateNormal];
     [_backButton addTarget:target action:selec forControlEvents:UIControlEventTouchUpInside];
-    return [[UIBarButtonItem alloc] initWithCustomView:_backButton];
+    return _backButton;
 }
 ///可空的有默认值，fontSize为0被视为空
 + (UIButton *)buttonWithTitle:(nonnull NSString *)title fontSize:(CGFloat)fs textColor:(nullable UIColor *)color target:(nonnull id)tar action:(nonnull SEL)act image:(nullable UIImage *)image {

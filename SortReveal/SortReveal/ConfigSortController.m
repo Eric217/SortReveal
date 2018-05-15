@@ -90,17 +90,18 @@
     [super viewDidLoad];
    
     UIImage *img = [UIImage pushImage];
-
-    //navigation item title
     self.navigationItem.title = @"配置排序";
-
+    
     //left back item
-    UIBarButtonItem *backItem = [UIButton customBackBarButtonItemWithTitle:@"返回" target:self action:@selector(dismiss:)];
-    bool oldDevice = [UIDevice currentDevice].systemVersion.doubleValue < 9 || IPHONE4;
+   
+    UIButton * _backButton = [UIButton customBackBarButtonItemWithTitle:@"返回" target:self action:@selector(dismiss:)];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:_backButton];
+    
+    bool oldDevice = SystemVersion < 9 || IPHONE4;
     self.navigationItem.leftBarButtonItems = oldDevice ? @[[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(dismiss:)]] : @[backItem];
 
     //right resume item
-    UIButton *butt = [UIButton buttonWithTitle:@"继续演示" fontSize:18 textColor:UIColor.blackColor target:self action:@selector(resumeDisplay:) image:img];
+    UIButton *butt = [UIButton buttonWithTitle:@"继续演示" fontSize:17 textColor:UIColor.blackColor target:self action:@selector(resumeDisplay:) image:img];
     [butt setTitleEdgeInsets:UIEdgeInsetsMake(0, -30, 0, 0)];
     [butt setImageEdgeInsets:UIEdgeInsetsMake(0, 75, 0, 0)];
     [butt setContentEdgeInsets:UIEdgeInsetsMake(0, 10, 0, -10)];

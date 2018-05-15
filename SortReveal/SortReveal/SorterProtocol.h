@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Common.h"
 
-///想排序 必须遵循的接口
+///排序类 必须遵循的接口
 @protocol Sorter <NSObject>
 @optional
 

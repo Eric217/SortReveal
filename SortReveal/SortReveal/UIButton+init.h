@@ -13,7 +13,7 @@
 
 @interface UIButton (init)
 
-+ (UIBarButtonItem *)customBackBarButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)selec;
++ (UIButton *)customBackBarButtonItemWithTitle:(NSString *)title target:(id)target action:(SEL)selec;
 
 + (UIButton *)buttonWithTitle:(nonnull NSString *)title fontSize:(CGFloat)fs textColor:(nullable UIColor *)color target:(nonnull id)tar action:(nonnull SEL)act image:(nullable UIImage *)image;
 

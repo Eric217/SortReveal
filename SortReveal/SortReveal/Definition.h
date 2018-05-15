@@ -21,10 +21,12 @@
 #define IPhoneX  (ScreenH == 812  || ScreenW == 812 )
 #define IPADPro  (ScreenH == 1366 || ScreenW == 1366)
 
-#define UserDefault  NSUserDefaults.standardUserDefaults
-#define systemBlue   [UIColor colorWithRed:0 green:111.0/255 blue:1 alpha:1]
-#define IPAD         (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
-#define IPHONE       (!IPAD)
+#define UserDefault   NSUserDefaults.standardUserDefaults
+#define systemBlue    [UIColor colorWithRed:0 green:111.0/255 blue:1 alpha:1]
+#define IPAD (UIDevice.currentDevice.userInterfaceIdiom==UIUserInterfaceIdiomPad)
+#define IPHONE        (!IPAD)
+#define SystemVersion [UIDevice currentDevice].systemVersion.doubleValue
+
 
 // FUNC - Common And Simple
 #define DISPATCH_AT_ONCE(block) dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ block(); })

@@ -22,7 +22,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        _textField = [[UITextField alloc] init];
+        _textField = [UITextField new];
         [self.contentView addSubview:_textField];
         UILabel *l = [[UILabel alloc] init];
         [l setText:@"秒"];
