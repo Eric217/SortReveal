@@ -42,7 +42,7 @@
         for (int k = 0; k < t; k++) {
             [data addObject:_turnArray[_turnArray.count-1][k]];
         }
-        NSString *num1 = [NSString stringWithFormat:@"%d", self.currentJ];
+        NSString *num1 = String(self.currentJ);
         //TODO: - color
         NSString *comming = historyArr[0][kDataArr][t];
         return @{kDataArr: data, kPositionArr: @[num1], kTitleArr: @[@"j"], kCommingText: comming};
@@ -92,7 +92,7 @@
         for (int k = 0; k < t; k++) {
             [data addObject:_turnArray[_turnArray.count-1][k]];
         }
-        NSString *num1 = [NSString stringWithFormat:@"%d", self.currentJ];
+        NSString *num1 = String(self.currentJ);
         //TODO: - color
         NSString *comming = historyArr[0][kDataArr][t];
         return @{kDataArr: data, kPositionArr: @[num1], kTitleArr: @[@"j"], kCommingText: comming};

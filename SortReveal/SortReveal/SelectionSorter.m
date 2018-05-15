@@ -46,8 +46,8 @@
     if (*finished) {//8
         return @{kDataArr: data};
     } else {//9
-        NSString *num0 = [NSString stringWithFormat:@"%d", self.currentI];
-        NSString *num1 = [NSString stringWithFormat:@"%d", self.currentJ];
+        NSString *num0 = String(self.currentI);
+        NSString *num1 = String(self.currentJ);
         //TODO: - color
         return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"]};
     }
@@ -81,8 +81,8 @@
     if (*finished) {
         return @{kDataArr: data};
     } else {
-        NSString *num0 = [NSString stringWithFormat:@"%d", self.currentI];
-        NSString *num1 = [NSString stringWithFormat:@"%d", self.currentJ];
+        NSString *num0 = String(self.currentI);
+        NSString *num1 = String(self.currentJ);
  
         return @{kDataArr: data, kPositionArr: @[num0, num1], kTitleArr: @[@"i", @"j"]};
     }

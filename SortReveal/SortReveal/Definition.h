@@ -9,39 +9,8 @@
 #ifndef Definition_h
 #define Definition_h
 
-//MARK: - PROJECT
-
-#define kSkipNullStep       @"skip n ull"
-#define kTimeInterval       @"dawfew a f"
-#define kFlowExecWay        @"greswe qqa"
-#define kNumericCompare     @"Numsfg dsa"
-#define kPreferMinHeap      @"prefd heap"
-#define kAutomaticOrderASD  @"fegad sase"
-#define kIgnoringCases      @"imng fades"
-
-#define kDataArr            @"da  a Arr"
-#define kStackArr           @"stacjearr"
-#define kColorArr           @"col orArr"
-#define kPositionArr        @"posinsArr"
-#define kTitleArr           @"tisdArray"
-#define kCommingText        @"wsgfws ew"
-#define kHistoryPosition    @"grsaereed"
-
-#define kSortOrder          @"sort_Type"
-#define kSortType           @"sortOrder"
-#define SortNameFile        @"SortNames.plist"
-#define SortOrderFile       @"SortOrder.plist"
-#define SingleStep          @"单步执行"
-#define GroupStep           @"单组跳过"
-
-#define UnitSizeDefault     44
-#define TreeFontDefault     24
-#define SepaWidth           1.52*UnitSize
-#define LineWidth           2
-#define UnderTreeH          68*UnitSize/UnitSizeDefault
-
 //MARK: - COMMON
- 
+
 #define ScreenW UIScreen.mainScreen.bounds.size.width
 #define ScreenH UIScreen.mainScreen.bounds.size.height
 
@@ -57,8 +26,50 @@
 #define IPAD         (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
 #define IPHONE       (!IPAD)
 
-//MARK: - funcs
+// FUNC - Common And Simple
 #define DISPATCH_AT_ONCE(block) dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ block(); })
+#define String(Int) [NSString stringWithFormat:@"%d", Int]
+#define IndexPath_Sec0(Item) [NSIndexPath indexPathForItem:Item inSection:0]
+#define IndexPath(Item, Section) [NSIndexPath indexPathForItem:Item inSection:Section]
+
+
+
+
+//MARK: - PROJECT
+
+#define kSkipNullStep       @"skip n ull"
+#define kTimeInterval       @"dawfew a f"
+#define kFlowExecWay        @"greswe qqa"
+#define kNumericCompare     @"Numsfg dsa"
+#define kPreferMinHeap      @"prefd heap"
+#define kAutomaticOrderASD  @"fegad sase"
+#define kIgnoringCases      @"imng fades"
+
+#define kDataArr            @"da  a A rr"
+#define kStackArr           @"sta cjearr"
+#define kColorArr           @"col  orArr"
+#define kPositionArr        @"pos insArr"
+#define kTitleArr           @"tis dArray"
+#define kCommingText        @"wsg fws ew"
+#define kHistoryPosition    @"grs aereed"
+
+#define kSortOrder          @"sort__Type"
+#define kSortType           @"sort_Order"
+#define SortNameFile        @"SortNames.plist"
+#define SortOrderFile       @"SortOrder.plist"
+#define SingleStep          @"单步执行"
+#define GroupStep           @"单组跳过"
+
+#define UnitSizeDefault     44
+#define TreeFontDefault     24
+#define LineWidth           2
+//Dependent
+#define SepaWidth           1.52*UnitSize
+#define UnderTreeH          68*UnitSize/UnitSizeDefault
+
+
+
+
 
 //MARK: - enum and options
 typedef NS_ENUM(NSUInteger, SortType) {

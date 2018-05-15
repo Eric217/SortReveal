@@ -53,9 +53,9 @@
         NSDictionary *d = @{kDataArr: data};
         return d;
     } else {//9
-        NSString *num0 = [NSString stringWithFormat:@"%d", self.currentJ];
-        NSString *num1 = [NSString stringWithFormat:@"%d", self.currentJ+1];
-        NSString *numI = [NSString stringWithFormat:@"%d", self.currentI];
+        NSString *num0 = String(self.currentJ);
+        NSString *num1 = String(self.currentJ+1);
+        NSString *numI = String(self.currentI);
         //TODO: - color
         //NSArray *color = [NSArray arrayWithObjects:NSString stri UIColor.blackColor count:1];
         return @{kDataArr: data, kPositionArr: @[num0, num1, numI], kTitleArr: @[@"j", @"j+1", @"i"]};
@@ -89,9 +89,9 @@
     if (*finished) {
         return @{kDataArr: data};
     } else {
-        NSString *num0 = [NSString stringWithFormat:@"%d", self.currentJ];
-        NSString *num1 = [NSString stringWithFormat:@"%d", self.currentJ+1];
-        NSString *numI = [NSString stringWithFormat:@"%d", self.currentI];
+        NSString *num0 = String(self.currentJ);
+        NSString *num1 = String(self.currentJ+1);
+        NSString *numI = String(self.currentI);
         //TODO: - color
         return @{kDataArr: data, kPositionArr: @[num0, num1, numI], kTitleArr: @[@"j", @"j+1", @"i"]};
     }
@@ -119,7 +119,7 @@
     if (c == 1) {
         return @{kDataArr: dataArr.copy};
     }
-    return @{kPositionArr: @[@"0", @"1", [NSString stringWithFormat:@"%d", c]],
+    return @{kPositionArr: @[@"0", @"1", String(c)],
              kTitleArr: @[@"j", @"j+1", @"i"],
              kDataArr: dataArr.copy};
     

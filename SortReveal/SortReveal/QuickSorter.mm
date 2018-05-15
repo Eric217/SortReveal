@@ -69,7 +69,7 @@
 - (void)shouldSwap:(BOOL *)finished {
     if (self.currentJ <= self.currentI) {
         NSString *t = [self pivot];
-        CGPoint p = CGPointFromString(_scopeStack.lastObject);
+        CGPoint p = [self stackTop];
         dataArr[int(p.x)] = dataArr[self.currentJ];
         dataArr[self.currentJ] = t;
         [_scopeStack removeLastObject];
@@ -80,7 +80,7 @@
         if (_scopeStack.count == 0) {
             *finished = 1;
         } else {
-            p = CGPointFromString(_scopeStack.lastObject);
+            p = [self stackTop];
             _justGrouped = self.currentJ;
             self.currentI = int(p.x);
             self.currentJ = int(p.y);
@@ -118,11 +118,11 @@
     if (*finished) {
         return @{kDataArr: data};
     } else {
-        NSString *num0 = [NSString stringWithFormat:@"%d", self.currentI];
-        NSString *num1 = [NSString stringWithFormat:@"%d", self.currentJ];
+        NSString *num0 = String(self.currentI);
+        NSString *num1 = String(self.currentJ);
         NSString *colors;
         if (_justGrouped) {
-            colors = [NSString stringWithFormat:@"%d", _justGrouped];
+            colors = String(_justGrouped);
             _justGrouped = 0;
         }
         if (colors)
@@ -183,7 +183,7 @@
     if (c == 1)
         return @{kDataArr: dataArr.copy};
     return @{kDataArr: dataArr.copy, kTitleArr: @[@"i", @"j"],
-             kPositionArr: @[@"0", [NSString stringWithFormat:@"%d", c]]};
+             kPositionArr: @[@"0", String(c)]};
 }
 
 - (void)lastStep {

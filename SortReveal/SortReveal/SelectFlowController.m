@@ -37,7 +37,7 @@
  
     [self.table registerClass:UITableViewCell.class forCellReuseIdentifier:NSStringFromClass(UITableViewCell.class)];
     [self.table setRowHeight:50];
-    _dataArr = @[[NSString stringWithFormat:@"%d", (uint)ExecuteWayStep], [NSString stringWithFormat:@"%d", (uint)ExecuteWayGroup]];
+    _dataArr = @[String((int)ExecuteWayStep), String((int)ExecuteWayGroup)];
   
 }
 

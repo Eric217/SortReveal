@@ -255,7 +255,7 @@
     }
     [_sorter lastStep];
     [_viewDataDictArr removeLastObject];
-    NSIndexPath *idx = [Config idxPath:len-1];
+    NSIndexPath *idx = IndexPath_Sec0(len-1);
     [_collection deleteItemsAtIndexPaths:@[idx]];
     [self setEnabled:1];
     if (len < 3) {
@@ -373,7 +373,7 @@
 - (void)nextSlide:(NSDictionary *)dict finished:(BOOL)finished {
     if (dict) {
         [_viewDataDictArr addObject:dict];
-        NSIndexPath *idx = [Config idxPath:_viewDataDictArr.count-1];
+        NSIndexPath *idx = IndexPath_Sec0(_viewDataDictArr.count-1);
         [_collection insertItemsAtIndexPaths:@[idx]];
         [_collection scrollToItemAtIndexPath:[idx indexPathByAddingIndex:1] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:1];
         [_lastStepButton setEnabled:1];

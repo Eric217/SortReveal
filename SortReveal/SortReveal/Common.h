@@ -17,7 +17,6 @@ UIKIT_EXTERN NSNotificationName const ELTextFieldShouldResignNotification;
 
 UIKIT_EXTERN CGFloat UnitSize;
 UIKIT_EXTERN CGFloat TreeFont;
-
  
 //MARK: - common and useful funcs
 ///Config provides common tools
@@ -35,10 +34,7 @@ UIKIT_EXTERN CGFloat TreeFont;
 + (void)addObserver:(id)target selector:(SEL)func notiName:(NSNotificationName)name;
 + (void)postNotification:(NSNotificationName)name message:(NSDictionary *)info;
 + (void)removeObserver:(id)obj;
-
-+ (NSIndexPath *)idxPath:(NSInteger)item;
-+ (NSIndexPath *)idxPathS:(NSInteger)section item:(NSInteger)item;
-
+ 
 + (NSString *)documentPath;
 + (NSArray *)getArrayDataFromFile:(NSString *)name;
 + (void)writeArrayToFile:(NSString *)file data:(NSArray *)arr;

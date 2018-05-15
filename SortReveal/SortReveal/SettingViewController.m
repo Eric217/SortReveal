@@ -232,7 +232,7 @@
 }
 
 - (void)transferData:(id)data {
-    UITableViewCell *cell = [_table cellForRowAtIndexPath:[Config idxPathS:1 item:1]];
+    UITableViewCell *cell = [_table cellForRowAtIndexPath:IndexPath(1, 1)];
     NSString *r;
     if (((NSString *)data).intValue == ExecuteWayStep) {
         r = SingleStep;

@@ -34,13 +34,8 @@
 - (void)setCenterY:(CGFloat)y;
 
 
-- (CGFloat)maxX;
-
-- (CGFloat)minX;
-
-- (CGFloat)maxY;
-
-- (CGFloat)minY;
+- (CGFloat)x_right;
+- (CGFloat)y_bottom;
 
  
 @end

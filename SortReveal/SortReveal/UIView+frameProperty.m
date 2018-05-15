@@ -58,20 +58,12 @@
     self.center = CGPointMake(self.center.x, y);
 }
 
-- (CGFloat)maxX{
+- (CGFloat)x_right{
     return self.x + self.width;
 }
 
-- (CGFloat)minX{
-    return self.x;
-}
-
-- (CGFloat)maxY{
+- (CGFloat)y_bottom{
     return self.y + self.height;
-}
-
-- (CGFloat)minY{
-    return self.y;
 }
 
 @end

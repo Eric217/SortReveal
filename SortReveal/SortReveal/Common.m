@@ -9,7 +9,7 @@
 #import "Common.h"
 
 NSNotificationName const ELTextFieldShouldResignNotification = @"TFShouldResignNoti";
-
+ 
 CGFloat UnitSize = UnitSizeDefault;
 CGFloat TreeFont = TreeFontDefault;
 
@@ -22,7 +22,7 @@ static NSString * docPath = 0;
 
 @implementation Config
 
- 
+
 + (int)getTreeHeight:(NSUInteger)count {
     if (count == 0) {
         return 0;
@@ -133,18 +133,6 @@ static NSString * docPath = 0;
 + (void)removeObserver:(id)obj {
     [[NSNotificationCenter defaultCenter] removeObserver:obj];
 }
-
-+ (NSIndexPath *)idxPath:(NSInteger)item {
-    return [NSIndexPath indexPathForItem:item inSection:0];
-}
-
-+ (NSIndexPath *)idxPathS:(NSInteger)section item:(NSInteger)item {
-    return [NSIndexPath indexPathForItem:item inSection:section];
-}
-
-
-
-
 
 + (NSString *)documentPath {
     if (!docPath) {
