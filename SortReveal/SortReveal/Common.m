@@ -113,11 +113,18 @@ static NSString * docPath = 0;
     [NSUserDefaults.standardUserDefaults synchronize];
 }
 
-+ (double)doubleValue:(NSString *)text {
++ (double)doubleValue:(NSString *)text error:(BOOL *)error {
     NSScanner *scanner = [NSScanner scannerWithString:text];
     double result = 0;
     if (!([scanner scanDouble:&result] && [scanner isAtEnd])) {
         result = 0;
+        *error = 1;
+    }
+    if (!result) {
+        unichar c = [text characterAtIndex:0];
+        if (c != '0' && c != '.') {
+            *error = 1;
+        }
     }
     return result;
 }

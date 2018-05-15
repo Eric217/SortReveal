@@ -193,7 +193,6 @@
         
     }
     
-    
     if (IPHONE) {
         if ([self isDevicePortait]) {
             [self updateBackEmptyPositionCX:-13 CY:-126];
@@ -218,7 +217,7 @@
     CGSize lastItemSize = _itemSize;
     CGFloat w = size.width;
     if (_sortType == SortTypeHeap) {
-        //TODO: - 修改 UnitSize 及字体，及 didLayoutSub 里初始化的 UnitSize
+
         [Config updateUnitSizeAndFontFor:[self screenMode] withTreeSize:_originDataArr.count];
         _itemSize = [Config estimatedSizeThatFitsTree:_originDataArr.count bottom:UnderTreeH];
     } else

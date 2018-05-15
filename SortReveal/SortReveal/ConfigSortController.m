@@ -302,28 +302,35 @@
 - (void)startDisplay:(id)sender {
  
     NSMutableArray *inputData = [self inputArr];
-    if (inputData.count > 15) {
-        [self presentTip:@"元素过多" message:@"您的屏幕大小可能不适合15个以上元素演示" Action:^() {
-            [self.inputField becomeFirstResponder];
-        }];
+    NSArray *errorMsg = [self guardSortOrderWithInputData:inputData];
+    if (errorMsg) {
+        if (errorMsg.count == 2) {
+            [self presentAlertWithCancelAndConfirm:@"提示" message:errorMsg[0] Action:^() {
+                [self transmitData:@[@30, @"自动推断"] withIdentifier:0];
+                [self startDisplayWithoutError:inputData];
+            }];
+        } else if (errorMsg.count == 1) {
+            [self presentTip:@"提示" message:errorMsg[0] Action:^() {
+                [self.inputField becomeFirstResponder];
+            }];
+        }
         return;
     }
-    
+    [self startDisplayWithoutError:inputData];
+}
+
+//MARK: - 业务衍生函数
+- (void)startDisplayWithoutError:(NSMutableArray *)inputData {
     if (!_sortingNavVC) { //直接正常display开始
         if (!inputData.count)
             return;
+        UIViewController *svc = [[SortingViewController alloc] initWithArr:inputData sortType:_sortType sortOrder:_sortOrder];
+        self.sortingNavVC = [self showDetailVC:svc isNav:0];
         
-        NSArray *errorMsg = [self guard];
-        if (errorMsg) {
-            
-        } else {
-            UIViewController *svc = [[SortingViewController alloc] initWithArr:inputData sortType:_sortType sortOrder:_sortOrder];
-            self.sortingNavVC = [self showDetailVC:svc isNav:0];
-        }
     } else {
         [_sortingNavVC.viewControllers[0] stopTimer:0];
         NSString *msg = @"有演示中的排序。要开始新的排序吗";
-        [self presentAlertWithCancelAndConfirm:@"提醒" message:msg Action:^() {
+        [self presentAlertWithCancelAndConfirm:@"提示" message:msg Action:^() {
             if (!inputData.count) {
                 [self showDetailVC:[[SortingViewController alloc] init] isNav:0];
                 self.sortingNavVC = 0;
@@ -339,12 +346,18 @@
     //    if ([self.splitViewController canPullHideLeft]) {}
 }
 
-//MARK: - 业务衍生函数
-- (NSArray *)guard {
-    //if (SortTypeHeap == _sortType) {
-    //TODO: - 一系列判断:
-    //是否输入内容与选择排序方式可行，不可行的话提示。
-    //}
+- (NSArray *)guardSortOrderWithInputData:(NSArray *)inputData {
+    if (inputData.count > 15)
+        return @[@"您的屏幕大小可能不适合15个以上元素演示"];
+    if (_sortOrder == SortOrderNumberA || _sortOrder == SortOrderNumberD) {
+        BOOL e = 0;
+        for (NSString *i in inputData) {
+            [Config doubleValue:i error:&e];
+            if (e) {
+                return @[@"选择的排序方式与输入内容不符。要自动推断排序方式并继续吗", @" "];
+            }
+        }
+    }
     return 0;
 }
 - (void)resignResponder {

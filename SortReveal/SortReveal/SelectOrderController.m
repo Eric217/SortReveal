@@ -75,7 +75,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSNumber *order = [NSNumber numberWithLong:(indexPath.section * 10 + indexPath.row)];
-    NSArray *data = [NSArray arrayWithObjects:order, _array[indexPath.section][indexPath.row], nil];
+    NSArray *data = @[order, _array[indexPath.section][indexPath.row]];
     [self.delegate transmitData:data withIdentifier:0];
     
     [tableView deselectRowAtIndexPath:indexPath animated:1];

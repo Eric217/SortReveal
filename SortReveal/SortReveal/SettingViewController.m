@@ -108,8 +108,8 @@
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
  
     NSString *origiText = [NSString stringWithFormat:@"%.2f", [UserDefault doubleForKey:kTimeInterval]];
-
-    double interval = [Config doubleValue:textField.text];
+    BOOL e = 0;
+    double interval = [Config doubleValue:textField.text error:&e];
     if (interval < 0.3 || interval > 10) {
         textField.text = origiText;
     } else {
