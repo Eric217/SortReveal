@@ -12,7 +12,7 @@
 @property (nonatomic, copy) NSMutableArray<NSString *> *sortedArr;
 @property (nonatomic, assign) int currentNode;
 @property (nonatomic, assign) int lastNode;
-
+@property (assign) int preferredHeap;
 @end
 
 @implementation HeapSorter
@@ -26,8 +26,7 @@
         NSString *first = dataArr.firstObject;
         NSString *last  = dataArr.lastObject;
         [dataArr removeLastObject];
-        [_sortedArr insertObject:first atIndex:0];
-       
+        [self addToSortedArray:first];
         NSUInteger count = dataArr.count;
         if (count == 0) {
             *finished = 1;
@@ -97,7 +96,7 @@
         NSString *first = dataArr.firstObject;
         NSString *last  = dataArr.lastObject;
         [dataArr removeLastObject];
-        [_sortedArr insertObject:first atIndex:0];
+        [self addToSortedArray:first];
         NSUInteger coun = dataArr.count;
         if (coun == 0) {
             *finished = 1;
@@ -132,6 +131,25 @@
    
 }
 
+- (void)addToSortedArray:(NSString *)value {
+    bool order = self.sortOrder % 10;
+    bool maxheap = _preferredHeap == PreferMaxHeap;
+    bool minheap = _preferredHeap == PreferMinHeap;
+    if ((order && maxheap) || (!order && minheap))
+        [_sortedArr addObject:value];
+    else
+        [_sortedArr insertObject:value atIndex:0];
+}
+
+- (void)removeFromSortedArray {
+    bool order = self.sortOrder % 10;
+    bool maxheap = _preferredHeap == PreferMaxHeap;
+    bool minheap = _preferredHeap == PreferMinHeap;
+    if ((order && maxheap) || (!order && minheap))
+        [_sortedArr removeLastObject];
+    else
+        [_sortedArr removeObjectAtIndex:0];
+}
 
 - (void)lastStep {
     NSDictionary *d = [historyArr lastObject];
@@ -140,7 +158,7 @@
     dataArr = d[kDataArr];
     [historyArr removeLastObject];
     if (originSize - dataArr.count != _sortedArr.count) {
-        [_sortedArr removeObjectAtIndex:0];
+        [self removeFromSortedArray];
     }
  
 }
@@ -172,16 +190,21 @@
     [super initializeWithArray:array order:order];
     _lastNode = -2;
     _currentNode = -1;
+    _preferredHeap = [UserDefault doubleForKey:kPreferredHeap];
     _sortedArr = [[NSMutableArray alloc] init];
 }
 
 
 - (bool)compareElement_a:(NSString *)x b:(NSString *)y {
     bool b = [super compareElement_a:x b:y];
-    if (!(self.sortOrder % 10)) {
-        return [UserDefault boolForKey:kPreferMinHeap] ? !b : b;
+    if (_preferredHeap == PreferMinHeap) { // for asd, default is max heap
+        return (self.sortOrder % 10) ? b : !b;
+    } else if (_preferredHeap == PreferBoth) {
+        return b;
+    } else { //prefer max
+         return (self.sortOrder % 10) ? !b : b;
     }
-    return b;
+ 
 }
 
 @end

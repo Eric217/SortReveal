@@ -26,7 +26,7 @@
         [self.contentView addSubview:_textField];
         UILabel *l = [[UILabel alloc] init];
         [l setText:@"秒"];
-        [l setTextColor:UIColor.lightGrayColor];
+        [l setTextColor:[UIColor.grayColor colorWithAlphaComponent:0.8]];
         [self.contentView addSubview:l];
         [l mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.contentView).inset(10);

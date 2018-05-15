@@ -41,7 +41,7 @@
 #define kTimeInterval       @"dawfew a f"
 #define kFlowExecWay        @"greswe qqa"
 #define kNumericCompare     @"Numsfg dsa"
-#define kPreferMinHeap      @"prefd heap"
+#define kPreferredHeap      @"prefd heap"
 #define kAutomaticOrderASD  @"fegad sase"
 #define kIgnoringCases      @"imng fades"
 
@@ -57,8 +57,7 @@
 #define kSortType           @"sort_Order"
 #define SortNameFile        @"SortNames.plist"
 #define SortOrderFile       @"SortOrder.plist"
-#define SingleStep          @"单步执行"
-#define GroupStep           @"单组跳过"
+
 
 #define UnitSizeDefault     44
 #define TreeFontDefault     24
@@ -102,9 +101,20 @@ typedef NS_ENUM(NSUInteger, ScreenMode) {
     //    ScreenModeNoSplit,
 };
 
+#define SingleStep          @"单步执行"
+#define GroupStep           @"单组跳过"
 typedef NS_ENUM(NSUInteger, ExecuteWay) {
     ExecuteWayStep = 0,
     ExecuteWayGroup = 1,
+};
+
+#define MinHeapSorter @"最小堆"
+#define MaxHeapSorter @"最大堆"
+#define BothHeap      @"自动"
+typedef NS_ENUM(NSUInteger, PreferredHeap) {
+    PreferMinHeap = 1,
+    PreferMaxHeap = 2,
+    PreferBoth = 0,
 };
  
 #endif /* Definition_h */

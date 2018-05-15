@@ -13,6 +13,7 @@
 #import <Masonry/Masonry.h>
 #import "Protocols.h"
 #import "SelectFlowController.h"
+#import "SelectHeapController.h"
 
 @interface SettingViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, SimpleTransfer>
 
@@ -33,7 +34,6 @@
     [super viewWillDisappear:animated];
     self.splitViewController.presentsWithGesture = 1;
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -57,8 +57,8 @@
     
     _array = @[@[@"跳过没有发生交换的步骤", @"如果当前步骤不会发生交换，则跳过并执行下一步(部分排序中有效)"], //1+1
                @[@"顺序执行时间间隔", @"顺序执行时单步或单组跳过", @"顺序执行设置"], //2+1
-               @[@"智能比较字母与数字", @"使用最小堆演示堆排序", @"字符或字典排序时，使 Foo2 < Foo7 < Foo25"], //2+1
-               @[@"自动推断排序方式时升序", @"忽略字母大小写", @""], //2+1
+               @[@"智能比较字母与数字", @"字符或字典排序时，使 Foo2 < Foo7 < Foo25"], //1+1
+               @[@"自动推断排序方式时升序", @"忽略字母大小写", @"堆排序选项(下次生效)", @""], //3+1
              ];
     [Config postNotification:ELTextFieldShouldResignNotification message:0];
     [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
@@ -77,10 +77,6 @@
 
 - (void)didChangeNumericCompare:(UISwitch *)sender {
     [Config saveDouble:sender.isOn forKey:kNumericCompare];
-}
-
-- (void)didChangePreferredHeap:(UISwitch *)sender {
-    [Config saveDouble:sender.isOn forKey:kPreferMinHeap];
 }
 
 - (void)didChangeAutomaticOrder:(UISwitch *)sender {
@@ -127,6 +123,8 @@
     [Config removeObserver:self];
 }
 
+#define cellId @"cellid"
+
 //MARK: - table view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *tableCell;
@@ -137,7 +135,7 @@
         
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
-            TextFieldCell *cell = [[TextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(TextFieldCell.class)];
+            TextFieldCell *cell = [[TextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];//NSStringFromClass(TextFieldCell.class)];
             cell.textField.delegate = self;
             double ti = [UserDefault doubleForKey:kTimeInterval];
             [cell.textField setText:[NSString stringWithFormat:@"%.2f", ti]];
@@ -145,7 +143,7 @@
             
         } else if (indexPath.row == 1) {
  
-            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cellid"];
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             int exew = [UserDefault stringForKey:kFlowExecWay].intValue;
             if (exew == ExecuteWayStep) {
@@ -160,13 +158,25 @@
         if (indexPath.row == 0) {
             tableCell = [self switchCellWithAction:@selector(didChangeNumericCompare:) isOn:[UserDefault boolForKey:kNumericCompare]];
         } else if (indexPath.row == 1) {
-            tableCell = [self switchCellWithAction:@selector(didChangePreferredHeap:) isOn:[UserDefault boolForKey:kPreferMinHeap]];
+            
         }
     } else if (indexPath.section == 3) {
         if (indexPath.row == 0) {
             tableCell = [self switchCellWithAction:@selector(didChangeAutomaticOrder:) isOn:![UserDefault boolForKey:kAutomaticOrderASD]];
         } else if (indexPath.row == 1) {
             tableCell = [self switchCellWithAction:@selector(didChangeIgnoringCases:) isOn:[UserDefault boolForKey:kIgnoringCases]];
+        } else if (indexPath.row == 2) {
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            NSInteger exew = [UserDefault integerForKey:kPreferredHeap];
+            if (exew == PreferMaxHeap) {
+                cell.detailTextLabel.text = MaxHeapSorter;
+            } else if (exew == PreferBoth) {
+                cell.detailTextLabel.text = BothHeap;
+            } else {
+                cell.detailTextLabel.text = MinHeapSorter;
+            }
+            tableCell = cell;
         }
     }
     
@@ -176,7 +186,7 @@
 }
 
 - (SwitchCell *)switchCellWithAction:(SEL)action isOn:(BOOL)on {
-    SwitchCell *cell =  [[SwitchCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(SwitchCell.class)];
+    SwitchCell *cell =  [[SwitchCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];//NSStringFromClass(SwitchCell.class)];
     [cell.switcher addTarget:self action:action forControlEvents:UIControlEventValueChanged];
     [[cell switcher] setOn:on];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -215,8 +225,9 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:1];
+    
     if (indexPath.section == 1) {
-        [tableView deselectRowAtIndexPath:indexPath animated:1];
         if (indexPath.row == 0) {
             TextFieldCell *textFiel = [tableView cellForRowAtIndexPath:indexPath];
             [textFiel.textField becomeFirstResponder];
@@ -227,23 +238,48 @@
             [self.navigationController pushViewController:vc animated:1];
         }
         
+    } else if (indexPath.section == 3) {
+        if (indexPath.row == 2) {
+            SelectHeapController *vc = [[SelectHeapController alloc] init];
+            vc.delegate = self;
+            vc.currentSelection = [[tableView cellForRowAtIndexPath:indexPath] detailTextLabel].text;
+            [self.navigationController pushViewController:vc animated:1];
+            
+        }
     }
 
 }
 
 - (void)transferData:(id)data {
-    UITableViewCell *cell = [_table cellForRowAtIndexPath:IndexPath(1, 1)];
-    NSString *r;
-    if (((NSString *)data).intValue == ExecuteWayStep) {
-        r = SingleStep;
-    } else {
-        r = GroupStep;
-    }
-    
-    if (cell.detailTextLabel.text != r) {
-        cell.detailTextLabel.text = r;
-        [NSUserDefaults.standardUserDefaults setObject:data forKey:kFlowExecWay];
-        [NSUserDefaults.standardUserDefaults synchronize];
+    NSArray<NSString *> *dataA = data;
+    if ([dataA[0] isEqualToString:@"0"]) {
+        UITableViewCell *cell = [_table cellForRowAtIndexPath:IndexPath(1, 1)];
+        NSString *r;
+        if (dataA[1].intValue == ExecuteWayStep) {
+            r = SingleStep;
+        } else
+            r = GroupStep;
+        if (cell.detailTextLabel.text != r) {
+            cell.detailTextLabel.text = r;
+            [NSUserDefaults.standardUserDefaults setObject:data forKey:kFlowExecWay];
+            [NSUserDefaults.standardUserDefaults synchronize];
+        }
+    } else if ([dataA[0] isEqualToString:@"1"]) {
+        UITableViewCell *cell = [_table cellForRowAtIndexPath:IndexPath(2, 3)];
+        NSString *r;
+        int selecI = dataA[1].intValue;
+        if (selecI == PreferMinHeap) {
+            r = MinHeapSorter;
+        } else if (selecI == PreferMaxHeap) {
+            r = MaxHeapSorter;
+        } else {
+            r = BothHeap;
+        }
+        if (cell.detailTextLabel.text != r) {
+            cell.detailTextLabel.text = r;
+            [Config saveDouble:selecI forKey:kPreferredHeap];
+        }
+        
     }
 }
 
