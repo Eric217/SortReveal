@@ -15,7 +15,7 @@
 #import "SettingViewController.h"
 #import "UIButton+init.h"
 #import "Sorters.h"
-#import "Cells.h"
+#import "SortCell.h"
 
 #define emptyDisplayString @"配置排序\n以开始"
 
@@ -67,7 +67,7 @@
         _originDataArr = arr;
         if (arr.count) {
             [self initializeSorter];
-            _viewDataDictArr = [[NSMutableArray alloc] init];
+            _viewDataDictArr = [NSMutableArray new];
         }
     }
     return self;
@@ -293,7 +293,7 @@
         [self stopTimer:sender];
     } else {
         [_flowRunButton setTitle:@"暂停演示"];
-        int exec = [NSUserDefaults.standardUserDefaults stringForKey:kFlowExecWay].intValue;
+        NSInteger exec = [UserDefault integerForKey:kFlowExecWay];
         SEL func;
         if (exec == ExecuteWayStep) {
             func = @selector(nextStep:);
@@ -360,17 +360,17 @@
 - (void)initializeSorter {
     //MARK: - 执行顺序1.1
     if (_sortType == SortTypeBubble) {
-        _sorter = [[BubbleSorter alloc] init];
+        _sorter = [BubbleSorter new];
     } else if (_sortType == SortTypeInsertion) {
-        _sorter = [[InsertionSorter alloc] init];
+        _sorter = [InsertionSorter new];
     } else if (_sortType == SortTypeSelection) {
-        _sorter = [[SelectionSorter alloc] init];
+        _sorter = [SelectionSorter new];
     } else if (_sortType == SortTypeHeap) {
-        _sorter = [[HeapSorter alloc] init];
-    } else if (_sortType == SortTypeFast) {
-        _sorter = [[QuickSorter alloc] init];
-    }
-    [_sorter initializeWithArray:_originDataArr order:_sortOrder]; //inside deep
+        _sorter = [HeapSorter new];
+    } else if (_sortType == SortTypeFast)
+        _sorter = [QuickSorter new];
+    
+    [_sorter initializeWithArray:_originDataArr order:_sortOrder];
 }
 
 - (void)nextSlide:(NSDictionary *)dict finished:(BOOL)finished {

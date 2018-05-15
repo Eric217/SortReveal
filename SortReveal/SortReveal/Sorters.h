@@ -6,20 +6,21 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "LinearSorter.h"
-#import "HeapSorter.h"
+#import "SortBaseClass.h"
 
-@interface BubbleSorter : LinearSorter
+//MARK: - 树状 - 堆排序
 
-@end
-
-
-@interface InsertionSorter: LinearSorter
+@interface HeapSorter: SortBaseClass
 
 @end
 
 
-@interface SelectionSorter: LinearSorter
+//MARK: - 线性排序 - 4 个具体实现
+
+@interface LinearSorter : SortBaseClass
+
+@property (assign) int currentI;
+@property (assign) int currentJ;
 
 @end
 
@@ -27,5 +28,20 @@
 @interface QuickSorter: LinearSorter
 
 @end
+
+@interface BubbleSorter: LinearSorter
+
+@end
+
+@interface SelectionSorter: LinearSorter
+
+@end
+
+@interface InsertionSorter: LinearSorter
+
+@end
+
+
+
 
 

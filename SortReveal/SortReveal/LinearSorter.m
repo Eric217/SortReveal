@@ -5,7 +5,7 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "LinearSorter.h"
+#import "Sorters.h"
  
 @implementation LinearSorter
 

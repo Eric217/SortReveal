@@ -25,8 +25,8 @@
 
     int m;
     NSString *t = dataArr[j+1];
-    for (m = j; m >= 0 && [self compareAtIndex_a:m b:m+1]; m--) {
-        [self swap_a:m b:m+1];
+    for (m = j; m >= 0 && [self compareIndex:m with:m+1]; m--) {
+        [self swap:m with:m+1];
     }
     dataArr[m+1] = t;
     
@@ -66,15 +66,15 @@
     NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
 
     if (len == 2) {
-        if ([self compareAtIndex_a:0 b:1])
-            [self swap_a:0 b:1];
+        if ([self compareIndex:0 with:1])
+            [self swap:0 with:1];
         *finished = 1;        
     } else {
-        bool _willSwap = [self compareAtIndex_a:j b:j+1]; //返回1要交换
+        bool _willSwap = [self compareIndex:j with:j+1]; //返回1要交换
         if (!_willSwap) {
             [self nextLine:len finish:finished whichArray:toBeSavedArray];
         } else {
-            [self swap_a:j b:j+1];
+            [self swap:j with:j+1];
             self.currentJ--;
             if (self.currentJ < 0) {
                 [self nextLine:len finish:finished whichArray:dataArr];

@@ -14,7 +14,7 @@
 #import "SortingViewController.h"
 #import "ConfigSortController.h"
 #import "UIViewController+funcs.h"
-#import "ELSortNameCollectionCell.h"
+#import "SortNameCollectionCell.h"
 
 
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -43,7 +43,6 @@
         [Config writeArrayToFile:SortNameFile data:arr];
     }
     _titleArr = arr.mutableCopy;
-//    _titleArr = [[NSMutableArray alloc] initWithArray:@[@"冒泡排序", @"选择排序", @"插入排序", @"堆排序", @"快速排序"]];
     self.view.backgroundColor = UIColor.whiteColor;
     
     //collection view
@@ -57,7 +56,7 @@
     _collection.dataSource = self;
     _collection.alwaysBounceVertical = 1;
     _collection.contentInset = UIEdgeInsetsMake(15, _edgeDistance, 15, _edgeDistance);
-    [_collection registerClass:ELSortNameCollectionCell.class forCellWithReuseIdentifier:NSStringFromClass(ELSortNameCollectionCell.class)];
+    [_collection registerClass:SortNameCollectionCell.class forCellWithReuseIdentifier:NSStringFromClass(SortNameCollectionCell.class)];
     [self.view addSubview:_collection];
    
     //title label
@@ -91,7 +90,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    ELSortNameCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(ELSortNameCollectionCell.class) forIndexPath:indexPath];
+    SortNameCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(SortNameCollectionCell.class) forIndexPath:indexPath];
     NSString *content = _titleArr[indexPath.item];
     
     [cell fillContents:content];

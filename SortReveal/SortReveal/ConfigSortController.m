@@ -8,7 +8,7 @@
 
 #import "ConfigSortController.h"
 #import "SelectOrderController.h"
-#import "Protocols.h"
+#import "DataTransmitter.h"
 #import "UIImage+operations.h"
 #import "UIView+frameProperty.h"
 #import "UIViewController+funcs.h"
@@ -16,7 +16,7 @@
 #import "UILabel+init.h"
 #import <Masonry/Masonry.h>
 
-@interface ConfigSortController () <UITextViewDelegate, SimpleTransfer>
+@interface ConfigSortController () <UITextViewDelegate, DataTransmitter>
 
 @property (strong, nonatomic) UILabel *sortNameLabel;
 @property (strong, nonatomic) UITextView *inputField;
@@ -191,8 +191,8 @@
     
     //other initializers
     [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
-    if (![UserDefault stringForKey:kFlowExecWay]) {
-        [UserDefault setObject:@"0" forKey:kFlowExecWay];
+    if (![UserDefault boolForKey:kFirstOpened]) {
+        [Config saveDouble:1 forKey:kFirstOpened];
         [Config saveDouble:1 forKey:kNumericCompare];
     }
     _sortOrder = SortOrderAutomatic;
@@ -439,7 +439,7 @@
  
 //MARK: - SimpleTransferDelegate
 ///NSArray, 0: order number 1: name
-- (void)transferData:(id)data {
+- (void)transmitData:(id)data withIdentifier:(nullable NSString *)identitifier {
     NSArray *a = data;
     _sortOrder = ((NSNumber *)a[0]).longValue;
     [_selectOrder setTitle:a[1] forState:UIControlStateNormal];

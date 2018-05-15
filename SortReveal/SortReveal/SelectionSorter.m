@@ -15,13 +15,13 @@
     int len = (int)(dataArr.count);
     NSMutableArray *toBeSavedArray = [[NSMutableArray alloc] initWithArray:dataArr];
     if (len == 2) { //1.1
-        if ([self compareAtIndex_a:0 b:1]) {
-            [self swap_a:0 b:1];
+        if ([self compareIndex:0 with:1]) {
+            [self swap:0 with:1];
         }
         *finished = 1;
     } else {
         
-        bool needSwap = [self compareAtIndex_a:i b:j]; //2
+        bool needSwap = [self compareIndex:i with:j]; //2
         
         if (j == len-1) {
             self.currentJ = i+2;
@@ -34,7 +34,7 @@
         }
  
         if (needSwap) {//6
-            [self swap_a:i b:j];
+            [self swap:i with:j];
         } else if (!(*finished) && [UserDefault boolForKey:kSkipNullStep]) {//6.1
             return [self nextTurn:finished];
         }
@@ -61,9 +61,9 @@
     bool swapped = 0; //1.1
     
     for (int m = j; m < len; m++) { //2
-        if ([self compareAtIndex_a:i b:m]) {
+        if ([self compareIndex:i with:m]) {
             swapped = 1;
-            [self swap_a:i b:m];
+            [self swap:i with:m];
         }
     }
     self.currentI++;

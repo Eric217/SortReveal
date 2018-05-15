@@ -6,15 +6,17 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "ELSortNameCollectionCell.h"
+#import "SortNameCollectionCell.h"
 #import "UIView+frameProperty.h"
  
-@interface ELSortNameCollectionCell ()
+@interface SortNameCollectionCell ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
+
 @end
 
-@implementation ELSortNameCollectionCell
+
+@implementation SortNameCollectionCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -38,12 +40,11 @@
     return self;
 }
 
-
-
 - (void)fillContents:(id)content {
     [_titleLabel setFrame:self.bounds];
-    
     [self.titleLabel setText:content];
 }
 
 @end
+
+

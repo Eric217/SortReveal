@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Protocols.h"
 
-@interface ELSortNameCollectionCell : UICollectionViewCell 
+@interface SortNameCollectionCell : UICollectionViewCell 
 
 @end

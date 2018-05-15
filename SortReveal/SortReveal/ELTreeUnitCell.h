@@ -10,8 +10,4 @@
 
 @interface ELTreeUnitCell : ELCollectionViewCell
 
-@property (nonatomic, copy) NSArray *sortedArray;
-@property (nonatomic, copy) NSArray<NSString *> *treeArray;
-
-
 @end

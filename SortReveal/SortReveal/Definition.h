@@ -34,10 +34,11 @@
 #define IndexPath_Sec0(Item) [NSIndexPath indexPathForItem:Item inSection:0]
 #define IndexPath(Item, Section) [NSIndexPath indexPathForItem:Item inSection:Section]
 
-
-
+ 
 
 //MARK: - PROJECT
+
+#define kFirstOpened        @"fsfwsewopo"
 
 #define kSkipNullStep       @"skip n ull"
 #define kTimeInterval       @"dawfew a f"
@@ -70,9 +71,6 @@
 
 
 
-
-
-//MARK: - enum and options
 typedef NS_ENUM(NSUInteger, SortType) {
     SortTypeBubble = 0,
     SortTypeInsertion = 2,

@@ -7,13 +7,13 @@
 //
 
 #import "Common.h"
-#import "Protocols.h"
+#import "DataTransmitter.h"
 #import <UIKit/UIKit.h>
 
 @interface SelectController : UIViewController
 
 @property (strong, nonatomic) UITableView *table;
-@property (weak, nonatomic) id <SimpleTransfer> delegate;
+@property (weak, nonatomic) id <DataTransmitter> delegate;
 @property (copy, nonatomic) NSString *currentSelection;
 
 @end

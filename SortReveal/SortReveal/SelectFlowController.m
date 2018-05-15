@@ -68,7 +68,7 @@
     [cell setSelected:0 animated:1];
     [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     [[self navigationController] popViewControllerAnimated:1];
-    [self.delegate transferData:@[@"0", _dataArr[indexPath.row]]];
+    [self.delegate transmitData:_dataArr[indexPath.row] withIdentifier:@"0"];
 }
 
 //

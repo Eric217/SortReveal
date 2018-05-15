@@ -11,11 +11,11 @@
 #import "SwitchCell.h"
 #import "TextFieldCell.h"
 #import <Masonry/Masonry.h>
-#import "Protocols.h"
+#import "DataTransmitter.h"
 #import "SelectFlowController.h"
 #import "SelectHeapController.h"
 
-@interface SettingViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, SimpleTransfer>
+@interface SettingViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, DataTransmitter>
 
 @property (strong, nonatomic) UITableView *table;
 @property (nonatomic, copy) NSArray<NSArray *> *array;
@@ -145,9 +145,8 @@
  
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellId];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            int exew = [UserDefault stringForKey:kFlowExecWay].intValue;
+            NSInteger exew = [UserDefault integerForKey:kFlowExecWay];
             if (exew == ExecuteWayStep) {
-                
                 cell.detailTextLabel.text =  SingleStep;
             } else {
                 cell.detailTextLabel.text = GroupStep;
@@ -250,24 +249,24 @@
 
 }
 
-- (void)transferData:(id)data {
-    NSArray<NSString *> *dataA = data;
-    if ([dataA[0] isEqualToString:@"0"]) {
+- (void)transmitData:(id)data withIdentifier:(nullable NSString *)identitifier {
+    NSString *dataA = data;
+    
+    if ([identitifier isEqualToString:@"0"]) {
         UITableViewCell *cell = [_table cellForRowAtIndexPath:IndexPath(1, 1)];
         NSString *r;
-        if (dataA[1].intValue == ExecuteWayStep) {
+        if (dataA.intValue == ExecuteWayStep) {
             r = SingleStep;
         } else
             r = GroupStep;
         if (cell.detailTextLabel.text != r) {
             cell.detailTextLabel.text = r;
-            [NSUserDefaults.standardUserDefaults setObject:data forKey:kFlowExecWay];
-            [NSUserDefaults.standardUserDefaults synchronize];
+            [Config saveDouble:dataA.intValue forKey:kFlowExecWay];
         }
-    } else if ([dataA[0] isEqualToString:@"1"]) {
+    } else if ([dataA isEqualToString:@"1"]) {
         UITableViewCell *cell = [_table cellForRowAtIndexPath:IndexPath(2, 3)];
         NSString *r;
-        int selecI = dataA[1].intValue;
+        int selecI = dataA.intValue;
         if (selecI == PreferMinHeap) {
             r = MinHeapSorter;
         } else if (selecI == PreferMaxHeap) {

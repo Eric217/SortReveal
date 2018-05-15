@@ -5,14 +5,16 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
  
-#import "HeapSorter.h"
+#import "Sorters.h"
 
 @interface HeapSorter ()
 
 @property (nonatomic, copy) NSMutableArray<NSString *> *sortedArr;
+
+@property (nonatomic, assign) int preferredHeap;
 @property (nonatomic, assign) int currentNode;
 @property (nonatomic, assign) int lastNode;
-@property (assign) int preferredHeap;
+
 @end
 
 @implementation HeapSorter
@@ -38,10 +40,10 @@
         int nodeCount = (int)dataArr.count;
         int child = _currentNode*2+1;
         
-        if (child+1 < nodeCount && [self compareAtIndex_a:child+1 b:child])
+        if (child+1 < nodeCount && [self compareIndex:child+1 with:child])
             child++;
-        if ([self compareAtIndex_a:child b:_currentNode]) { //need swap
-            [self swap_a:child b:_currentNode];
+        if ([self compareIndex:child with:_currentNode]) { //need swap
+            [self swap:child with:_currentNode];
             if (child*2+1 > nodeCount-1) { //没有子孩子
                 _currentNode = -1;
             } else
@@ -77,9 +79,9 @@
         NSUInteger coun = dataArr.count;
         BOOL swapped = 0;
         while (child < coun) {
-            if (child+1 < coun && [self compareAtIndex_a:child+1 b:child])
+            if (child+1 < coun && [self compareIndex:child+1 with:child])
                 child++;
-            if ([self compareElement_a:saved b:dataArr[child]])
+            if ([self compareValue:saved with:dataArr[child]])
                 break;
             swapped = 1;
             dataArr[(child-1)/2] = dataArr[child];
@@ -105,9 +107,9 @@
             NSString *saved = last;
             int child = 1;
             while (child < coun) {
-                if (child+1 < coun && [self compareAtIndex_a:child+1 b:child])
+                if (child+1 < coun && [self compareIndex:child+1 with:child])
                     child++;
-                if ([self compareElement_a:saved b:dataArr[child]])
+                if ([self compareValue:saved with:dataArr[child]])
                     break;
                 dataArr[(child-1)/2] = dataArr[child];
                 child = child*2+1;
@@ -173,9 +175,9 @@
         NSString *saved = dataArr[i-1];
         int child = 2*i-1;
         while (child+1 <= currentSize) {
-            if (child+1 < currentSize && [self compareAtIndex_a:child+1 b:child])
+            if (child+1 < currentSize && [self compareIndex:child+1 with:child])
                 child++;
-            if ([self compareElement_a:saved b:dataArr[child]])
+            if ([self compareValue:saved with:dataArr[child]])
                 break;
             dataArr[(child-1)/2] = dataArr[child];
             child = child*2+1;
@@ -195,8 +197,8 @@
 }
 
 
-- (bool)compareElement_a:(NSString *)x b:(NSString *)y {
-    bool b = [super compareElement_a:x b:y];
+- (bool)compareValue:(NSString *)x with:(NSString *)y {
+    bool b = [super compareValue:x with:y];
     if (_preferredHeap == PreferMinHeap) { // for asd, default is max heap
         return (self.sortOrder % 10) ? b : !b;
     } else if (_preferredHeap == PreferBoth) {

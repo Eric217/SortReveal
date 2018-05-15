@@ -7,7 +7,13 @@
 //
 
 #import "ELLinearUnitCell.h"
-#import "Protocols.h"
+
+@protocol RepeatableCell <NSObject>
+
+- (bool)repeatIdx:(int *)m idx:(int *)n;
+
+@end
+
 
 @interface ELRepeatLinearCell : ELLinearUnitCell <RepeatableCell>
 

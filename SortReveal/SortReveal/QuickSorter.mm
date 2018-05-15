@@ -37,7 +37,7 @@
             int stackTopJ = [self stackTop].y;
             do {
                 self.currentI++;
-            } while (self.currentI != stackTopJ && [self compareElement_a:[self pivot] b:dataArr[self.currentI]]);
+            } while (self.currentI != stackTopJ && [self compareValue:[self pivot] with:dataArr[self.currentI]]);
             
             _whileI = 0;
             if (self.currentI == stackTopJ) {
@@ -50,7 +50,7 @@
         int stackBottomI = [self stackTop].x-1;
         do {
             self.currentJ--;
-        } while (self.currentJ != stackBottomI && ![self compareElement_a:[self pivot] b:dataArr[self.currentJ]]);
+        } while (self.currentJ != stackBottomI && ![self compareValue:[self pivot] with:dataArr[self.currentJ]]);
         
         _whileI = 1;
         _shouldSwap = 1;
@@ -87,7 +87,7 @@
         }
         
     } else {
-        [self swap_a:self.currentJ b:self.currentI];
+        [self swap:self.currentJ with:self.currentI];
     }
     _shouldSwap = 0;
 }
@@ -101,7 +101,7 @@
     do {
         self.currentJ--;
         
-    } while (self.currentJ != stackBottomI && ![self compareElement_a:[self pivot] b:dataArr[self.currentJ]]);
+    } while (self.currentJ != stackBottomI && ![self compareValue:[self pivot] with:dataArr[self.currentJ]]);
     _whileI = 1;
     _shouldSwap = 1;
     if (self.currentJ == stackBottomI) {
@@ -148,7 +148,7 @@
                 self.currentI--;
                 _whileI = 0;
                 return [self nextTurn:finished lastValues:histV];
-            } else if (![self compareElement_a:[self pivot] b:dataArr[self.currentI]]) {
+            } else if (![self compareValue:[self pivot] with:dataArr[self.currentI]]) {
                 _whileI = 0;
             }
         }
@@ -161,7 +161,7 @@
             _whileI = 1;
             _shouldSwap = 1;
             return [self nextTurn:finished lastValues:histV];
-        } else if ([self compareElement_a:[self pivot] b:dataArr[self.currentJ]]) {
+        } else if ([self compareValue:[self pivot] with:dataArr[self.currentJ]]) {
             _whileI = 1;
             _shouldSwap = 1;
         }
@@ -229,7 +229,7 @@
                 self.currentI--; _whileI = 0;
                 return [self nextTurn:finished lastValues:values];
                 
-            } else if (![self compareElement_a:[self pivot] b:dataArr[self.currentI]]) {
+            } else if (![self compareValue:[self pivot] with:dataArr[self.currentI]]) {
                 _whileI = 0;
             }
         }
@@ -240,7 +240,7 @@
             self.currentJ++;_whileI = 1;_shouldSwap = 1;
             return [self nextTurn:finished lastValues:values];
         
-        } else if ([self compareElement_a:[self pivot] b:dataArr[self.currentJ]]) {
+        } else if ([self compareValue:[self pivot] with:dataArr[self.currentJ]]) {
             _whileI = 1;
             _shouldSwap = 1;
         }
