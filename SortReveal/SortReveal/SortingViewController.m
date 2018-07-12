@@ -316,7 +316,18 @@
 }
 
 - (void)openSettings:(id)sender {
-    [self pushWithoutBottomBar:[[SettingViewController alloc] init]];
+    
+    if (IPAD) {
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[SettingViewController new]];
+        nav.preferredContentSize = CGSizeMake(340, 576);
+        nav.modalPresentationStyle = UIModalPresentationPopover;
+        UIPopoverPresentationController *popvc = nav.popoverPresentationController;
+        popvc.barButtonItem = self.settings;
+        popvc.permittedArrowDirections = UIPopoverArrowDirectionUp;
+        popvc.backgroundColor = nav.topViewController.view.backgroundColor;
+        [self presentViewController:nav animated:1 completion:nil] ;
+    } else
+        [self pushWithoutBottomBar:[SettingViewController new]];
 }
 
 //MARK: - 业务衍生函数

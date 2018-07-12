@@ -40,6 +40,9 @@
     
     //works only on ipad
     [self.navigationController.navigationBar setTintColor:UIColor.blackColor];
+    if (IPAD)
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(dismiss)];
+    
     [self setTitle:@"演示设置"];
     
     _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
@@ -63,9 +66,13 @@
     [Config postNotification:ELTextFieldShouldResignNotification message:0];
     [Config addObserver:self selector:@selector(resignResponder) notiName:ELTextFieldShouldResignNotification];
  
- 
 }
+
 //MARK: - 业务需求处理
+
+- (void)dismiss {
+    [self.navigationController dismissViewControllerAnimated:0 completion:nil];
+}
 
 - (void)resignResponder {
     [_table endEditing:1];
@@ -236,7 +243,6 @@
             vc.currentSelection = [[tableView cellForRowAtIndexPath:indexPath] detailTextLabel].text;
             [self.navigationController pushViewController:vc animated:1];
         }
-        
     } else if (indexPath.section == 3) {
         if (indexPath.row == 2) {
             SelectHeapController *vc = [[SelectHeapController alloc] init];

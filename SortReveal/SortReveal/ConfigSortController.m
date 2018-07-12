@@ -28,7 +28,7 @@
 @property (strong, nonatomic) UIView *selectOrderContainerView;
 
 @property (nonatomic, copy) NSString *sortName;
-///没啥用，先存着
+
 @property (strong, nonatomic) UIViewController *anotherRootVC;
 
 @property (strong, nonatomic) UINavigationController *sortingNavVC;
@@ -294,6 +294,7 @@
     SelectOrderController *selectVC = [[SelectOrderController alloc] init];
     selectVC.delegate = self;
     [self.navigationController pushViewController:selectVC animated:1];
+    
 }
 - (void)resumeDisplay:(id)sender {
     [self showDetailVC:_sortingNavVC isNav:1];
