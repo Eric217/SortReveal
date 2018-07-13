@@ -6,9 +6,9 @@
 //  Copyright © 2018 Eric. All rights reserved.
 //
 
-#import "Common.h"
 #import "SettingViewController.h"
 #import "SwitchCell.h"
+#import "UIViewController+funcs.h"
 #import "TextFieldCell.h"
 #import <Masonry/Masonry.h>
 #import "DataTransmitter.h"
@@ -33,6 +33,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     self.splitViewController.presentsWithGesture = 1;
+    [self.view endEditing:1];
 }
 
 - (void)viewDidLoad {
@@ -100,6 +101,8 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (IPHONE && ![self isPortrait])
+        [_table scrollToRowAtIndexPath:IndexPath(0, 1) atScrollPosition:UITableViewScrollPositionTop animated:1];
     UITextPosition *end = [textField endOfDocument];
     UITextPosition *start = [textField positionFromPosition:end offset:-textField.text.length];
     textField.selectedTextRange = [textField textRangeFromPosition:start toPosition:end];
